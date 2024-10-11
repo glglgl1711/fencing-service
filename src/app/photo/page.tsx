@@ -23,7 +23,7 @@ export default function Photo () {
                 <h1 className="display-1 mb-3">사진첩</h1>
                 <p className="lead fs-lg pe-lg-15 pe-xxl-12">
                     함께 나눈 따뜻한 마음과 나눔의 기쁨 <br/>
-                    더 나은 내일을 향해 한 걸음씩 내딛는 우리의 이야기
+                    더 나은 내일을 향해 한 걸음씩 내딛는<br/> 우리의 이야기
                 </p>
                 </div>
             </div>

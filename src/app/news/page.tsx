@@ -16,7 +16,7 @@ export default function News () {
                         <div className="col-md-8 col-lg-7 col-xl-6 col-xxl-5">
                         <h1 className="display-1 mb-3">공지사항</h1>
                         <p className="lead fs-lg pe-lg-10 pe-xxl-1">
-                            우리 봉사단체의 중요한 소식과 활동 안내를 확인하세요.  <br/>
+                            우리 봉사단체의 중요한 소식과 <br/> 활동 안내를 확인하세요.  <br/>
                         </p>
                         </div>
                     </div>
