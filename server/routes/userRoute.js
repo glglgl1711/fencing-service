@@ -47,6 +47,7 @@ router.get('/getUserCheck', async (req, res) => {
                 }
             }
 
+            // 유저가 존재하면 토큰을 업데이트
             if (userFound) {
                 // 업데이트
                 const updateTokenSql = `
@@ -88,5 +89,29 @@ router.post(`/regist`, async (req, res) => {
     })
 })
 
+// 유저 데이터 유지 -> 클라이언트에서 다루는 데이터
+router.get(`/users` , async (req, res) => {
+    const {token} = req.query;
+    const sql = `
+        SELECT * FROM f_users WHERE u_token = ?
+    `;
+    connection.query(sql , [token] ,  async (err , result) => {
+        if(err) {
+            return res.status(200).json({
+                result : false
+            })
+        }
+        if(result?.length > 0) {
+            return res.status(200).json({
+                result : true ,
+                users : result[0]
+            })
+        }else{
+            return res.status(200).json({
+                result : false
+            })
+        }
+    })
+})
 
 module.exports = router;
