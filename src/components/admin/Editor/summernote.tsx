@@ -72,6 +72,40 @@ export default function Summernote ({
         //     $(summernoteRef.current).summernote('destroy');
         // };
     }, [initData, setData])
+
+    useEffect(() => {
+        const links = [
+            {
+                rel: "stylesheet",
+                href: "https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.5/dist/web/static/pretendard.css"
+            },
+            {
+                rel: "stylesheet",
+                href: "https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+            },
+            {
+                rel: "stylesheet",
+                href: "https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.css"
+            }
+        ];
+
+        links.forEach(({ rel, href }) => {
+            const link = document.createElement("link");
+            link.rel = rel;
+            link.href = href;
+            document.head.appendChild(link);
+        });
+
+        // Cleanup function to remove the links when the component is unmounted or updated
+        return () => {
+            links.forEach(({ href }) => {
+                const link = document.querySelector(`link[href="${href}"]`);
+                if (link) {
+                    document.head.removeChild(link);
+                }
+            });
+        };
+    }, []);
     
     return(
         <>
