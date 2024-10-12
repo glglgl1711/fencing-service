@@ -15,7 +15,7 @@ export default function Service () {
 
     return(
         <>
-        <Header />
+        {/* <Header /> */}
         <main className="content-wrapper">
             <section className="wrapper bg-light">
                 <div className="container pt-10 pt-md-14">

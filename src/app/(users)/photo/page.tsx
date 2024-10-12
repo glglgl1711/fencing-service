@@ -13,7 +13,7 @@ export default function Photo () {
     return(
     <Fragment>
         
-        <Header/>
+        {/* <Header/> */}
         
         <main className="content-wrapper">
         <section className="wrapper bg-light">
@@ -51,7 +51,7 @@ export default function Photo () {
                                 </div>
                             </div>
                         </div>
-                        <div key={1} className={`project item col-md-6 col-xl-4 workshop`}>
+                        <div className={`project item col-md-6 col-xl-4 workshop`}>
                             <figure className="lift rounded mb-6">
                                 <Image
                                     alt={''}
@@ -68,7 +68,7 @@ export default function Photo () {
                                 </div>
                             </div>
                         </div>
-                        <div key={1} className={`project item col-md-6 col-xl-4 workshop`}>
+                        <div className={`project item col-md-6 col-xl-4 workshop`}>
                             <figure className="lift rounded mb-6">
                                 <Image
                                     alt={''}
@@ -101,7 +101,7 @@ export default function Photo () {
                                 </div>
                             </div>
                         </div>
-                        <div key={1} className={`project item col-md-6 col-xl-4 workshop`}>
+                        <div className={`project item col-md-6 col-xl-4 workshop`}>
                             <figure className="lift rounded mb-6">
                                 <Image
                                     alt={''}

@@ -15,12 +15,13 @@ import HeaderRight from "components/blocks/navbar/components/header-right";
 import Signin from "components/blocks/navbar/components/signin";
 import Signup from "components/blocks/navbar/components/signup";
 import MiniCart from "components/blocks/navbar/components/mini-cart";
-import Search from "components/blocks/navbar/components/search";
 import HeaderItem from "./Header-item";
-import { signIn } from "next-auth/react";
+import LogoutForms from "components/elements/forms/LogoutForm";
+import ModifyForm from "components/elements/forms/ModifyForm";
 
 // ===================================================================
 interface NavbarProps {
+  auth : AuthType
   info?: boolean;
   cart?: boolean;
   fancy?: boolean;
@@ -36,6 +37,7 @@ interface NavbarProps {
 // ===================================================================
 
 export default function NavbarOne({
+  auth,
   fancy,
   button,
   logoAlt,
@@ -52,6 +54,7 @@ export default function NavbarOne({
   const sticky = useSticky(350);
   const navbarRef = useRef<HTMLElement | null>(null);
   const [isOpen , setOpen] = useState<boolean>(false)
+  const [modify , setModify] = useState<boolean>(false)
   // dynamically render the logo
   const logo = sticky ? "logo-dark" : logoAlt ?? "logo-dark";
 
@@ -95,13 +98,47 @@ export default function NavbarOne({
         info={info}
         button={
         <>
-        <li className="nav-item d-none d-md-block" onClick={()=>setOpen(true)}>
-          <div className="d-flex align-items-center gap-3">
-            <a className="nav-link" data-bs-toggle="modal" data-bs-target="#modal-signin">
-              로그인
+        {auth?.result ? 
+        <>
+          <li className="nav-item dropdown language-select text-uppercase">
+            <a
+              role="button"
+              aria-haspopup="true"
+              aria-expanded="false"
+              data-bs-toggle="dropdown"
+              className="nav-link dropdown-item dropdown-toggle">
+              {auth?.users?.name}님
             </a>
-          </div>
-        </li>
+
+            <ul className="dropdown-menu">
+                <li className="nav-item">
+                  <button 
+                    className="dropdown-item"
+                    onClick={()=>setModify(!modify)}
+                    data-bs-toggle="modal" data-bs-target="#modal-modify"
+                  >
+                    내정보보기
+                  </button>
+                </li>
+                <li className="nav-item">
+                  <LogoutForms
+
+                  />
+                </li>
+            </ul>
+          </li>
+        </>
+        :
+        <>
+          <li className="nav-item d-none d-md-block" onClick={()=>setOpen(true)}>
+            <div className="d-flex align-items-center gap-3">
+              <a className="nav-link" data-bs-toggle="modal" data-bs-target="#modal-signin">
+                로그인
+              </a>
+            </div>
+          </li>
+        </>
+        }
 
         {/* <li className="nav-item dropdown language-select text-uppercase">
           <a
@@ -146,10 +183,13 @@ export default function NavbarOne({
           <div className="container flex-lg-row flex-nowrap align-items-center">{headerContent}</div>
         )}
       </nav>
+
       <Signin />
 
       <Signup />
       
+      <ModifyForm auth={auth}/>
+
       {/* ============= info sidebar ============= */}
       {info ? <Info /> : null}
 

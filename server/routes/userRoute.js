@@ -55,7 +55,6 @@ router.get('/getUserCheck', async (req, res) => {
                 SET u_token = ?
                 WHERE u_id = ?
                 `;
-                console.log(userId)
                 connection.query(updateTokenSql , [token, userId], (updateErr) => {
                     if(updateErr){
                         return res.status(200).json({
@@ -63,7 +62,7 @@ router.get('/getUserCheck', async (req, res) => {
                             resultMsg : '로그인에 실패하였습니다. 관리자 문의 부탁드립니다.'
                         })
                     }
-                    return res.json({result : true})
+                    return res.json({result : true, token : token})
                 });
             } else {
                 return res.json({ result: false }); // 유저 없음
@@ -73,6 +72,22 @@ router.get('/getUserCheck', async (req, res) => {
         }
     });
 });
+
+//회원정보수정
+router.post('/edit' , async (req, res) => {
+    const {key, phone , addr, birth, email} = req.body;
+    const sql = `
+    UPDATE f_users
+    SET u_phone = ? , u_addr = ? , u_birth = ?, u_email = ?
+    WHERE u_token = ? 
+    `;
+    connection.query(sql , [phone, addr, birth, email, key], (err) => {
+        if(err) {
+            return res.status(200).json({result : false})
+        }
+        return res.status(200).json({result : true})
+    })
+})
 
 // 회원가입
 router.post(`/regist`, async (req, res) => {
@@ -93,7 +108,8 @@ router.post(`/regist`, async (req, res) => {
 router.get(`/users` , async (req, res) => {
     const {token} = req.query;
     const sql = `
-        SELECT * FROM f_users WHERE u_token = ?
+        SELECT u_idx, u_name AS name, u_phone AS phone, u_addr AS address, u_birth AS birth, u_email AS email, u_token AS token
+        FROM f_users WHERE u_token = ?
     `;
     connection.query(sql , [token] ,  async (err , result) => {
         if(err) {

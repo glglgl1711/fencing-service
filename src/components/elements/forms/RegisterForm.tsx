@@ -13,19 +13,12 @@ interface Props {
   sessionId : string
   token : string
 }
-interface DataType {
-  name : string
-  phone : string
-  addr : string
-  addrDetail : string
-  birth : string
-  email : string
-}
+
 export default function RegisterForm({
   sessionId, token
 } : Props) {
   
-  const [data, setData] = useState<DataType>({
+  const [data, setData] = useState<RegistDataType>({
     name : '', phone : '', addr : '', addrDetail : '', birth : '', email : ''
   })
 
@@ -123,7 +116,7 @@ export default function RegisterForm({
             id="email"
             name="email"
             value={data?.email}
-            placeholder="Email"
+            placeholder="이메일"
             className="form-control"
             onChange={handleChange}
           />

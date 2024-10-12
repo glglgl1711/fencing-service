@@ -6,7 +6,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en">
       <body>
         <AdminContainer>
-          {children}
+          <div className="dotsContentWrap">
+            {children}
+          </div>
         </AdminContainer>
       </body>
     </html>

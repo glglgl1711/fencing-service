@@ -3,13 +3,14 @@ import { signIn } from "next-auth/react";
 
 export default function Signin() {
   return (
-    <div
-      role="dialog"
-      tabIndex={-1}
-      aria-modal="true"
-      id="modal-signin"
-      className="modal fade"
-      style={{ display: "none" }}>
+      <div
+        role="dialog"
+        tabIndex={-1}
+        aria-modal="true"
+        id="modal-signin"
+        className="modal fade"
+        style={{ display: "none" }}
+      >
       <div className="modal-dialog modal-dialog-centered modal-sm">
         <div className="modal-content text-center">
           <div className="modal-body">

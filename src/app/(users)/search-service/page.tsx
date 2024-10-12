@@ -7,7 +7,7 @@ export default function SearchService () {
 
     return(
         <>
-        <Header />
+        {/* <Header /> */}
         <main className="content-wrapper">
             <section className="wrapper bg-light">
                 <div className="container pt-10 pt-md-14">

@@ -7,7 +7,7 @@ export default function Home() {
     <Fragment>
       
       {/* ========== header ========== */}
-      <header className="wrapper bg-soft-primary">
+      {/* <header className="wrapper bg-soft-primary">
         <Header
           info
           search
@@ -15,7 +15,7 @@ export default function Home() {
           logoAlt="logo-light"
           navClassName="navbar navbar-expand-lg center-nav transparent position-absolute navbar-dark caret-none"
         />
-      </header>
+      </header> */}
 
       {/* ========== main content ========== */}
       <main className="content-wrapper">

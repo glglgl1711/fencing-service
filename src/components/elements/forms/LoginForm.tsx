@@ -6,6 +6,7 @@ import { signIn, signOut, useSession } from 'next-auth/react';
 import axios from "axios";
 import Signup from "components/blocks/navbar/components/signup";
 import RegisterForm from "./RegisterForm";
+import Cookies from 'js-cookie'
 
 export default function LoginForm() {
   const {data : session, status} : any = useSession()
@@ -25,6 +26,7 @@ export default function LoginForm() {
       if (response?.data?.result === true) {
         window.location.reload();
         // 쿠키에 토큰 값 저장 (쿠키에 저장된 토큰 값으로 회원 유지 구현 예정)
+        Cookies.set('f_ssid', response?.data?.token, {expires : 7 , path : '/'});
       } else {
         const confirm = window.confirm('회원가입을 진행하시겠습니까?')
         if(confirm) {setIsRegist(true)}
