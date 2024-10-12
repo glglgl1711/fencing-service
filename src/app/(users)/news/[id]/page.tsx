@@ -16,7 +16,6 @@ export default function PhotoView () {
     return(
         <>
         <Fragment>
-        <Header />
         <main className="content-wrapper">
 
             <section className="wrapper bg-light wrapper-border">

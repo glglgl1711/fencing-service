@@ -7,8 +7,6 @@ export default function ServiceView () {
         <>
         <Fragment>
 
-        <Header/>
-
         <main className="content-wrapper">
             <section
             className="wrapper image-wrapper bg-image bg-overlay bg-overlay-400 text-white"

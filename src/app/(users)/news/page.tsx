@@ -31,7 +31,7 @@ export default function News () {
                             <th scope="col" style={{ width: "10%" }}>No.</th>
                             <th scope="col" style={{ width: "60%" }}>제 목</th>
                             <th scope="col" style={{ width: "15%" }}>일 자</th>
-                            <th scope="col" style={{ width: "15%" }}>조 회 수</th>
+                            <th scope="col" style={{ width: "15%" }}>조회</th>
                             </tr>
                         </thead>
                         <tbody>

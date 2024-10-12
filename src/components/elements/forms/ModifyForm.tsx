@@ -7,12 +7,12 @@ interface Props {
     auth : AuthType
 }
 export default function ModifyForm ({auth} : Props) {
-    const {users} = auth;
+    // const {users} = auth;
     const [data, setData] = useState<RegistDataType>({
-        name : '', phone : users?.phone, 
-        addr : users?.address.split(',')[0] ? users?.address?.split(',')[0] : '', 
-        addrDetail : users?.address?.split(',')[1] ? users?.address?.split(',')[1] : '', 
-        birth : users?.birth, email : users?.email
+        name : '', phone : auth?.users?.phone, 
+        addr : auth?.users?.address.split(',')[0] ? auth?.users?.address?.split(',')[0] : '', 
+        addrDetail : auth?.users?.address?.split(',')[1] ? auth?.users?.address?.split(',')[1] : '', 
+        birth : auth?.users?.birth, email : auth?.users?.email
     })
 
     function handleChange (e:React.ChangeEvent<HTMLInputElement>) {
@@ -22,7 +22,7 @@ export default function ModifyForm ({auth} : Props) {
 
     async function Edit () {
         const response = await axios.post(`/api/user/edit` , {
-            key : users?.token , phone : data?.phone,
+            key : auth?.users?.token , phone : data?.phone,
             addr : `${data?.addr},${data?.addrDetail}`, birth : data?.birth,
             email : data?.email
         })
@@ -78,7 +78,7 @@ export default function ModifyForm ({auth} : Props) {
                             <input
                                 id="name"
                                 name=""
-                                defaultValue={users?.name}
+                                defaultValue={auth?.users?.name}
                                 type="text"
                                 placeholder="Name"
                                 className="form-control"

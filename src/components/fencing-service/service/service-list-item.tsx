@@ -64,9 +64,9 @@ export default function ServiceListItem ({ cardTop, title, category, description
                     </li>
                     </ul>
 
-                    <Link href="#" className="btn btn-expand btn-primary rounded-pill me-5 mb-3 mb-lg-0">
-                    <i className="uil uil-arrow-right" />
-                    <span>신청하러가기</span>
+                    <Link style={{top : '10px'}} href="#" className="btn btn-expand btn-primary rounded-pill me-5 mb-3 mb-lg-0">
+                        <i className="uil uil-arrow-right" />
+                        <span>신청하러가기</span>
                     </Link>
                 </div>
 
