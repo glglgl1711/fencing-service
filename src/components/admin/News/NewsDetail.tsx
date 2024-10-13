@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from "next/navigation"
-import AdminInputBox from "../\bElement/Inputbox"
+import AdminInputBox from "../Element/Inputbox"
 import { useState } from "react"
 import Summernote from "../Editor/summernote"
 interface Props {

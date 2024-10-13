@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import axios from "axios"
-import AdminInputBox from "../\bElement/Inputbox"
+import AdminInputBox from "../Element/Inputbox"
 interface DataType {
     name : string, phone : string , birth : string , email : string , address : string
 }
