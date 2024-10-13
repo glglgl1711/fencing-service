@@ -15,4 +15,23 @@ interface RegistDataType {
     addrDetail : string
     birth : string
     email : string,
+    gender : string
+}
+
+// 관리자 필터 타입
+interface ListFilterType {
+  idx : number
+  title : string
+  column : string
+}
+
+// 관리자 리스트 SearchParams 타입
+interface SearchParamsType {
+  searchParams : {
+    page : number 
+    size : number
+    keyword : string
+    column : string
+    order : string
   }
+}

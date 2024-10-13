@@ -91,12 +91,12 @@ router.post('/edit' , async (req, res) => {
 
 // 회원가입
 router.post(`/regist`, async (req, res) => {
-    const {key , name , phone , addr , birth , email, token} = req.body;
+    const {key , name , phone , addr , birth , email, token, gender} = req.body;
     const hashedKey = await bcrypt.hash(key, 10);
     const sql = `
-    INSERT INTO f_users (u_id , u_name , u_phone , u_addr , u_birth , u_email, u_token) VALUES (?, ?, ?, ?, ?, ?, ?)
+    INSERT INTO f_users (u_id , u_name , u_phone , u_addr , u_birth , u_email, u_token, u_gender, u_status, u_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'Y', NOW())
     `;
-    connection.query(sql , [hashedKey , name , phone , addr , birth , email, token], (err, result) => {
+    connection.query(sql , [hashedKey , name , phone , addr , birth , email, token, gender], (err, result) => {
         if(err) {
             return res.status(500).json({ msg: 'error' })
         }
@@ -125,6 +125,79 @@ router.get(`/users` , async (req, res) => {
         }else{
             return res.status(200).json({
                 result : false
+            })
+        }
+    })
+})
+// 회원목록 가져오기 (관리자)
+router.get('/getUserList', async (req, res) => {
+    const { page, size, keyword, column, order } = req.query;
+    const offset = (page - 1) * size;
+    const sqlList = `
+        SELECT u_idx AS id, u_name AS name, u_phone AS phone, u_birth AS birth, u_gender AS gender, u_status AS status
+        FROM f_users
+        WHERE u_name LIKE ?
+        ORDER BY ? ?
+        LIMIT ? OFFSET ?
+    `;
+
+    const sqlCount = `
+        SELECT COUNT(*) AS totalcount
+        FROM f_users
+        WHERE u_name LIKE ?
+    `;
+    
+    connection.query(sqlCount, [`%${keyword}%`], (errCount, countResult) => {
+        if (errCount) {
+            return res.status(500).json({
+                result: false,
+                msg: '회원 총 수를 가져오는 중 오류가 발생했습니다.'
+            });
+        }
+
+        const totalcount = countResult[0]?.totalcount || 0;
+
+        connection.query(sqlList, [`%${keyword}%`, column, order, parseInt(size), parseInt(offset)], (err, result) => {
+            if (err) {
+                return res.status(500).json({
+                    result: false,
+                    msg: '회원 리스트를 가져오는 중 오류가 발생했습니다.'
+                });
+            }
+
+            res.status(200).json({
+                result: true,
+                totalcount,
+                users: result
+            });
+        });
+    });
+});
+
+// 회원 유저 상세보기 (관리자)
+router.get('/getUserDetail', async (req , res) => {
+    const {id} = req.query;
+    const sql = `
+    SELECT u_name AS name , u_phone AS phone , u_birth AS birth , u_addr AS address, u_email AS email
+    FROM f_users
+    WHERE u_idx = ?
+    `;
+    connection.query(sql , [id] , async (err , result) => {
+        if(err) {
+            return res.status(200).json({
+                result : false,
+                msg : '회원정보를 찾을 수 없습니다.'
+            })
+        }
+        if(result?.length > 0) {
+            return res.status(200).json({
+                result : true ,
+                user : result[0]
+            })
+        }else{
+            return res.status(200).json({
+                result : false , 
+                msg : '회원정보를 찾을 수 없습니다.'
             })
         }
     })

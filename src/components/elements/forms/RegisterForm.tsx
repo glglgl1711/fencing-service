@@ -19,7 +19,7 @@ export default function RegisterForm({
 } : Props) {
   
   const [data, setData] = useState<RegistDataType>({
-    name : '', phone : '', addr : '', addrDetail : '', birth : '', email : ''
+    name : '', phone : '', addr : '', addrDetail : '', birth : '', email : '', gender : ''
   })
 
   function handleChange (e:React.ChangeEvent<HTMLInputElement>) {
@@ -39,7 +39,8 @@ export default function RegisterForm({
       addr : `${data?.addr},${data?.addrDetail}`,
       birth : data?.birth,
       email : data?.email,
-      token : token
+      token : token,
+      gender : ''
     })
     if(response?.data?.result === true) {
       alert('회원가입이 완료되었습니다!'); window.location.reload()

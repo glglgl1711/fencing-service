@@ -1,104 +1,51 @@
-export default function AdminMember () {
+import ListFilterBox from "components/admin/ListFilterBox";
+import ListSearchBox from "components/admin/ListSearchBox";
+import ListSizeBox from "components/admin/ListSizeBox";
+import MemberList from "components/admin/Member/MemberList";
+
+export default function AdminMember ({ searchParams : {
+    page , size , keyword , column , order
+}} : SearchParamsType) {
 
     return(
         <>
         <div className="contentBox whistleBlow">
-            <h3>Common Code</h3>
+            {/* <h3>회원관리</h3> */}
             <div className="flexBox">
                 <div>
-                    <h4>공용코드 관리</h4>
+                    <h4>회원관리</h4>
                 </div>
             </div>
             <div className="toolBox">
                 <div className="left">
-                    <div className="selectBox">
-                        {/* <ListSizeBox
-
-                        /> */}
-                    </div>
+                    <ListSizeBox
+                        size={size || 25}
+                    />
                 </div>
 
                 <div className="right">
                     <div className="btnBox">
-                        {/* <button className="blueBtn" onClick={()=>router.push(`/dotsAdmin/common-code-management/common-code`)}>신규등록</button> */}
                     </div>
-                    {/* <ListSearchBox
-
-                    /> */}
+                    <ListSearchBox
+                        keyword={keyword || ''}
+                    />
                 </div>
             </div>
 
             <div className="tableWrap">
                 <div className="tableType_a">
                     <table>
-                        <thead>
-                            <tr>
-                                <th>No.</th>
-                                <th>
-                                    <span className="sortWrap">
-                                        {'1234'}
-                                        {/* <spanclassName={'sort'}></span> */}
-                                        <span className=""></span>
-                                    </span>
-                                </th>
-                                <th>
-                                    <span className="sortWrap">
-                                        {'1234'}
-                                        {/* <spanclassName={'sort'}></span> */}
-                                        <span className=""></span>
-                                    </span>
-                                </th>
-                                <th>
-                                    <span className="sortWrap">
-                                        {'1234'}
-                                        {/* <spanclassName={'sort'}></span> */}
-                                        <span className=""></span>
-                                    </span>
-                                </th>
-                                <th>
-                                    <span className="sortWrap">
-                                        {'1234'}
-                                        {/* <spanclassName={'sort'}></span> */}
-                                        <span className=""></span>
-                                    </span>
-                                </th>
-                            </tr>
-                        </thead>
+                        <ListFilterBox
+
+                        />
                         <tbody>
-                            <tr style={{cursor : 'pointer'}}>
-                                <td>
-                                    <span className="readOnly">{1}</span>
-                                </td>
-                                <td>
-                                    <span className="readOnly">{'aaaa'}</span>
-                                </td>
-                                <td>
-                                    <span className="readOnly">{'1111'}</span>
-                                </td>
-                                <td>
-                                    <span className="readOnly">{'1234'}</span>
-                                </td>
-                                <td>
-                                    <div className="toggleSwitchBox">
-                                        <span className="toggleSwitch">
-                                            <input 
-                                            type="checkbox" 
-                                            // id={`commoncode_${list?.codeId}`}
-                                            className="toggleIpt"
-                                            // checked={list?.activeStatus === 'Y'}
-                                            // onChange={()=>statusChange(list?.codeId, list?.activeStatus)}
-                                            hidden
-                                            />
-                                            <label
-                                            // htmlFor={`commoncode_${list?.codeId}`} 
-                                            className="toggleSwitch"
-                                            >
-                                                <span className="toggleButton"></span>
-                                            </label>
-                                        </span>
-                                    </div>
-                                </td>
-                            </tr>
+                            <MemberList
+                                page={page || 1}
+                                size={size || 25}
+                                keyword={keyword || ''}
+                                column={column || 'u_date'}
+                                order={order || 'desc'}
+                            />
                         </tbody>
                     </table>
                 </div>

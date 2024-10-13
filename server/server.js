@@ -22,6 +22,9 @@ app.prepare().then(() => {
     const userRoutes = require('./routes/userRoute')
     server.use(`/api/user`, userRoutes)
 
+    const newsRoutees = require('./routes/newsRoute')
+    server.use('/api/news', newsRoutees)
+    
     server.all('*', (req, res) => {
         return handle(req, res);
     });
