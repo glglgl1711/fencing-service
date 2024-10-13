@@ -55,7 +55,7 @@ export default function MemberList ({
                 <td onClick={()=>handlePage(list?.id)}>
                     <span className="readOnly">{list?.phone}</span>
                 </td>
-                <td>
+                <td style={{width : '10%'}}>
                     <div className="toggleSwitchBox">
                         <span className="toggleSwitch">
                             <input 
