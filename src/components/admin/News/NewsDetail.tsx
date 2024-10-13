@@ -12,6 +12,9 @@ export default function NewsDetail ({id} : Props) {
     const [data, setData] = useState<any>({
         title : '', contents : null
     })
+    function handleChange () {
+
+    }
     return(
         <>
         <h3>공지사항관리</h3>
@@ -44,7 +47,7 @@ export default function NewsDetail ({id} : Props) {
                                 initData={data?.contents} 
                                 setData={setData} 
                                 name={'contents'} 
-                                onChange={undefined}
+                                onChange={handleChange}
                             />                        
                         </td>
                     </tr>
