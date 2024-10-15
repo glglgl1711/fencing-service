@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation"
 import AdminInputBox from "../Element/Inputbox"
 import { useState } from "react"
 import Summernote from "../Editor/summernote"
+import axios from "axios"
 interface Props {
     id : string
 }
@@ -12,8 +13,22 @@ export default function NewsDetail ({id} : Props) {
     const [data, setData] = useState<any>({
         title : '', contents : null
     })
-    function handleChange () {
-
+    
+    async function Save () {
+        try {   
+            const response = await axios.post(`/api/news/setNews` , {
+                title : data?.title,
+                contents : data?.contents
+            })
+            if(response?.data?.result === true) {
+                alert('등록이 완료되었습니다.');
+                router.back()
+            }else {
+                alert(response?.data?.msg)
+            }
+        }catch {
+            alert('Server Error')
+        }
     }
     return(
         <>
@@ -24,7 +39,7 @@ export default function NewsDetail ({id} : Props) {
             </div>
             <div className="btnBox">
                 <button className="blackBtn" onClick={()=>router.back()}>목록으로</button>
-                {/* <button className="blueBtn">저장하기</button> */}
+                <button className="blueBtn" onClick={()=>Save()}>저장하기</button>
             </div>
         </div>
 
@@ -47,7 +62,6 @@ export default function NewsDetail ({id} : Props) {
                                 initData={data?.contents} 
                                 setData={setData} 
                                 name={'contents'} 
-                                onChange={handleChange}
                             />                        
                         </td>
                     </tr>

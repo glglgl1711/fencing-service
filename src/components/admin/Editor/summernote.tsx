@@ -6,10 +6,9 @@ interface Props {
     initData : any
     setData : Function,
     name : any
-    onChange : Function
 }
 export default function Summernote ({
-    initData, setData, name, onChange
+    initData, setData, name
 } : Props) {
     const summernoteRef = useRef<any>(null);
     useEffect(()=>{

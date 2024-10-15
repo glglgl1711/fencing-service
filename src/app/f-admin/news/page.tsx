@@ -1,8 +1,11 @@
 import ListFilterBox from "components/admin/ListFilterBox";
 import ListSearchBox from "components/admin/ListSearchBox";
 import ListSizeBox from "components/admin/ListSizeBox";
+import NewsList from "components/admin/News/NewsList";
 
-export default function AdminNews () {
+export default function AdminNews ({searchParams : {
+    page , size , keyword , column , order
+}} : SearchParamsType) {
 
     return(
         <>
@@ -35,25 +38,13 @@ export default function AdminNews () {
                         <ListFilterBox
 
                         />
-                        <tbody>
-                            <tr style={{cursor : 'pointer'}}>
-                                <td>
-                                    <span className="readOnly">{1}</span>
-                                </td>
-                                <td>
-                                    <span className="readOnly">{'aaaa'}</span>
-                                </td>
-                                <td>
-                                    <span className="readOnly">{'1111'}</span>
-                                </td>
-                                <td>
-                                    <span className="readOnly">{'1111'}</span>
-                                </td>
-                                <td>
-                                    <button>삭제</button>
-                                </td>
-                            </tr>
-                        </tbody>
+                        <NewsList
+                            page={page || 1}
+                            size={size || 25}
+                            keyword={keyword || ''}
+                            column={column || 'news_date'}
+                            order={order || 'desc'}
+                        />
                     </table>
                 </div>
             </div>

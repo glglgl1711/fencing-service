@@ -142,7 +142,7 @@ router.get('/getUserList', async (req, res) => {
     `;
 
     const sqlCount = `
-        SELECT COUNT(*) AS totalcount
+        SELECT COUNT(*) AS totalCount
         FROM f_users
         WHERE u_name LIKE ?
     `;
@@ -155,7 +155,7 @@ router.get('/getUserList', async (req, res) => {
             });
         }
 
-        const totalcount = countResult[0]?.totalcount || 0;
+        const totalCount = countResult[0]?.totalCount || 0;
 
         connection.query(sqlList, [`%${keyword}%`, column, order, parseInt(size), parseInt(offset)], (err, result) => {
             if (err) {
@@ -167,7 +167,7 @@ router.get('/getUserList', async (req, res) => {
 
             res.status(200).json({
                 result: true,
-                totalcount,
+                totalCount,
                 users: result
             });
         });
