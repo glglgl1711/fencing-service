@@ -56,9 +56,25 @@ router.get(`/getNews` , async (req, res) => {
     })
 })
 // 공지사항 상세보기
+router.get('/detail' , async (req , res) => {
+    const {id} = req.query;
+    const sql = `
+    SELECT news_title AS title , news_contents AS contents
+    FROM f_news WHERE news_idx = ?
+    `;
+    connection.query(sql , [id] , async (err , result) => {
+        if(err) {
+            return res.status(200).json({result : false , msg : '서버 오류가 발생했습니다. 관리자 요망'});
+        }
+        res.status(200).json({
+            result : true , 
+            news : result[0]
+        })
+    })
+})
 
 // 공지사항 등록
-router.post('/setNews' , async (req, res) => {
+router.post('/regist' , async (req, res) => {
     const {title , contents} = req.body;
     const sql = `
     INSERT INTO f_news (news_title , news_contents , news_date , news_writer , newst_status , view_count)
@@ -74,6 +90,20 @@ router.post('/setNews' , async (req, res) => {
     })
 })
 // 공지사항 수정
+router.post('/modify' , async (req , res) => {
+    const {id , title , contents} = req.body;
+    const sql = `
+    UPDATE f_news
+    SET news_title = ? , news_contents = ?
+    WHERE news_idx = ?
+    `;
+    connection.query(sql , [title , contents , id] , (err) => {
+        if(err) {
+            return res.status(200).json({result : false , msg : '서버 오류가 발생했습니다. 관리자 요망'});
+        }
+        return res.status(200).json({result : true});
+    })
+})
 
 // 공지사항 삭제
 router.post(`/delete` , async (req, res) => {

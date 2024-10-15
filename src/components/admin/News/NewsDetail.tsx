@@ -2,34 +2,47 @@
 
 import { useRouter } from "next/navigation"
 import AdminInputBox from "../Element/Inputbox"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Summernote from "../Editor/summernote"
 import axios from "axios"
-interface Props {
-    id : string
+interface DataType {
+    title : string , contents : string | null
 }
-export default function NewsDetail ({id} : Props) {
+interface Props {
+    id : string , initData : DataType
+}
+export default function NewsDetail ({id , initData} : Props) {
     const router = useRouter()
-    const [data, setData] = useState<any>({
-        title : '', contents : null
+    const [data, setData] = useState<DataType>({
+        title : initData?.title, contents : initData?.contents
     })
-    
     async function Save () {
-        try {   
-            const response = await axios.post(`/api/news/setNews` , {
-                title : data?.title,
-                contents : data?.contents
+        if(id) {
+            // 수정 모듈
+            const response = await axios.post(`/api/news/modify` , {
+                id : id , title : data?.title , contents : data?.contents
             })
-            if(response?.data?.result === true) {
-                alert('등록이 완료되었습니다.');
-                router.back()
-            }else {
-                alert(response?.data?.msg)
+            if(response?.data?.result === true) {alert("수정이 완료되었습니다."); router.back()}
+            else {alert(response?.data?.msg)}
+        }else{
+            // 등록 모듈
+            try {   
+                const response = await axios.post(`/api/news/regist` , {
+                    title : data?.title,
+                    contents : data?.contents
+                })
+                if(response?.data?.result === true) {
+                    alert('등록이 완료되었습니다.');
+                    router.back()
+                }else {
+                    alert(response?.data?.msg)
+                }
+            }catch {
+                alert('Server Error')
             }
-        }catch {
-            alert('Server Error')
         }
     }
+
     return(
         <>
         <h3>공지사항관리</h3>
