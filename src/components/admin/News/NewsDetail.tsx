@@ -2,29 +2,22 @@
 
 import { useRouter } from "next/navigation"
 import AdminInputBox from "../Element/Inputbox"
-import { useEffect, useState } from "react"
+import { useEffect, useLayoutEffect, useState } from "react"
 import Summernote from "../Editor/summernote"
 import axios from "axios"
 interface DataType {
     title : string , contents : string | null
 }
 interface Props {
-    id : string , initData : DataType
+    id : string
 }
-export default function NewsDetail ({id , initData} : Props) {
+export default function NewsDetail ({id} : Props) {
     const router = useRouter()
     const [data, setData] = useState<DataType>({
-        title : initData?.title, contents : initData?.contents
+        title : '', contents : ''
     })
     async function Save () {
-        if(id) {
-            // 수정 모듈
-            const response = await axios.post(`/api/news/modify` , {
-                id : id , title : data?.title , contents : data?.contents
-            })
-            if(response?.data?.result === true) {alert("수정이 완료되었습니다."); router.back()}
-            else {alert(response?.data?.msg)}
-        }else{
+        if(id === 'regist') {
             // 등록 모듈
             try {   
                 const response = await axios.post(`/api/news/regist` , {
@@ -40,8 +33,27 @@ export default function NewsDetail ({id , initData} : Props) {
             }catch {
                 alert('Server Error')
             }
+        }else{
+            // 수정 모듈
+            const response = await axios.post(`/api/news/modify` , {
+                id : id , title : data?.title , contents : data?.contents
+            })
+            if(response?.data?.result === true) {alert("수정이 완료되었습니다."); router.back()}
+            else {alert(response?.data?.msg)}
         }
     }
+
+    useEffect(() => {
+        async function Detail () {
+            if(id !== 'regist') {
+                const response = await axios.get(`/api/news/detail?id=${id}`)
+                if(response?.data?.result === true) {
+                    setData({title : response?.data?.news?.title , contents : response?.data?.news?.contents})
+                }
+            }
+        }
+        Detail()
+    }, [id])
 
     return(
         <>
@@ -71,11 +83,20 @@ export default function NewsDetail ({id , initData} : Props) {
                     <tr>
                         <th>본문</th>
                         <td>
+                            {id !== 'regist' && data.contents ?
                             <Summernote 
                                 initData={data?.contents} 
                                 setData={setData} 
                                 name={'contents'} 
-                            />                        
+                            /> : ''                        
+                            }
+                            {id === 'regist' && !data.contents ?
+                            <Summernote 
+                                initData={data?.contents} 
+                                setData={setData} 
+                                name={'contents'} 
+                            /> : ''  
+                            }
                         </td>
                     </tr>
                 </tbody>

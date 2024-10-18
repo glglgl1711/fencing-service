@@ -20,9 +20,8 @@ export default function ListFilterBox ({
             case 'news' : setFilter(NewsFilter); break;
             case 'photos' : setFilter(PhotoFilter); break;
             case 'service' : setFilter(ServiceFilter); break;
-            default : []; break;
         }
-    }, [splitPath])
+    }, [pathname])
     return(
         <>
         <thead>
@@ -60,9 +59,10 @@ export const NewsFilter = [
 
 export const PhotoFilter = [
     {idx : 1, title : '대표이미지', column : 'image'},
-    {idx : 2, title : '등록일자', column : 'date'},
-    {idx : 3, title : '조회수', column : 'count'},
-    {idx : 4, title : '', column : ''}
+    {idx : 2, title : '제목', column : 'title'},
+    {idx : 3, title : '등록일자', column : 'date'},
+    {idx : 4, title : '조회수', column : 'count'},
+    {idx : 5, title : '', column : ''}
 ]
 
 export const ServiceFilter = [

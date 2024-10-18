@@ -1,6 +1,7 @@
 import ListFilterBox from "components/admin/ListFilterBox";
 import ListSearchBox from "components/admin/ListSearchBox";
 import ListSizeBox from "components/admin/ListSizeBox";
+import RegistBtn from "components/admin/RegistBtn";
 
 export default function AdminPhotos () {
 
@@ -26,11 +27,14 @@ export default function AdminPhotos () {
                     <ListSearchBox
                         keyword={''}
                     />
+                    <div className="btnBox">
+                        <RegistBtn url={'photos'}/>
+                    </div>
                 </div>
             </div>
 
             <div className="tableWrap">
-                <div className="tableType_a">
+                <div className="tableType_a thumb">
                     <table>
                         <ListFilterBox
 
@@ -42,16 +46,19 @@ export default function AdminPhotos () {
                                 </td>
                                 <td>
                                     <div className="imgBox">
-                                        <img src={'/img/photos/a1.jpg'}alt="thumbmail"/>
+                                        <img src={'/img/no-images.jpg'}alt="thumbmail"/>
                                     </div>
                                 </td>
                                 <td>
                                     <span className="readOnly">{'1111'}</span>
                                 </td>
-                                <td>
+                                <td style={{width : '15%'}}>
                                     <span className="readOnly">{'1111'}</span>
                                 </td>
-                                <td>
+                                <td style={{width : '10%'}}>
+                                    <span className="readOnly">{'1111'}</span>
+                                </td>
+                                <td style={{width : '10%'}}>
                                     <button>삭제</button>
                                 </td>
                             </tr>

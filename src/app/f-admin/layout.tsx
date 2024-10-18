@@ -6,9 +6,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en">
       <body>
         <AdminContainer>
-          <div className="dotsContentWrap">
             {children}
-          </div>
         </AdminContainer>
         <Script
           src="https://code.jquery.com/jquery-3.7.1.js"

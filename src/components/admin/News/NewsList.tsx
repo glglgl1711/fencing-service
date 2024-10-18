@@ -4,7 +4,6 @@ import axios from "axios"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import DeleteBtn from "../Function/DeleteBtn"
-import { encodeId } from "components/Buffer"
 
 interface Props {
     page : number
@@ -44,7 +43,7 @@ export default function NewsList ({
             {data?.map((list:DataType, index : number) => {
                 return(
                     <tr key={list?.id} style={{cursor : 'pointer'}}>
-                        <td onClick={()=>router.push(`/f-admin/news/${encodeId(list?.id)}`)}>
+                        <td onClick={()=>router.push(`/f-admin/news/${list?.id}`)}>
                             <span className="readOnly">{1}</span>
                         </td>
                         <td onClick={()=>router.push(`/f-admin/news/${list?.id}`)}>

@@ -2,6 +2,7 @@ import ListFilterBox from "components/admin/ListFilterBox";
 import ListSearchBox from "components/admin/ListSearchBox";
 import ListSizeBox from "components/admin/ListSizeBox";
 import NewsList from "components/admin/News/NewsList";
+import RegistBtn from "components/admin/RegistBtn";
 
 export default function AdminNews ({searchParams : {
     page , size , keyword , column , order
@@ -27,7 +28,7 @@ export default function AdminNews ({searchParams : {
                         keyword={''}
                     />
                     <div className="btnBox">
-                        <button className="blueBtn">신규작성</button>
+                        <RegistBtn url={'news'}/>
                     </div>
                 </div>
             </div>
