@@ -44,7 +44,7 @@ export default function AdminNews ({searchParams : {
                             size={size || 25}
                             keyword={keyword || ''}
                             column={column || 'news_date'}
-                            order={order || 'desc'}
+                            order={order || 'DESC'}
                         />
                     </table>
                 </div>

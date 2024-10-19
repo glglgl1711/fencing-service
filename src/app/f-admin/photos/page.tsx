@@ -48,7 +48,7 @@ export default async function AdminPhotos ({searchParams : {
                             size={size || 25}
                             keyword={keyword || ''}
                             column={column || 'gallery_date'}
-                            order={order || 'desc'}
+                            order={order || 'DESC'}
                         />
                     </table>
                 </div>

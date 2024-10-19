@@ -42,11 +42,19 @@ const upload = multer({storage : storage});
 router.get('/getPhotos' , async (req, res) => {
     const {page , size , keyword , column , order} = req.query;
     const offset = (page - 1) * size;
+    // 허용된 정렬 컬럼을 미리 정의
+    const validColumns = ['gallery_idx', 'gallery_title', 'gallery_date', 'view_count'];
+    const validOrders = ['ASC', 'DESC'];
+
+    // 입력된 column과 order 값 검증
+    const sortColumn = validColumns.includes(column) ? column : 'gallery_idx';
+    const sortOrder = validOrders.includes(order) ? order : 'ASC';
+
     const sql = `
     SELECT gallery_idx AS id , gallery_title AS title, gallery_thumnail AS thumnail , DATE_FORMAT(gallery_date , '%Y-%m-%d') AS date , view_count AS count
     FROM f_gallery
     WHERE gallery_title LIKE ?
-    ORDER BY ? ?
+    ORDER BY ${sortColumn} DESC
     LIMIT ? OFFSET ?
     `;
     const sqlCount = `
@@ -62,7 +70,7 @@ router.get('/getPhotos' , async (req, res) => {
         }
         const totalCount = countResult[0].totalCount || 0;
 
-        connection.query(sql , [`%${keyword}%`, column , order , parseInt(size), parseInt(offset)], (err , result) => {
+        connection.query(sql , [`%${keyword}%`, parseInt(size), parseInt(offset)], (err , result) => {
             if(err) {
                 return res.status(200).json({
                     result : true , msg : '사진첩 리스트를 가져오는 중 오류가 발생했습니다.'

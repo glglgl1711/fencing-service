@@ -18,10 +18,21 @@ router.use(express.json())
 router.get(`/getNews` , async (req, res) => {
     const {page , size , keyword , column , order} = req.query;
     const offset = (page - 1) * size;
+
+    // 허용된 정렬 컬럼을 미리 정의
+    const validColumns = ['news_idx', 'news_title', 'news_date', 'view_count'];
+    const validOrders = ['ASC', 'DESC'];
+
+    // 입력된 column과 order 값 검증
+    const sortColumn = validColumns.includes(column) ? column : 'news_idx';
+    const sortOrder = validOrders.includes(order) ? order : 'ASC';
+
     const sql = `
     SELECT news_idx AS id , news_title AS title , DATE_FORMAT(news_date, '%Y-%m-%d') AS date , view_count AS count
     FROM f_news 
     WHERE news_title LIKE ?
+    ORDER BY ${sortColumn} DESC
+    LIMIT ? OFFSET ?
     `;
     const sqlCOunt = `
     SELECT COUNT(*) AS totalCount
@@ -37,7 +48,7 @@ router.get(`/getNews` , async (req, res) => {
         }
         const totalCount = countResult[0]?.totalCount || 0;
 
-        connection.query(sql, [`%${keyword}%`, column, order, parseInt(size), parseInt(offset)], (err, result) => {
+        connection.query(sql, [`%${keyword}%`, parseInt(size), parseInt(offset)], (err, result) => {
             if (err) {
                 return res.status(500).json({
                     result: false,
