@@ -235,7 +235,7 @@ html,body,
 .admin_wrap .imgUploadListBox li button{position: absolute; right: 10px; top: 10px; border-radius: 100%; background-color: #444444; border: none; width: 24px; height: 24px;}
 .admin_wrap .imgUploadListBox li button:after{content: ''; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); background: url('/img/dotsAdmin/close_white.png') center / contain no-repeat; width: 6px; height: 6px;}
 
-.admin_wrap .imgUploadBox{position: relative;}
+.admin_wrap .imgUploadBox{position: relative; }
 .admin_wrap .imgUploadBox input[type='file']{display: none;}
 .admin_wrap .imgUploadBtn{cursor: pointer; transition: background 0.3s ease-out; width: 238px; border-radius: 5px; color: #fff; font-size: 14px; font-weight: 400; display: block; text-align: center; line-height: 38px;}
 .admin_wrap .imgUploadBtn i{margin-right: 10px;}
@@ -534,7 +534,7 @@ html,body,
 .admin_wrap .input_tableWrap table tbody tr td .toggleSwitch{margin: 5px 0;}
 .admin_wrap .input_tableWrap table tbody tr td .checkBox{padding: 10px 0;}
 .admin_wrap .input_tableWrap table tbody tr td .flexBox{display: flex; align-items: flex-start;}
-.admin_wrap .input_tableWrap table tbody tr td .flexBox > div:not(:first-child){margin-left: 15px;}
+/* .admin_wrap .input_tableWrap table tbody tr td .flexBox > div:not(:first-child){margin-left: 15px;} */
 .admin_wrap .input_tableWrap table tbody tr td .radioWrap{height: 40px; align-items: center;}
 
 .admin_wrap .dotsContentWrap .input_tableWrap table tbody tr.catalog td .selectWrap > .selectBox:not(:last-of-type){margin-bottom: 10px;}
@@ -1108,3 +1108,20 @@ html,body,
 .css-1txipvs-MuiTreeItem-content .MuiTreeItem-label,
 .css-1awz9vn .MuiTreeItem-label{font-size: 16px !important;}
 .css-18lqwt2{font-size: 14px !important;}
+
+.closeBtn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -1,12 +1,14 @@
 import PhotoDetail from "components/admin/Photo/PhotoDetail";
-
-export default function PhotoEdit () {
-
+interface ParamsType {
+    params : {id : string}
+}
+export default function PhotoEdit ({params : {id}} : ParamsType) {
+    
     return(
         <>
             <div className="contentBox add">
                 <PhotoDetail
-                    id={'1'}
+                    id={id}
                 />
             </div>
         </>

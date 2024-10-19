@@ -1,5 +1,4 @@
 'use client'
-import Summernote from "components/admin/Editor/SummerNote"
 import { useEffect, useState } from "react"
 interface DataType {
     id : string, password : string

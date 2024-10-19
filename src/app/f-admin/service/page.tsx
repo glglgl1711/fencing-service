@@ -15,26 +15,26 @@ export default function AdminService () {
             </div>
             <div className="toolBox">
                 <div className="left">
-                    <ListSizeBox
+                    {/* <ListSizeBox
                         size={25}
-                    />
+                    /> */}
                 </div>
 
                 <div className="right">
                     <div className="btnBox">
                     </div>
-                    <ListSearchBox
+                    {/* <ListSearchBox
                         keyword={''}
-                    />
+                    /> */}
                 </div>
             </div>
 
             <div className="tableWrap">
                 <div className="tableType_a">
                     <table>
-                        <ListFilterBox
+                        {/* <ListFilterBox
 
-                        />
+                        /> */}
                         <tbody>
                             <tr style={{cursor : 'pointer'}}>
                                 <td>

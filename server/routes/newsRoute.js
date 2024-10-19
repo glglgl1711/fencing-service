@@ -22,8 +22,6 @@ router.get(`/getNews` , async (req, res) => {
     SELECT news_idx AS id , news_title AS title , DATE_FORMAT(news_date, '%Y-%m-%d') AS date , view_count AS count
     FROM f_news 
     WHERE news_title LIKE ?
-    ORDER BY ? ?
-    LIMIT ? OFFSET ?
     `;
     const sqlCOunt = `
     SELECT COUNT(*) AS totalCount

@@ -12,7 +12,7 @@ export default function ModifyForm ({auth} : Props) {
         name : '', phone : auth?.users?.phone, 
         addr : auth?.users?.address.split(',')[0] ? auth?.users?.address?.split(',')[0] : '', 
         addrDetail : auth?.users?.address?.split(',')[1] ? auth?.users?.address?.split(',')[1] : '', 
-        birth : auth?.users?.birth, email : auth?.users?.email
+        birth : auth?.users?.birth, email : auth?.users?.email , gender  : ''
     })
 
     function handleChange (e:React.ChangeEvent<HTMLInputElement>) {

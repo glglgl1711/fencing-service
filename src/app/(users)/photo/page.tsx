@@ -1,15 +1,22 @@
-'use client'
-
 import { Fragment } from "react";
-import Navbar from "components/blocks/navbar/navbar-1";
-import NextLink from "components/reuseable/links/NextLink";
-import Link from "next/link";
-import Image from "next/image";
-import { Footer8 } from "components/blocks/footer";
-import { filterItems, projectList } from "./data";
-import Header from "components/layout/header/Header";
+import axios from "axios";
+import PhotoListItem from "components/pages/photo/photo-list";
+interface SearchParamsType {
+    searchParams : {
+        page : number , keyword : string
+    }
+}
+export default async function Photo ({searchParams : {page, keyword}} : SearchParamsType) {
 
-export default function Photo () {
+    const response = await axios.get(`http://localhost:3000/api/photo/getPhotos?page=${page || 1}&size=6&keyword=${keyword || ''}&column=gallery_date&order=desc`)
+    
+    const data = 
+    response?.data?.result === true ? response?.data?.photos : [];
+
+    const totalCount = 
+    response?.data?.result === true ? response?.data?.totalCount : 0;
+
+    console.log(response?.data)
     return(
     <Fragment>
         
@@ -34,90 +41,11 @@ export default function Photo () {
             <div className="container py-14 py-md-16">
                 <div className="grid grid-view projects-masonry">
                     <div className="row gx-md-8 gy-10 gy-md-13 isotope">
-                        <div style={{cursor : 'pointer'}} key={1} className={`project item col-md-6 col-xl-4 workshop`}>
-                            <figure className="lift rounded mb-6">
-                                <Image
-                                    alt={''}
-                                    src={'/img/photos/cs17.jpg'}
-                                    width={1300}
-                                    height={1300}
-                                    className="w-100 h-auto"
-                                />
-                            </figure>
-                            <div className="project-details d-flex justify-content-center flex-column">
-                                <div className="post-header">
-                                    <div className={`post-category text-line mb-3 text-purple`}>2024-09-06</div>
-                                    <h2 className="post-title h3">사진 모음 - 1</h2>
-                                </div>
-                            </div>
-                        </div>
-                        <div className={`project item col-md-6 col-xl-4 workshop`}>
-                            <figure className="lift rounded mb-6">
-                                <Image
-                                    alt={''}
-                                    src={'/img/photos/cs17.jpg'}
-                                    width={1300}
-                                    height={1300}
-                                    className="w-100 h-auto"
-                                />
-                            </figure>
-                            <div className="project-details d-flex justify-content-center flex-column">
-                                <div className="post-header">
-                                    <div className={`post-category text-line mb-3 text-purple`}>2024-09-06</div>
-                                    <h2 className="post-title h3">사진 모음 - 1</h2>
-                                </div>
-                            </div>
-                        </div>
-                        <div className={`project item col-md-6 col-xl-4 workshop`}>
-                            <figure className="lift rounded mb-6">
-                                <Image
-                                    alt={''}
-                                    src={'/img/photos/cs17.jpg'}
-                                    width={1300}
-                                    height={1300}
-                                    className="w-100 h-auto"
-                                />
-                            </figure>
-                            <div className="project-details d-flex justify-content-center flex-column">
-                                <div className="post-header">
-                                    <div className={`post-category text-line mb-3 text-purple`}>2024-09-06</div>
-                                    <h2 className="post-title h3">사진 모음 - 1</h2>
-                                </div>
-                            </div>
-                        </div><div key={1} className={`project item col-md-6 col-xl-4 workshop`}>
-                            <figure className="lift rounded mb-6">
-                                <Image
-                                    alt={''}
-                                    src={'/img/photos/cs17.jpg'}
-                                    width={1300}
-                                    height={1300}
-                                    className="w-100 h-auto"
-                                />
-                            </figure>
-                            <div className="project-details d-flex justify-content-center flex-column">
-                                <div className="post-header">
-                                    <div className={`post-category text-line mb-3 text-purple`}>2024-09-06</div>
-                                    <h2 className="post-title h3">사진 모음 - 1</h2>
-                                </div>
-                            </div>
-                        </div>
-                        <div className={`project item col-md-6 col-xl-4 workshop`}>
-                            <figure className="lift rounded mb-6">
-                                <Image
-                                    alt={''}
-                                    src={'/img/photos/cs17.jpg'}
-                                    width={1300}
-                                    height={1300}
-                                    className="w-100 h-auto"
-                                />
-                            </figure>
-                            <div className="project-details d-flex justify-content-center flex-column">
-                                <div className="post-header">
-                                    <div className={`post-category text-line mb-3 text-purple`}>2024-09-06</div>
-                                    <h2 className="post-title h3">사진 모음 - 1</h2>
-                                </div>
-                            </div>
-                        </div>
+
+                        <PhotoListItem
+                            data={data}
+                        />
+
                     </div>
                 </div>
             </div>

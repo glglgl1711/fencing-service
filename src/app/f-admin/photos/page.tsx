@@ -1,10 +1,14 @@
+import axios from "axios";
 import ListFilterBox from "components/admin/ListFilterBox";
 import ListSearchBox from "components/admin/ListSearchBox";
 import ListSizeBox from "components/admin/ListSizeBox";
+import PhotoList from "components/admin/Photo/PhotoList";
 import RegistBtn from "components/admin/RegistBtn";
 
-export default function AdminPhotos () {
-
+export default async function AdminPhotos ({searchParams : {
+    page , size , keyword , column , order
+}} : SearchParamsType) {
+    
     return(
         <>
         <div className="contentBox content_management">
@@ -17,7 +21,7 @@ export default function AdminPhotos () {
             <div className="toolBox">
                 <div className="left">
                     <ListSizeBox
-                        size={25}
+                        size={size}
                     />
                 </div>
 
@@ -25,7 +29,7 @@ export default function AdminPhotos () {
                     <div className="btnBox">
                     </div>
                     <ListSearchBox
-                        keyword={''}
+                        keyword={keyword}
                     />
                     <div className="btnBox">
                         <RegistBtn url={'photos'}/>
@@ -39,30 +43,13 @@ export default function AdminPhotos () {
                         <ListFilterBox
 
                         />
-                        <tbody>
-                            <tr style={{cursor : 'pointer'}}>
-                                <td>
-                                    <span className="readOnly">{1}</span>
-                                </td>
-                                <td>
-                                    <div className="imgBox">
-                                        <img src={'/img/no-images.jpg'}alt="thumbmail"/>
-                                    </div>
-                                </td>
-                                <td>
-                                    <span className="readOnly">{'1111'}</span>
-                                </td>
-                                <td style={{width : '15%'}}>
-                                    <span className="readOnly">{'1111'}</span>
-                                </td>
-                                <td style={{width : '10%'}}>
-                                    <span className="readOnly">{'1111'}</span>
-                                </td>
-                                <td style={{width : '10%'}}>
-                                    <button>삭제</button>
-                                </td>
-                            </tr>
-                        </tbody>
+                        <PhotoList
+                            page={page || 1}
+                            size={size || 25}
+                            keyword={keyword || ''}
+                            column={column || 'gallery_date'}
+                            order={order || 'desc'}
+                        />
                     </table>
                 </div>
             </div>

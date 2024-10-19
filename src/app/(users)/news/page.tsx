@@ -1,11 +1,17 @@
-'use client'
 import { Fragment } from "react";
 import { Footer8 } from "components/blocks/footer";
 import Header from "components/layout/header/Header";
 import { simpleDarkMarkup } from "markups/elements/tables";
-
-export default function News () {
-
+import NewsListItem from "components/pages/news/new-list";
+import axios from "axios";
+interface SearchParamsType {
+    searchParams : {
+        page : number , keyword : string
+    }
+}
+export default async function News ({searchParams : {page , keyword}} :SearchParamsType) {
+    const response = await axios.get(`http://localhost:3000/api/news/getNews?page=${page || 1}&size=10&keyword=${keyword || ''}&column=news_date&order=desc`)
+    console.log(response?.data)
     return(
         <>
         {/* <Header /> */}
@@ -35,30 +41,9 @@ export default function News () {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr style={{cursor : 'pointer'}}>
-                                <td>1</td>
-                                <td>인천 광역시 남동구의 봉사 정보를 같이 확인해보아요.</td>
-                                <td>2024.09.06</td>
-                                <td>15</td>
-                            </tr>
-                            <tr style={{cursor : 'pointer'}}>
-                                <td>2</td>
-                                <td>인천 광역시 남동구의 봉사 정보를 같이 확인해보아요.</td>
-                                <td>2024.09.06</td>
-                                <td>15</td>
-                            </tr>
-                            <tr style={{cursor : 'pointer'}}>
-                                <td>3</td>
-                                <td>인천 광역시 남동구의 봉사 정보를 같이 확인해보아요.</td>
-                                <td>2024.09.06</td>
-                                <td>15</td>
-                            </tr>
-                            <tr style={{cursor : 'pointer'}}>
-                                <td>4</td>
-                                <td>인천 광역시 남동구의 봉사 정보를 같이 확인해보아요.</td>
-                                <td>2024.09.06</td>
-                                <td>15</td>
-                            </tr>
+                            <NewsListItem
+
+                            />
                         </tbody>
                     </table>
                 </div>
