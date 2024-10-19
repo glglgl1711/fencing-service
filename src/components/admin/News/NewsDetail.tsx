@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation"
 import AdminInputBox from "../Element/Inputbox"
 import { useEffect, useLayoutEffect, useState } from "react"
-import Summernote from "../Editor/summernote"
+import Summernote from "../Editor/SummerNote"
 import axios from "axios"
 interface DataType {
     title : string , contents : string | null
