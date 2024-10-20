@@ -1,6 +1,7 @@
 import ListFilterBox from "components/admin/ListFilterBox";
 import ListSearchBox from "components/admin/ListSearchBox";
 import ListSizeBox from "components/admin/ListSizeBox";
+import ServiceList from "components/admin/Service/ServiceList";
 
 export default function AdminService () {
 
@@ -32,34 +33,14 @@ export default function AdminService () {
             <div className="tableWrap">
                 <div className="tableType_a">
                     <table>
-                        {/* <ListFilterBox
+                        <ListFilterBox
 
-                        /> */}
-                        <tbody>
-                            <tr style={{cursor : 'pointer'}}>
-                                <td>
-                                    <span className="readOnly">{1}</span>
-                                </td>
-                                <td>
-                                    <span className="readOnly">{'aaaa'}</span>
-                                </td>
-                                <td>
-                                    <span className="readOnly">{'1111'}</span>
-                                </td>
-                                <td>
-                                    <span className="readOnly">{'1111'}</span>
-                                </td>
-                                <td>
-                                    <span className="readOnly">{'1111'}</span>
-                                </td>
-                                <td>
-                                    <span className="readOnly">{'1111'}</span>
-                                </td>
-                                <td>
-                                    <button>삭제</button>
-                                </td>
-                            </tr>
-                        </tbody>
+                        />
+
+                        <ServiceList
+
+                        />
+                        
                     </table>
                 </div>
             </div>

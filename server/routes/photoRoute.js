@@ -135,14 +135,16 @@ router.get('/detail' , async (req, res) => {
             g.gallery_title AS title,
             g.gallery_thumnail AS thumnail,
             p.photo_idx,
-            p.photo_url
+            p.photo_url,
+        (SELECT gallery_idx FROM f_gallery WHERE gallery_idx < ? ORDER BY gallery_idx DESC LIMIT 1) AS next,
+        (SELECT gallery_idx FROM f_gallery WHERE gallery_idx > ? ORDER BY gallery_idx DESC LIMIT 1) AS prev
         FROM f_gallery g
         LEFT JOIN
             f_gallery_photos p ON g.gallery_idx = p.photo_gallery
         WHERE
             g.gallery_idx = ?
     `;
-    connection.query(sql , [id] , (err , result) => {
+    connection.query(sql , [id, id, id] , (err , result) => {
         if(err) { return res.status(200).json({result : false , msg : '서버 오류가 발생하였습니다.'})}
 
         // 갤러리가 존재하지 않을 경우
@@ -150,7 +152,7 @@ router.get('/detail' , async (req, res) => {
             return res.status(200).json({result : false , msg : '사진첩이 존재하지 않습니다.'});
         }
         // 타이틀과 썸네일을 분리
-        const {title , thumnail} = result[0];
+        const {title , thumnail, prev , next} = result[0];
 
         // 사진들을 배열로 처리 ( url 이 존재하는 값만 리턴 )
         const photos = result.map(photo => ({
@@ -161,7 +163,9 @@ router.get('/detail' , async (req, res) => {
         return res.status(200).json({
             result : true ,
             title : title, thumnail : thumnail,
-            photo : photos
+            photo : photos,
+            prev : prev,
+            next : next
         });
     })
 })

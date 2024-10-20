@@ -28,6 +28,7 @@ export default function PhotoListItem ({
                         src={list?.thumnail}
                         width={1300}
                         height={1300}
+                        layout="fixed"
                         className="w-100 h-auto"
                     />
                 </figure>

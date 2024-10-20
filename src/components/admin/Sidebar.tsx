@@ -42,8 +42,8 @@ export default function AdminSideBar () {
                     </ul> */}
                 </li>
 
-                <li className={splitPath[2] === 'admin-account-management' ? 'settings active' : 'settings'}>
-                    <span onClick={()=>router.push(`/admin/admin-account-management/admin-account-list/`)}>봉사 관리</span>
+                <li className={splitPath[2] === 'service' ? 'settings active' : 'settings'}>
+                    <span onClick={()=>router.push(`/f-admin/service`)}>봉사 관리</span>
                     {/* <ul className="subMenu">
                         <li className={splitPath[3]==='admin-account-list' || splitPath[3]==='admin-account'? 'active' : ''} onClick={()=>router.push(`/admin/admin-account-management/admin-account-list/`)}>
                             <span>봉사 관리</span>

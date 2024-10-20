@@ -68,16 +68,20 @@ router.get(`/getNews` , async (req, res) => {
 router.get('/detail' , async (req , res) => {
     const {id} = req.query;
     const sql = `
-    SELECT news_title AS title , news_contents AS contents
+    SELECT news_title AS title , news_contents AS contents,
+    (SELECT news_idx FROM f_news WHERE news_idx < ? ORDER BY news_idx DESC LIMIT 1) AS next,
+    (SELECT news_idx FROM f_news WHERE news_idx > ? ORDER BY news_idx ASC LIMIT 1) AS prev
     FROM f_news WHERE news_idx = ?
     `;
-    connection.query(sql , [id] , async (err , result) => {
+    connection.query(sql , [id , id, id] , async (err , result) => {
         if(err) {
             return res.status(200).json({result : false , msg : '서버 오류가 발생했습니다. 관리자 요망'});
         }
         res.status(200).json({
             result : true , 
-            news : result[0]
+            news : result[0],
+            prev: result[0].prev || null,
+            next: result[0].next || null
         })
     })
 })
