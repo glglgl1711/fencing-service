@@ -10,7 +10,10 @@ interface Props {
 export default function AdminNumbericInputBox ({
     label , name , value , setData , placeholder, disable
 } : Props) {
-
+    function handleChange (e:React.ChangeEvent<HTMLInputElement>) {
+        const {name , value} = e.target;
+        setData((prev:any) => ({...prev, [name] : value}))
+    }
     return(
         <>
         <tr>
@@ -23,6 +26,7 @@ export default function AdminNumbericInputBox ({
                         type="number"
                         name={name}
                         value={value}
+                        onChange={handleChange}
                         disabled={disable}
                     />
                     명

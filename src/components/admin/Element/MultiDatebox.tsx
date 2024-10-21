@@ -14,6 +14,7 @@ export default function AdminMultiDateBox ({
         const {name , value} = e.target;
         setData((prev: any) => ({...prev , [name] : value}))
     }
+    console.log(value1)
     return(
         <>
         <tr>
@@ -24,12 +25,12 @@ export default function AdminMultiDateBox ({
                     type="date" 
                     name={name1}
                     value={value1}
-                    id="date"
+                    onChange={handleChange}
                     /> ~ <input 
                     type="date" 
                     name={name2}
                     value={value2}
-                    id="date"
+                    onChange={handleChange}
                     disabled={disable}
                     />
                 </div>

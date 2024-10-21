@@ -8,32 +8,38 @@ interface Props {
     setData : Function
     disable : boolean
 }
+import { useState } from 'react'
 
+import TimePicker from 'react-time-picker';
+import 'react-time-picker/dist/TimePicker.css'; // 필수 CSS
+import 'react-clock/dist/Clock.css';  
 export default function AdminTimeInputBox ({label, name1, name2, value1 , value2, setData, disable
 } : Props) {
-    
+    function handleChange(newValue: string, name: string) {
+        setData((prevData: any) => ({
+            ...prevData,
+            [name]: newValue,
+        }));
+    }
+    console.log(value1)
     return(
         <>
         <tr>
             <th>{label} <span className="star"></span></th>
             <td>
-                <div className="inputBox">
-                    <input
-                        style={{borderRadius : '5px' , width : '20%' , height : '40px', fontSize : '14px', 
-                        border : '1px solid #E9E9E9', textAlign : 'center'}}
-                        type="time"
-                        name={name1}
-                        value={value1}
-                        disabled={disable}
-                    /> ~ <input
-                        style={{borderRadius : '5px' , width : '20%' , height : '40px', fontSize : '14px', 
-                        border : '1px solid #E9E9E9', textAlign : 'center'}}
-                        type="time"
-                        name={name1}
-                        value={value1}
-                        disabled={disable}
-                    />
-                </div>
+            <TimePicker
+                onChange={(value) => handleChange(value as string, name1)}
+                value={value1}
+                disableClock={true} 
+                format="HH:mm"
+                name={name1}
+            /> ~ <TimePicker
+                onChange={(value) => handleChange(value as string, name2)}
+                value={value2}
+                disableClock={true}
+                format="HH:mm"
+                name={name2}
+            />
             </td>
         </tr>
         </>

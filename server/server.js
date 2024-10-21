@@ -27,6 +27,9 @@ app.prepare().then(() => {
     
     const photoRoutes = require('./routes/photoRoute')
     server.use('/api/photo', photoRoutes)
+
+    const serviceRoutes = require('./routes/serviceRoute')
+    server.use('/api/service' , serviceRoutes)
     
     server.all('*', (req, res) => {
         return handle(req, res);
