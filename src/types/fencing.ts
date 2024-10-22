@@ -35,3 +35,24 @@ interface SearchParamsType {
     order : string
   }
 }
+
+// 관리자 봉사신청 리스트 타입
+interface ServiceListDataType {
+  id : number
+  title : string
+  agency : string
+  registrar : string
+  date : string
+  status : string
+  applyDate : string
+  serviceDate : string
+  serviceTime : string
+  duration : string
+}
+
+// Params : ID 타입
+interface ParamsIdType {
+  params : {
+    id : string
+  }
+}

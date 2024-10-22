@@ -2,13 +2,14 @@
 
 import { useRouter } from "next/navigation"
 import AdminInputBox from "../Element/Inputbox"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import AdminMultiDateBox from "../Element/MultiDatebox"
 import AdminTimeInputBox from "../Element/TimeInput"
 import AdminNumbericInputBox from "../Element/singleNumbericInputbox"
 import axios from "axios"
 import Summernote from "../Editor/summernote"
-
+import ServiceUserList from "./ServiceUserList"
+import Modal from 'react-modal';
 interface Props {
     id : string
 }
@@ -17,33 +18,60 @@ export default function ServiceDetail ({
 } : Props) {
     const router = useRouter()
     
+    const [isModal , setModal] = useState<boolean>(false)
+    function onClose () {setModal(false)}
     const [data, setData] = useState<any>({
         title : '', 
         applyDate1 : '', applyDate2 : '',
         serviceDate1 : '', serviceDate2 : '',
         serviceTime1 : '', serviceTime2 : '',
-        registar : '', agency : '', location : '', appliPeople : 0, recruitmentPeople : 0,
-        managerName : '', managerPhone : '', managerEmail : '', contents : 'test'
+        registrar : '', agency : '', location : '', appliPeople : 0, recruitmentPeople : 0,
+        managerName : '', managerPhone : '', managerEmail : '', contents : ''
     })
     
     async function Save () {
         const body = {
+            id : parseInt(id),
             title : data?.title , 
-            applyDate : `${data?.applyDate1}~${data?.applyDate2}`,
-            serviceDate : `${data?.serviceDate1}~${data?.serviceDate2}`,
-            serviceTime : `${data?.serviceTime1}~${data?.serviceTime2}`,
-            registar : data?.registar, agency : data?.agency , location : data?.location,
+            applyDate : `${data?.applyDate1} ~ ${data?.applyDate2}`,
+            serviceDate : `${data?.serviceDate1} ~ ${data?.serviceDate2}`,
+            serviceTime : `${data?.serviceTime1} ~ ${data?.serviceTime2}`,
+            registrar : data?.registrar, agency : data?.agency , location : data?.location,
             appliPeople : parseInt(data?.appliPeople) , recruitmentPeople : parseInt(data?.recruitmentPeople),
             managerName : data?.managerName , managerPhone : data?.managerPhone , managerEmail : data?.managerEmail,
             contents : data?.contents
         }
         try {
-            // 등록 모듈
-            const response = await axios.post(`/api/service/regist`, body)
+            if(id === 'regist'){
+                // 등록 모듈
+                const response = await axios.post(`/api/service/regist`, body)
+                if(response?.data?.result === true) {
+                    alert('등록이 완료되었습니다.'); router.push('/f-admin/service')
+                }else{ alert(response?.data?.msg) }
+            }else{
+                const response = await axios.post(`/api/service/edit`, body)
+                if(response?.data?.result === true){
+                    alert('수정이 완료되었습니다.'); router.back()
+                }else{ alert(response?.data?.msg) }
+            }
         }catch {
             alert('Server Error');
         }
     }
+    
+    useEffect(() => {
+        async function Detail () {
+            if(id) {
+                const response = await axios.get(`/api/service/detail?id=${id}`)
+                if(response?.data?.result === true) {
+                    setData(response?.data?.service)
+                }else{
+                    alert('정보를 찾을 수 없습니다.'); router.push(`/f-admin/service`);
+                }
+            }
+        }
+        Detail()
+    }, [id])
     return(
         <>
         <h3>봉사신청 관리</h3>
@@ -52,6 +80,7 @@ export default function ServiceDetail ({
                 <h4>{id === 'regist'? '봉사신청 신규등록' : '봉사신청 상세정보'}</h4>
             </div>
             <div className="btnBox">
+                {id !== 'regist' && <button className="redBtn" onClick={()=>setModal(true)}>신청자 리스트</button>}
                 <button className="blackBtn" onClick={()=>router.back()}>목록으로</button>
                 <button className="blueBtn" onClick={()=>Save()}>저장하기</button>
             </div>
@@ -88,8 +117,8 @@ export default function ServiceDetail ({
                     />
                     <AdminInputBox
                         label={'등록기관'}
-                        name={'registar'}
-                        value={data?.registar}
+                        name={'registrar'}
+                        value={data?.registrar}
                         setData={setData}
                         placeholder="등록기관을 입력해 주세요."
                         disable={false}
@@ -169,7 +198,7 @@ export default function ServiceDetail ({
                                 name={'contents'} 
                             /> : ''                        
                             }
-                            {id === 'regist' && !data.contents ?
+                            {id === 'regist' ?
                             <Summernote 
                                 initData={data?.contents} 
                                 setData={setData} 
@@ -181,6 +210,12 @@ export default function ServiceDetail ({
                 </tbody>
             </table>
         </div>
+        {isModal && 
+
+        <ServiceUserList
+            onRequestClose={onClose}
+        />}
+
         </>
     )
 }

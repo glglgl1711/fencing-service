@@ -1,8 +1,12 @@
 import { Fragment } from "react";
 import Header from "components/layout/header/Header";
+import axios from "axios";
+import ApplyBtn from "components/fencing-service/service/apply-btn";
 
-export default function ServiceView () {
-
+export default async function ServiceView ({params: {id}} : ParamsIdType) {
+    const response = await axios.get(`http://localhost:3000/api/service/detail?id=${id}`)
+    console.log(response?.data)
+    const data = response?.data?.result === true ? response?.data?.service : null;
     return(
         <>
         <Fragment>
@@ -15,8 +19,8 @@ export default function ServiceView () {
             <div className="container pt-17 pb-20 pt-md-19 pb-md-21 text-center">
                 <div className="row">
                 <div className="col-lg-8 mx-auto">
-                    <h1 className="display-1 mb-3 text-white">인천 ㅇㅇ 복지관 자원봉사자를 구합니다.</h1>
-                    <h3 className="text-red">모집 중</h3>
+                    <h1 className="display-1 mb-3 text-white">{data?.title}</h1>
+                    <h3 className="text-red">{data?.status === 'Y' ? '모집 중' : '마감'}</h3>
                 </div>
                 </div>
             </div>
@@ -28,6 +32,16 @@ export default function ServiceView () {
                     <div className="row mb-14 mb-md-16">
                         <div className="col-xl-10 mx-auto mt-n19">
                             <div className="card">
+
+                                <h3 
+                                    className="mb-1" 
+                                    style={{
+                                        textAlign : 'center', position : "relative", top : '35px', color : 'gray'
+                                    }}
+                                >
+                                    상 세 정 보
+                                </h3>
+
                                 <div className="row gx-0">
                                     <div className="col-lg-6">
                                         <div className="p-10 p-md-11 p-lg-14">
@@ -35,7 +49,7 @@ export default function ServiceView () {
                                                 <div className="align-self-start justify-content-start">
                                                     <h5 className="mb-1">모집기간</h5>
                                                     <address>
-                                                    2024.09.16 ~ 2024.09.20
+                                                    {data?.applyDate1} ~ {data?.applyDate2}
                                                     </address>
                                                 </div>
                                             </div>
@@ -44,7 +58,7 @@ export default function ServiceView () {
                                                 <div>
                                                     <h5 className="mb-1">등록기관</h5>
                                                     <p>
-                                                    인천광역시청
+                                                    {data?.registrar}
                                                     </p>
                                                 </div>
                                             </div>
@@ -53,7 +67,7 @@ export default function ServiceView () {
                                                 <div>
                                                     <h5 className="mb-1">봉사장소</h5>
                                                     <p>
-                                                    인천광역시 남동구 ㅇㅇ 복지회관
+                                                    {data?.location}
                                                     </p>
                                                 </div>
                                             </div>
@@ -62,7 +76,7 @@ export default function ServiceView () {
                                                 <div>
                                                     <h5 className="mb-1">모집인원</h5>
                                                     <p>
-                                                    00 명
+                                                    {data?.recruitmentPeople} 명
                                                     </p>
                                                 </div>
                                             </div>
@@ -75,7 +89,7 @@ export default function ServiceView () {
                                                 <div>
                                                     <h5 className="mb-1">봉사기간</h5>
                                                     <p>
-                                                    2024.09.27 ~ 2024.10.02
+                                                    {data?.serviceDate1} ~ {data?.serviceDate2}
                                                     </p>
                                                 </div>
                                             </div>
@@ -84,7 +98,7 @@ export default function ServiceView () {
                                                 <div>
                                                     <h5 className="mb-1">모집기관</h5>
                                                     <p>
-                                                    울타리 자원봉사단체
+                                                    {data?.agency}
                                                     </p>
                                                 </div>
                                             </div>
@@ -93,7 +107,7 @@ export default function ServiceView () {
                                                 <div>
                                                     <h5 className="mb-1">봉사시간</h5>
                                                     <p>
-                                                    09:00 ~ 17:00 (총 8시간)
+                                                    {data?.serviceTime1} ~ {data?.serviceTime2} (총 00시간)
                                                     </p>
                                                 </div>
                                             </div>
@@ -102,13 +116,16 @@ export default function ServiceView () {
                                                 <div>
                                                     <h5 className="mb-1">신청인원</h5>
                                                     <p>
-                                                    00 명
+                                                    {data?.appliPeople} 명
                                                     </p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <ApplyBtn
+                                    service={data?.id}
+                                />
                             </div>
                         </div>
                     </div>
@@ -116,8 +133,10 @@ export default function ServiceView () {
                     <div className="row mb-21">
                         <div className="col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
                             <h2 className="display-4 mb-3 text-center">간단 설명</h2>
-                            <p className="lead text-center mb-10">
-                            가서 봉사하시면 됩니다.
+                            <p className="lead text-center mb-10" dangerouslySetInnerHTML={{
+                                __html : data?.contents || ''
+                            }}>
+                            
                             </p>
 
                         </div>
@@ -149,8 +168,8 @@ export default function ServiceView () {
                                         <div className="align-self-start justify-content-start">
                                             <h5 className="mb-1">주 소</h5>
                                             <address>
-                                            인천광역시 남동구 선수촌공원로 96, <br className="d-none d-md-block" />
-                                            구월아시아드 2단지 207동 903호
+                                            {data?.location}<br className="d-none d-md-block" />
+                                            {/* 구월아시아드 2단지 207동 903호 */}
                                             </address>
                                         </div>
                                         </div>
@@ -164,8 +183,8 @@ export default function ServiceView () {
                                         <div>
                                             <h5 className="mb-1">담 당 자</h5>
                                             <p>
-                                            고건희<br />
-                                            010 9942 9161
+                                            {data?.managerName}<br />
+                                            {data?.managerPhone}
                                             </p>
                                         </div>
                                         </div>
@@ -180,7 +199,7 @@ export default function ServiceView () {
                                             <h5 className="mb-1">이 메 일</h5>
                                             <p className="mb-0">
                                                 <a href="mailto:help@sandbox.com" className="link-body">
-                                                    gunhee0906@naver.com
+                                                    {data?.managerEmail}
                                                 </a>
                                             </p>
                                         </div>

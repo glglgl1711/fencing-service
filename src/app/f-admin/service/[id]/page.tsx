@@ -12,6 +12,7 @@ export default function ServiceEdit ({
             <ServiceDetail
                 id={id}
             />
+            
         </div>
         </>
     )

@@ -1,9 +1,12 @@
 import ListFilterBox from "components/admin/ListFilterBox";
 import ListSearchBox from "components/admin/ListSearchBox";
 import ListSizeBox from "components/admin/ListSizeBox";
+import RegistBtn from "components/admin/RegistBtn";
 import ServiceList from "components/admin/Service/ServiceList";
 
-export default function AdminService () {
+export default function AdminService ({searchParams : {
+    page , size, keyword , column , order
+}} : SearchParamsType) {
 
     return(
         <>
@@ -24,9 +27,10 @@ export default function AdminService () {
                 <div className="right">
                     <div className="btnBox">
                     </div>
-                    {/* <ListSearchBox
-                        keyword={''}
-                    /> */}
+                    <ListSearchBox
+                        keyword={keyword}
+                    />
+                     <RegistBtn url={'service'}/>
                 </div>
             </div>
 
@@ -36,9 +40,13 @@ export default function AdminService () {
                         <ListFilterBox
 
                         />
-
+                       
                         <ServiceList
-
+                            page={page || 1}
+                            size={size || 25}
+                            keyword={keyword || ''}
+                            column={column || 's_date'}
+                            order={order || 'DESC'}
                         />
                         
                     </table>

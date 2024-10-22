@@ -279,7 +279,7 @@ html,body,
   
   .admin_wrap .dateBox input[type='date']:before{content: ''; display: block; position: absolute; right: 39px; height: 100%; background-color: #EEEEEE; width: 1px; display: block; top: 0;}
 
-  .admin_wrap .dateBox input[type='date']:before{z-index: 9999; content: ''; display: block; position: absolute; right: 39px; height: 100%; background-color: #EEEEEE; width: 1px; display: block; top: 0;}
+  .admin_wrap .dateBox input[type='date']:before{z-index: 10; content: ''; display: block; position: absolute; right: 39px; height: 100%; background-color: #EEEEEE; width: 1px; display: block; top: 0;}
   .admin_wrap .dateBox input[type='date']:after{
     position: absolute;
     top: 50%;

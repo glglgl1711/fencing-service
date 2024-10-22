@@ -1,18 +1,8 @@
-import Header from "components/layout/header/Header";
-import Image from "next/image";
-import { Fragment } from "react";
-import Carousel from "components/reuseable/Carousel";
-import VideoPlyr from "components/reuseable/VideoPlyr";
-import Pagination from "components/reuseable/Pagination";
-import NextLink from "components/reuseable/links/NextLink";
-import { BlogCard2, BlogCard3 } from "components/reuseable/blog-cards";
-import { blogs } from "./data";
-import blogOneImage from '../../../public/img/photos/b1.jpg';
-import blogTwoImage from "../../../../public/img/photos/b2.jpg";
-import blogThreeImage from "../../../../public/img/photos/b3.jpg";
 import ServiceListItem from "components/fencing-service/service/service-list-item";
-export default function Service () {
-
+import axios from "axios";
+export default async function Service () {
+    const response = await axios.get(`http://localhost:3000/api/service/getService?page=1&size=25&keyword=&column=s_date&order=DESC`)
+    const data = response?.data?.result === true ? response?.data?.service : [];
     return(
         <>
         {/* <Header /> */}
@@ -36,45 +26,24 @@ export default function Service () {
                     <div className="row">
                         <div className="col-lg-100">
                             <div className="blog classic-view">
-                            <ServiceListItem
-                                link="#"
-                                category="TEAMWORK"
-                                title="Amet Dolor Bibendum Parturient Cursus"
-                                description="Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Nullam quis risus eget urna mollis ornare vel. Nulla vitae elit libero, a pharetra augue. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Sed posuere consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh. Cras mattis consectetur purus sit amet fermentum. Sed posuere consectetur."
-                                cardTop={
-                                <figure className="card-img-top overlay overlay-1 hover-scale">
-                                    <figcaption>
-                                    <h5 className="from-top mb-0">Read More</h5>
-                                    </figcaption>
-                                </figure>
-                                }
-                            />
-                            <ServiceListItem
-                                link="#"
-                                category="TEAMWORK"
-                                title="Amet Dolor Bibendum Parturient Cursus"
-                                description="Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Nullam quis risus eget urna mollis ornare vel. Nulla vitae elit libero, a pharetra augue. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Sed posuere consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh. Cras mattis consectetur purus sit amet fermentum. Sed posuere consectetur."
-                                cardTop={
-                                <figure className="card-img-top overlay overlay-1 hover-scale">
-                                    <figcaption>
-                                    <h5 className="from-top mb-0">Read More</h5>
-                                    </figcaption>
-                                </figure>
-                                }
-                            />
-                            <ServiceListItem
-                                link="#"
-                                category="TEAMWORK"
-                                title="Amet Dolor Bibendum Parturient Cursus"
-                                description="Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Nullam quis risus eget urna mollis ornare vel. Nulla vitae elit libero, a pharetra augue. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Sed posuere consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh. Cras mattis consectetur purus sit amet fermentum. Sed posuere consectetur."
-                                cardTop={
-                                <figure className="card-img-top overlay overlay-1 hover-scale">
-                                    <figcaption>
-                                    <h5 className="from-top mb-0">Read More</h5>
-                                    </figcaption>
-                                </figure>
-                                }
-                            />
+                            {data?.map((list:ServiceListDataType , index:number) => (
+                                <ServiceListItem
+                                    key={index}
+                                    list={list}
+                                    link="#"
+                                    category="TEAMWORK"
+                                    title="Amet Dolor Bibendum Parturient Cursus"
+                                    description="Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Nullam quis risus eget urna mollis ornare vel. Nulla vitae elit libero, a pharetra augue. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Sed posuere consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh. Cras mattis consectetur purus sit amet fermentum. Sed posuere consectetur."
+                                    cardTop={
+                                    <figure className="card-img-top overlay overlay-1 hover-scale">
+                                        <figcaption>
+                                        <h5 className="from-top mb-0">Read More</h5>
+                                        </figcaption>
+                                    </figure>
+                                    }
+                                />
+                            ))}
+
                             </div>
 
                         </div>

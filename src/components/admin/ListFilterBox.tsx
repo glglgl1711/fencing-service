@@ -72,5 +72,5 @@ export const ServiceFilter = [
     {idx : 1, title : '모집구분', column : ''},
     {idx : 1, title : '등록일자', column : 'date'},
     {idx : 1, title : '모집수정', column : ''},
-    {idx : 1, title : '', column : ''},
+    // {idx : 1, title : '', column : ''},
 ]

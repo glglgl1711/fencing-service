@@ -90,7 +90,7 @@ export default function NewsDetail ({id} : Props) {
                                 name={'contents'} 
                             /> : ''                        
                             }
-                            {id === 'regist' && !data.contents ?
+                            {id === 'regist' ?
                             <Summernote 
                                 initData={data?.contents} 
                                 setData={setData} 
