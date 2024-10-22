@@ -23,6 +23,7 @@ export default function DeleteBtn ({
     return (
         <>
          <button
+            style={deleteButtonStyle}
             onClick={()=>ListDelete()}
         >
             삭제
@@ -30,3 +31,13 @@ export default function DeleteBtn ({
         </>
     )
 }
+
+// 삭제 버튼 스타일
+const deleteButtonStyle  :any = {
+    backgroundColor: '#ff4d4f',
+    color: '#fff',
+    border: 'none',
+    padding: '5px 10px',
+    borderRadius: '5px',
+    cursor: 'pointer'
+};

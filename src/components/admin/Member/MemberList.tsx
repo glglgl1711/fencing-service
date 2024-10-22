@@ -40,19 +40,19 @@ export default function MemberList ({
                 key={index}
                 style={{cursor : 'pointer'}}
             >
-                <td onClick={()=>handlePage(list?.id)}>
+                <td style={tdStyle} onClick={()=>handlePage(list?.id)}>
                     <span className="readOnly">{1}</span>
                 </td>
-                <td onClick={()=>handlePage(list?.id)}>
+                <td style={tdStyle} onClick={()=>handlePage(list?.id)}>
                     <span className="readOnly">{list?.name}</span>
                 </td>
-                <td onClick={()=>handlePage(list?.id)}>
+                <td style={tdStyle} onClick={()=>handlePage(list?.id)}>
                     <span className="readOnly">{list?.gender ? list?.gender : '-'}</span>
                 </td>
-                <td onClick={()=>handlePage(list?.id)}>
+                <td style={tdStyle} onClick={()=>handlePage(list?.id)}>
                     <span className="readOnly">{list?.birth}</span>
                 </td>
-                <td onClick={()=>handlePage(list?.id)}>
+                <td style={tdStyle} onClick={()=>handlePage(list?.id)}>
                     <span className="readOnly">{list?.phone}</span>
                 </td>
                 <td style={{width : '10%'}}>
@@ -81,3 +81,16 @@ export default function MemberList ({
         </>
     )
 }
+
+// 테이블 데이터 셀 스타일
+const tdStyle : any = {
+    border: 'none', // 셀 경계선을 완전히 제거
+    padding: '12px 15px',
+    textAlign: 'center',
+    cursor : 'pointer'
+};
+
+// 테이블 행 스타일
+const trStyle : any = {
+    borderBottom: '1px solid #ddd', // 각 행 사이에 얇은 경계선 추가 (필요할 경우)  
+};

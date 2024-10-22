@@ -213,6 +213,7 @@ export default function ServiceDetail ({
         {isModal && 
 
         <ServiceUserList
+            serviceId={id}
             onRequestClose={onClose}
         />}
 

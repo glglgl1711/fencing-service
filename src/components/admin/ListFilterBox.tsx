@@ -26,9 +26,9 @@ export default function ListFilterBox ({
         <>
         <thead>
             <tr>
-                <th>No.</th>
+                <th style={{textAlign : 'center'}}>No.</th>
                 {filter?.map((filter : ListFilterType, index:number) => (
-                <th key={index}>
+                <th key={index} style={{textAlign : 'center'}}>
                     <span className="sortWrap">
                         {filter?.title}
                         {/* <spanclassName={'sort'}></span> */}
@@ -51,7 +51,7 @@ export const MemberFilter = [
 ]
 
 export const NewsFilter = [
-    {idx : 1, title : '제목', column : 'title'},
+    {idx : 1, title : '제 목', column : 'title'},
     {idx : 2, title : '등록일자', column : 'date'},
     {idx : 3, title : '조회수', column : 'count'},
     {idx : 4, title : '', column : ''}

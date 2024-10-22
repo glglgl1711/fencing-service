@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "node server/server.js",
+    "dev": "nodemon server/server.js",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -13,6 +13,7 @@
   "dependencies": {
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
+    "@fortawesome/fontawesome-free": "^6.6.0",
     "@mui/lab": "^6.0.0-beta.12",
     "@mui/material": "^6.1.4",
     "@types/summernote": "^0.8.10",

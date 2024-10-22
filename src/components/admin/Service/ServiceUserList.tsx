@@ -1,18 +1,20 @@
 'use client'
 import Modal from 'react-modal';
 import { useState } from 'react';
+import axios from 'axios';
 interface Props {
+    serviceId : string
     onRequestClose?: ()=>void;
 }
 export default function ServiceUserList({
-    onRequestClose
+    serviceId, onRequestClose
 } : Props) {
-    const [searchTerm, setSearchTerm] = useState('');
 
-    const handleSearchChange = (e:any) => {
-        setSearchTerm(e.target.value);
-    };
-
+    async function userServiceList () {
+        if(serviceId){
+            const response = await axios.get(`/api/service/getUserServiceList?id=${serviceId}`)
+        }
+    }
     return (
         <>
         <Modal 
@@ -29,9 +31,7 @@ export default function ServiceUserList({
                     <input 
                         type="text" 
                         maxLength={50}
-                        value={searchTerm}
-                        onChange={handleSearchChange}
-                        placeholder="검색어를 입력하세요"
+                        placeholder="이름을 검색해 주세요."
                         style={searchInputStyle} // 검색 바 스타일
                     />
                 </div>

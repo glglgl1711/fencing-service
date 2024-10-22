@@ -25,6 +25,7 @@ import axios from "axios";
 import AuthProvider from "components/context/AuthContext";
 import Header from "components/layout/header/Header";
 import { cookies } from "next/headers";
+import '@fortawesome/fontawesome-free/css/all.min.css';
 const manrope = Manrope({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -39,9 +40,9 @@ interface CookieType {
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const cookie = cookies()
   const cookieValue : CookieType = cookie.get('f_ssid') || {name : '', value : ''};
-  console.log(cookieValue)
+  // console.log(cookieValue)
   const response = await axios.get(`http://localhost:3000/api/user/users?token=${cookieValue?.value}`)
-  console.log(response.data)
+  // console.log(response.data)
   const currentAuth = response?.data;
   return (
     <html lang="en">

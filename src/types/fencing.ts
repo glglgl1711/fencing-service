@@ -48,6 +48,7 @@ interface ServiceListDataType {
   serviceDate : string
   serviceTime : string
   duration : string
+  isApply : string
 }
 
 // Params : ID 타입

@@ -22,11 +22,15 @@ export default function ServiceListItem ({ cardTop, title, category, description
         <>
         <article className="post">
             <div className="card">
-                {}
                 <div className="card-body">
                 <div className="post-header">
                     <div className="post-category text-line" style={{fontSize : '18px', color : 'red'}}>
                     <NextLink title={list?.status === 'Y' ? '[모집 중]' : '[마감]'} href="#" className="hover" />
+                    {list?.isApply === 'Y' &&
+                    <div>
+                        <i className="fas fa-heart" style={{color: 'pink', marginLeft: '8px'}} /> {/* 파란색 가득찬 별 */}
+                    </div>
+                    }
                     </div>
 
                     <h2 className="post-title mt-1 mb-0" onClick={(e)=>handlePage(e , list?.id)}>
@@ -78,7 +82,7 @@ export default function ServiceListItem ({ cardTop, title, category, description
 
                 </div>
             </div>
-            </article>
+        </article>
         </>
     )
 }
