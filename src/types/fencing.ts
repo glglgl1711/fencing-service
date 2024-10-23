@@ -57,3 +57,12 @@ interface ParamsIdType {
     id : string
   }
 }
+
+// 관리자 봉사 신청 유저 리스트 타입
+interface UserServiceListType {
+  id : number
+  name : string
+  phone : string
+  user : number
+  status : string
+}

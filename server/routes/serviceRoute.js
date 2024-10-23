@@ -14,7 +14,7 @@ const connection = mysql.createConnection({
 router.use(cors())
 router.use(express.json())
 
-// 봉사 등록
+// 봉사 등록 (관리자)
 router.post('/regist' , async (req, res) => {
     const {title , contents , applyDate , serviceDate , registrar , agency , location , appliPeople , recruitmentPeople,
         serviceTime , managerName , managerPhone , managerEmail
@@ -150,6 +150,99 @@ router.get(`/detail`, async (req, res) => {
     })
 })
 
+// 봉사 선칭 유저 상세 리스트 (관리자)
+router.get(`/getUser-service-list`, async (req, res) => {
+    const {service , keyword} = req.query;
+    const sql = `
+    SELECT
+        s.su_idx AS id,
+        s.su_user AS user,
+        u.u_name AS name,
+        u.u_phone AS phone,
+        s.su_status AS status
+    FROM
+        f_service_user s
+    JOIN f_users u ON s.su_user = u.u_idx
+    WHERE s.su_service = ? AND u.u_name LIKE ?
+    `;
+
+    connection.query(sql , [service , `%${keyword}%` ] , (err ,result) => {
+        if(err) {
+            return res.status(200).json({result : false , msg : '서버 오류가 발생했습니다. 관리자요망'})
+        }
+        return res.status(200).json({
+            result : true , list : result
+        })
+    })
+})
+
+// 봉사 신청 유저 상태 변경 (단일)
+router.post(`/edit-user-service-status` , async (req, res) => {
+    const {service , user , status} = req.body;
+    const sql  = `
+    UPDATE f_service_user
+    SET su_status = ?
+    WHERE su_service = ? AND su_user = ?
+    `;
+    connection.query(sql , [status, service , user] , async (err , result) => {
+        if(err) {
+            return res.status(200).json({result : false , msg : '서버에 오류가 발생했습니다. 관리자 요망'})
+        }
+        return res.status(200).json({ result : true })
+    })
+})
+
+// 봉사 신청 유저 상태 변경 (전체)
+router.post(`/edit-groups-service-status` , async (req , res) => {
+    const {service , users , status} = req.body;
+    const sql = `
+    UPDATE f_service_user
+    SET su_status = ?
+    WHERE su_service = ?
+    AND su_user IN (?) -- 배열의 값을 한번에 주입 
+    `;
+    connection.query(sql , [status , service , users] , (err, result) => {
+        if(err){
+            return res.status(200).json({result : false, msg: '상태변경 중 오류가 발생했습니다. 관리자 요망'})
+        }
+        return res.status(200).json({
+            result : true ,
+            msg : `${result.affectedRows} 명의 상태가 성공적으로 변경되었습니다.`
+        })
+    })
+})
+
+// 봉사 신청 유저 삭제 (단일)
+router.post(`/delete-service-user` , async (req, res) => {
+    const {service , user} = req.body;
+    const sql = `
+    DELETE FROM f_service_user
+    WHERE su_service = ? AND su_user = ?
+    `;
+    connection.query(sql , [service , user] , async (err) => {
+        if(err) {
+            return res.status(200).json({result : false, msg: '삭제 중 오류가 발생했습니다. 관리자 요망'})
+        }
+        return res.status(200).json({result : true})
+    })  
+})
+
+// 봉사 신청 유저 삭제 (일괄)
+router.post(`/delete-groups-service` , async (req, res) => {
+    const {service , users} = req.body;
+
+    const sql = `
+    DELETE FROM f_service_user
+    WHERE su_service = ? AND su_user IN (?)
+    `;
+    connection.query(sql , [service , users] , async (err , result) => {
+        if(err) {
+            return res.status(200).json({ result : false , msg : '일괄 삭제 중 오류가 발생했습니다. 관리자 요망'})
+        }
+        return res.status(200).json({ result : true })
+    })
+})
+
 // 봉사 리스트 (사용자)
 router.get(`/get-user-service` , async (req , res) => {
     const { page , size , keyword , column , order , user } = req.query;
@@ -282,7 +375,8 @@ router.get(`/detail-user-service`, async (req, res) => {
     })
 })
 
-// 봉사 신청하기
+
+// 봉사 신청하기 (사용자)
 router.post('/apply' , async (req, res) => {
     const {user , service} = req.body;
     
@@ -311,7 +405,7 @@ router.post('/apply' , async (req, res) => {
     })
 })
 
-// 봉사 신청 취소하기
+// 봉사 신청 취소하기 (사용자)
 router.post('/apply-cancel' , async (req, res) => {
     const {user , service} = req.body;
     const sql = `

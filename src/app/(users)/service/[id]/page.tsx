@@ -136,6 +136,7 @@ export default async function ServiceView ({params: {id}} : ParamsIdType) {
                                 <ApplyBtn
                                     isApply={data?.isApply}
                                     service={data?.id}
+                                    status={data?.status}
                                 />
                             </div>
                         </div>

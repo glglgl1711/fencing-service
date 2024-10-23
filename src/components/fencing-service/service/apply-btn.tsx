@@ -7,8 +7,9 @@ import { useRouter } from "next/navigation"
 interface Props {
     service : number
     isApply : string
+    status : string
 }
-export default function ApplyBtn ({service , isApply} : Props) {
+export default function ApplyBtn ({service , isApply , status} : Props) {
     const {authData} = useAuth()
     const router = useRouter()
     console.log(authData)
@@ -52,6 +53,8 @@ export default function ApplyBtn ({service , isApply} : Props) {
     }
     return(
         <>
+        {status === 'Y' ? 
+        <>
         {isApply === 'Y' ? 
         <button 
             style={{
@@ -89,6 +92,28 @@ export default function ApplyBtn ({service , isApply} : Props) {
             신청하기
         </button>
         }
+        </>
+        :
+        <button 
+            style={{
+                position: 'absolute',
+                right: '30px',
+                bottom: '30px',
+                backgroundColor: 'gray', 
+                color: 'white',
+                padding: '10px 20px',
+                border: 'none',
+                borderRadius: '5px',
+                fontSize: '16px',
+                cursor: 'pointer'
+            }}
+            disabled
+            onClick={handleApply}
+        >
+            신청 마감
+        </button>
+        }
+        
         </>
     )
 }

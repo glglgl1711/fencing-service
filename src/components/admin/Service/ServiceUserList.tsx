@@ -1,7 +1,8 @@
 'use client'
 import Modal from 'react-modal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
+import ServiceBtnGroup from './ServiceButtonGroup';
 interface Props {
     serviceId : string
     onRequestClose?: ()=>void;
@@ -10,11 +11,62 @@ export default function ServiceUserList({
     serviceId, onRequestClose
 } : Props) {
 
-    async function userServiceList () {
-        if(serviceId){
-            const response = await axios.get(`/api/service/getUserServiceList?id=${serviceId}`)
+    const [data , setData] = useState<UserServiceListType[]>([])
+    const [keyword , setKeyword] = useState<string>('')
+    const [arr , setArr] = useState<number[]>([])
+
+    // Select 박스 상태 변경
+    async function handleChangeStatus (e : React.ChangeEvent<HTMLSelectElement> , user : number) {
+        const {options , selectedIndex,  value} = e.target;
+        const confirmMsg = `${options[selectedIndex].innerHTML} 상태로 변경하시겠습니까?`;
+        const confirm = window.confirm(confirmMsg)
+        if(confirm){
+            try {
+                const response = await axios.post(`/api/service/edit-user-service-status` , {
+                    service : serviceId , user : user , status : value
+                })
+                if(response?.data?.result === true) { alert('성공적으로 변경되었습니다.'); userServiceList()}
+                else {alert(response?.data?.msg)}
+            }catch { alert('Server Error') }
+        }else { return; }
+    }
+    function handleKeyword (e : React.KeyboardEvent<HTMLInputElement>) {
+        if(e.key === 'Enter') {
+            userServiceList()
         }
     }
+
+    // 리스트 내 유저 삭제
+    async function handleDeleteUser (userValue : number) {
+        const comfirm = window.confirm('해당 유저를 삭제하시겠습니까?');
+        if(comfirm){
+            try{
+                const response = await axios.post(`/api/service/delete-service-user` , {
+                    service : serviceId , user : userValue
+                })
+                if(response?.data?.result === true) {
+                    alert('성공적으로 삭제되었습니다.'); userServiceList()
+                }else{ alert(response?.data?.msg) }
+            }catch { alert('Server Error') }
+        }
+    }
+
+    // 유저리스트 호출
+    async function userServiceList () {
+        if(serviceId){
+            const response = await axios.get(`/api/service/getUser-service-list?service=${serviceId}&keyword=${keyword}`)
+            if(response?.data?.result === true) {
+                const userList = response?.data?.list;
+                const userIds : number[] = userList?.map((user : UserServiceListType) => user.user)
+                setArr(userIds);
+                setData(userList);
+            }else{
+                alert(response?.data?.msg); return;
+            }
+        }
+    }
+
+    useEffect(()=>{userServiceList()} , [serviceId])
     return (
         <>
         <Modal 
@@ -31,15 +83,17 @@ export default function ServiceUserList({
                     <input 
                         type="text" 
                         maxLength={50}
-                        placeholder="이름을 검색해 주세요."
+                        placeholder="이름을 검색해 엔터를 눌러 주세요."
                         style={searchInputStyle} // 검색 바 스타일
+                        onChange={(e)=>setKeyword(e.target.value)}
+                        onKeyDown={(e)=>handleKeyword(e)}
                     />
                 </div>
-                <div className="button-group" style={buttonGroupStyle}>
-                    <button style={deleteAllButtonStyle}>일괄삭제</button>
-                    <button style={setAllPendingButtonStyle}>일괄 참여(전)</button>
-                    <button style={setAllCompleteButtonStyle}>일괄 참여(완)</button>
-                </div>
+                <ServiceBtnGroup
+                    arr={arr}
+                    serviceId={serviceId}
+                    refetch={userServiceList}
+                />
                 <div className="table-container" style={tableContainerStyle}>
                     <table style={tableStyle}>
                         <thead style={theadStyle}>
@@ -52,21 +106,28 @@ export default function ServiceUserList({
                             </tr>
                         </thead>
                         <tbody>
-                            <tr style={trStyle}>
-                                <td style={tdStyle}>1</td>
-                                <td style={tdStyle}>고건희</td>
-                                <td style={tdStyle}>010-9942-9161</td>
-                                <td style={tdStyle}>
-                                    <select style={selectStyle}>
-                                        <option>참여(전)</option>
-                                        <option>참여(완)</option>
-                                        <option>불참</option>
-                                    </select>
-                                </td>
-                                <td style={tdStyle}>
-                                    <button style={deleteButtonStyle}>삭제</button>
-                                </td>
-                            </tr>
+                            {data?.map((list:UserServiceListType, index:number) => {
+                                return(
+                                <tr key={index} style={trStyle}>
+                                    <td style={tdStyle}>1</td>
+                                    <td style={tdStyle}>{list?.name}</td>
+                                    <td style={tdStyle}>{list?.phone}</td>
+                                    <td style={tdStyle}>
+                                        <select onChange={(e)=>handleChangeStatus(e, list?.user)} value={list?.status} style={selectStyle}>
+                                            <option value={'N'}>참여(전)</option>
+                                            <option value={'Y'}>참여(완)</option>
+                                            <option value={'F'}>불참</option>
+                                        </select>
+                                    </td>
+                                    <td style={tdStyle}>
+                                        <button 
+                                        style={deleteButtonStyle}
+                                        onClick={()=>handleDeleteUser(list?.user)}
+                                        >삭제</button>
+                                    </td>
+                                </tr>
+                                )
+                            })}
                         </tbody>
                     </table>
                 </div>
@@ -118,48 +179,6 @@ const searchInputStyle : any = {
     marginBottom: '20px',
     fontSize: '16px'
 };
-
-// 버튼 그룹 스타일
-const buttonGroupStyle : any = {
-    display: 'flex',
-    justifyContent: 'flex-end', // 버튼들을 오른쪽 끝으로 정렬
-    marginBottom: '20px',
-};
-
-// 각 버튼 스타일
-const deleteAllButtonStyle : any = {
-    backgroundColor: '#ff4d4f', // 빨간색
-    color: '#fff', // 하얀색 글자
-    border: 'none',
-    padding: '10px 15px',
-    borderRadius: '5px',
-    cursor: 'pointer',
-    fontSize: '16px',
-    marginLeft: '10px', // 버튼 간격
-};
-
-const setAllPendingButtonStyle : any = {
-    backgroundColor: '#ccc', // 회색
-    color: '#000', // 검은색 글자
-    border: 'none',
-    padding: '10px 15px',
-    borderRadius: '5px',
-    cursor: 'pointer',
-    fontSize: '16px',
-    marginLeft: '10px', // 버튼 간격
-};
-
-const setAllCompleteButtonStyle : any = {
-    backgroundColor: '#007bff', // 파란색
-    color: '#fff', // 하얀색 글자
-    border: 'none',
-    padding: '10px 15px',
-    borderRadius: '5px',
-    cursor: 'pointer',
-    fontSize: '16px',
-    marginLeft: '10px', // 버튼 간격
-};
-
 // 테이블 컨테이너 스타일
 const tableContainerStyle : any = {
     maxHeight: '65vh',

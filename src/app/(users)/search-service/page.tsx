@@ -27,7 +27,7 @@ export default function SearchService () {
                 <div className="container pt-10 pt-md-12">
                     <div className="row">
                         <div className="col-lg-100">
-                            <p className="lead text-center mb-10" style={{fontWeight : 'bold'}}>
+                            {/* <p className="lead text-center mb-10" style={{fontWeight : 'bold'}}>
                                 이름과 휴대폰 번호를 정확하게 입력해주세요
                             </p>
                             <form className="contact-form needs-validation" method="post">
@@ -56,7 +56,7 @@ export default function SearchService () {
                                         <input type="submit" value="내역 조회하기" className="btn btn-primary rounded-pill btn-send mb-3" />
                                     </div>
                                 </div>
-                            </form>
+                            </form> */}
 
                             <table className="table table-bordered" style={{marginTop : '20px'}}>
                                 <thead>
