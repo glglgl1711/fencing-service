@@ -30,6 +30,9 @@ app.prepare().then(() => {
 
     const serviceRoutes = require('./routes/serviceRoute')
     server.use('/api/service' , serviceRoutes)
+
+    const ediotrRoutes = require('./routes/editorRoute')
+    server.use('/api/editor' , ediotrRoutes)
     
     server.all('*', (req, res) => {
         return handle(req, res);

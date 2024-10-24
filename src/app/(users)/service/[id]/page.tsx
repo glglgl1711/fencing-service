@@ -3,11 +3,12 @@ import Header from "components/layout/header/Header";
 import axios from "axios";
 import ApplyBtn from "components/fencing-service/service/apply-btn";
 import { cookies } from "next/headers";
+import ServiceContainer from "components/pages/service/serviceContainer";
 interface CookieType {
 name : string, value : string
 }
 export default async function ServiceView ({params: {id}} : ParamsIdType) {
-    let data = [];
+    let data = null;
     const cookie = cookies()
     const cookieValue : CookieType = cookie.get('f_ssid') || {name : '', value : ''};
     const userConfirm = await axios.get(`http://localhost:3000/api/user/users?token=${cookieValue?.value}`)
@@ -20,7 +21,7 @@ export default async function ServiceView ({params: {id}} : ParamsIdType) {
     return(
         <>
         <Fragment>
-
+        <ServiceContainer data={data}/>
         <main className="content-wrapper">
             <section
             className="wrapper image-wrapper bg-image bg-overlay bg-overlay-400 text-white"

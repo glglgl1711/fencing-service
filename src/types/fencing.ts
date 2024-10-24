@@ -18,6 +18,22 @@ interface RegistDataType {
     gender : string
 }
 
+// 사용자 내 봉사 조회 타입
+interface MyServiceListType {
+  service : number
+  status : string
+  date : string
+  title : string
+}
+
+// 사용자 공지사항 리스트 타입
+interface NewsListType {
+  id : number
+  title : string
+  date : string
+  count : number
+}
+
 // 관리자 필터 타입
 interface ListFilterType {
   idx : number
@@ -66,3 +82,7 @@ interface UserServiceListType {
   user : number
   status : string
 }
+
+interface CookieType {
+  name : string, value : string
+  }

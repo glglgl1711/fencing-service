@@ -1,10 +1,20 @@
-import Header from "components/layout/header/Header";
-import { Fragment } from "react";
+import axios from "axios";
+import SearchMyService from "components/pages/service/search-my-service";
+import { cookies } from "next/headers";
 
-import ServiceListItem from "components/fencing-service/service/service-list-item";
-import ContactForm from "components/common/ContactForm";
-export default function SearchService () {
-
+export default async function SearchService () {
+    let userId = 0;
+    let data = [];
+    const cookie = cookies()
+    const cookieValue : CookieType = cookie.get('f_ssid') || {name : '', value : ''};
+    const userConfirm = await axios.get(`http://localhost:3000/api/user/users?token=${cookieValue?.value}`)
+    if(userConfirm?.data?.result === true) {
+        userId = userConfirm?.data?.users?.u_idx;
+        const response = await axios.get(`http://localhost:3000/api/service/get-my-service?user=${userId || 0}`)
+        if(response?.data?.result === true){
+            data = response?.data?.list || [];
+        }
+    }
     return(
         <>
         {/* <Header /> */}
@@ -15,8 +25,7 @@ export default function SearchService () {
                         <div className="col-md-8 col-lg-7 col-xl-6 col-xxl-5">
                         <h1 className="display-1 mb-3">봉사 할동조회</h1>
                         <p className="lead fs-lg pe-lg-10 pe-xxl-1">
-                            이름과 전화번호를 입력하시면  <br/>
-                            과거의 봉사활동을 확인하실 수 있습니다.
+                            봉사활동 내역을 확인하세요!
                         </p>
                         </div>
                     </div>
@@ -58,42 +67,9 @@ export default function SearchService () {
                                 </div>
                             </form> */}
 
-                            <table className="table table-bordered" style={{marginTop : '20px'}}>
-                                <thead>
-                                    <tr>
-                                    <th scope="col" style={{ width: "10%" }}>No.</th>
-                                    <th scope="col" style={{ width: "55%" }}>봉 사 활 동 명</th>
-                                    <th scope="col" style={{ width: "20%" }}>일 자</th>
-                                    <th scope="col" style={{ width: "15%" }}>상 태</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr style={{cursor : 'pointer'}}>
-                                        <td>1</td>
-                                        <td>인천 광역시 남동구의 봉사 정보를 같이 확인해보아요.</td>
-                                        <td>2024.09.06</td>
-                                        <td>미완료</td>
-                                    </tr>
-                                    <tr style={{cursor : 'pointer'}}>
-                                        <td>2</td>
-                                        <td>인천 광역시 남동구의 봉사 정보를 같이 확인해보아요.</td>
-                                        <td>2024.09.06</td>
-                                        <td>완료</td>
-                                    </tr>
-                                    <tr style={{cursor : 'pointer'}}>
-                                        <td>3</td>
-                                        <td>인천 광역시 남동구의 봉사 정보를 같이 확인해보아요.</td>
-                                        <td>2024.09.06</td>
-                                        <td>완료</td>
-                                    </tr>
-                                    <tr style={{cursor : 'pointer'}}>
-                                        <td>4</td>
-                                        <td>인천 광역시 남동구의 봉사 정보를 같이 확인해보아요.</td>
-                                        <td>2024.09.06</td>
-                                        <td>미완료</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <SearchMyService
+                                data={data}
+                            />
                         </div>
                     </div>
                 </div>

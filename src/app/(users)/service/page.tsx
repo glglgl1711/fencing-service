@@ -1,19 +1,18 @@
 import ServiceListItem from "components/fencing-service/service/service-list-item";
 import axios from "axios";
 import { cookies } from "next/headers";
-interface CookieType {
-name : string, value : string
-}
+
 export default async function Service () {
     let data = [];
+    let userId = 0;
     const cookie = cookies()
     const cookieValue : CookieType = cookie.get('f_ssid') || {name : '', value : ''};
     const userConfirm = await axios.get(`http://localhost:3000/api/user/users?token=${cookieValue?.value}`)
     if(userConfirm?.data?.result == true) {
-        const userId = userConfirm?.data?.users?.u_idx;
-        const response = await axios.get(`http://localhost:3000/api/service/get-user-service?user=${userId}&page=1&size=25&keyword=&column=s_date&order=DESC`)
-        data = response?.data?.result === true ? response?.data?.service : [];
+        userId = userConfirm?.data?.users?.u_idx
     }
+    const response = await axios.get(`http://localhost:3000/api/service/get-user-service?user=${userId || 0}&page=1&size=25&keyword=&column=s_date&order=DESC`)
+    data = response?.data?.result === true ? response?.data?.service : [];
     console.log(data)
     return(
         <>

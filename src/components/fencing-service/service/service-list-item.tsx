@@ -1,9 +1,13 @@
 'use client'
 
+import { useAuth } from "components/context/AuthContext";
 import NextLink from "components/reuseable/links/NextLink"
 import Link from "next/link"
 import { useRouter } from "next/navigation";
 import { ReactElement } from "react";
+import {toast} from 'react-toastify';
+import Swal from "sweetalert2";
+
 interface BlogCard2Props {
     link: string;
     list : ServiceListDataType
@@ -14,9 +18,18 @@ interface BlogCard2Props {
 }
 export default function ServiceListItem ({ cardTop, title, category, description, link , list }: BlogCard2Props) {
     const router = useRouter()
+    const {authData} = useAuth()
     function handlePage (e:React.MouseEvent , id : number) {
-        e.preventDefault()
-        router.push(`/service/${id}`)
+        if(authData?.result){
+            e.preventDefault()
+            router.push(`/service/${id}`)
+        }else{ 
+            Swal.fire({
+                text : '로그인을 해주시기 바랍니다.',
+                confirmButtonText : '확인',
+                icon : 'warning'
+            })
+        }
     }
     return(
         <>

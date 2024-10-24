@@ -83,7 +83,7 @@ export default function NavbarOne({
 
             <HeaderItem title={'봉사신청'} url={'/service'}/>
 
-            <HeaderItem title={'봉사조회'} url={'/search-service'}/>
+            <HeaderItem title={'봉사조회'} url={'/my-service'}/>
 
           </ul>
 

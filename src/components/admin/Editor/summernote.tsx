@@ -50,6 +50,7 @@ export default function Summernote ({
                     for (let file of files) {
                         const formData = new FormData()
                         formData.append('file', file)
+                        $('#summernote').summernote('insertImage', '/img/logo.png')
                         // const res = await axios.post('/admin/setToastFileUpload.php', formData)
                         // if(res) {
                         //     $('#summernote').summernote('insertImage', res.data.imageUrl)

@@ -3,6 +3,7 @@
 import axios from "axios"
 import { useAuth } from "components/context/AuthContext"
 import { useRouter } from "next/navigation"
+import Swal from 'sweetalert2';
 
 interface Props {
     service : number
@@ -14,42 +15,68 @@ export default function ApplyBtn ({service , isApply , status} : Props) {
     const router = useRouter()
     console.log(authData)
     async function handleApply () {
-        const confirm = window.confirm('신청하시겠습니까?');
         if(!authData?.result) {alert('로그인을 해주시기 바랍니다.'); router.back()}
         if(!service) {alert('잘못된 접근입니다.'); router.back()}
-        if(confirm) {
-            try {
-                const response = await axios.post(`/api/service/apply` , {
-                    user : authData?.users?.u_idx,
-                    service : service
-                })
-                if(response?.data?.result === true) {
-                    alert('신청이 완료되었습니다.');  location.href = '/search-service';
-                }else{ 
-                    alert(response?.data?.msg)
-                }
-            }catch {
-                alert('Server Error')
+        Swal.fire({
+            text : '신청하시겠습니까?',
+            icon : 'question',
+            confirmButtonText : '신청',
+            showCancelButton : true,
+            cancelButtonText : '닫기'
+        }).then(async (result) => {
+            if(result.isConfirmed){
+                try {
+                    const response = await axios.post(`/api/service/apply` , {
+                        user : authData?.users?.u_idx,
+                        service : service
+                    })
+                    if(response?.data?.result === true) {
+                        Swal.fire({
+                            text : '신청이 완료되었습니다.',
+                            icon : 'success',
+                            confirmButtonText : '확인'
+                        }).then((result) => {
+                            if(result.isConfirmed) {
+                                location.href = '/search-service';
+                            }
+                        }); 
+                    }else{ 
+                        alert(response?.data?.msg)
+                    }
+                }catch {
+                    alert('Server Error')
+                } 
             }
-        }else { return; }
+        })
     }
     async function handleCancel () {
-        const confirm = window.confirm('신청을 취소하시겠습니까?');
-        if(!authData?.result) {alert('로그인을 해주시기 바랍니다.'); router.back()}
-        if(!service) {alert('잘못된 접근입니다.'); router.back()}
-        if(confirm) {
-            try {
-                const response = await axios.post(`/api/service/apply-cancel` , {
-                    user : authData?.users?.u_idx , 
-                    service : service
-                })
-                if(response?.data?.result === true) {
-                    alert('신청이 취소되었습니다.'); location.href = '/service';
-                }else{
-                    alert(response?.data?.msg)
-                }
-            }catch { alert('Server Error') }
-        }
+        Swal.fire({
+            text : '신청 취소하시겠습니까??',
+            icon : 'question',
+            confirmButtonText : '신청취소',
+            showCancelButton : true,
+            cancelButtonText : '닫기'
+        }).then(async (result) => {
+            if(result?.isConfirmed){
+                try {
+                    const response = await axios.post(`/api/service/apply-cancel` , {
+                        user : authData?.users?.u_idx , 
+                        service : service
+                    })
+                    if(response?.data?.result === true) {
+                        Swal.fire({
+                            text : '신청이 취소되었습니다.',
+                            icon : 'success',
+                            confirmButtonText : '확인'
+                        }).then((result) => {
+                            if(result.isConfirmed){ location.href = '/service' }
+                        })
+                    }else{
+                        alert(response?.data?.msg)
+                    }
+                }catch { alert('Server Error') }
+            }
+        })
     }
     return(
         <>

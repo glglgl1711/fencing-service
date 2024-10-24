@@ -69,6 +69,7 @@ router.get('/detail' , async (req , res) => {
     const {id} = req.query;
     const sql = `
     SELECT news_title AS title , news_contents AS contents,
+    DATE_FORMAT(news_date, '%Y-%m-%d') AS date,
     (SELECT news_idx FROM f_news WHERE news_idx < ? ORDER BY news_idx DESC LIMIT 1) AS next,
     (SELECT news_idx FROM f_news WHERE news_idx > ? ORDER BY news_idx ASC LIMIT 1) AS prev
     FROM f_news WHERE news_idx = ?
@@ -77,12 +78,27 @@ router.get('/detail' , async (req , res) => {
         if(err) {
             return res.status(200).json({result : false , msg : '서버 오류가 발생했습니다. 관리자 요망'});
         }
-        res.status(200).json({
-            result : true , 
-            news : result[0],
-            prev: result[0].prev || null,
-            next: result[0].next || null
+
+        const viewCountSql = `
+        UPDATE f_news
+        SET view_count = view_count + 1
+        WHERE news_idx = ?
+        `;
+
+        connection.query(viewCountSql , [id] , async (err) => {
+            if(err) {
+                return res.status(200).json({result : false , msg : '조회수 올리는 중 오류가 발생했습니다.'})
+            }
+
+            res.status(200).json({
+                result : true , 
+                news : result[0],
+                prev: result[0].prev || null,
+                next: result[0].next || null
+            })
         })
+
+
     })
 })
 

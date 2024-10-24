@@ -251,7 +251,6 @@ router.get(`/get-user-service` , async (req , res) => {
     const validOrders = ['ASC', 'DESC'];
     const sortColumn = validColumns.includes(column) ? column : 'news_idx';
     const sortOrder = validOrders.includes(order) ? order : 'DESC';
-
     const sql = `
     SELECT
         s.s_idx AS id,
@@ -375,7 +374,6 @@ router.get(`/detail-user-service`, async (req, res) => {
     })
 })
 
-
 // 봉사 신청하기 (사용자)
 router.post('/apply' , async (req, res) => {
     const {user , service} = req.body;
@@ -420,7 +418,31 @@ router.post('/apply-cancel' , async (req, res) => {
     })
 })
 
-// 봉사 모집 & 마감 변경
+// 내 봉사 조회
+router.get(`/get-my-service` , async (req, res) => {
+    const {user} = req.query;
+    const sql = `
+    SELECT
+        su.su_service AS service,
+        su.su_status AS status,
+        DATE_FORMAT(su.su_date, '%Y-%m-%d') AS date,
+        s.s_title AS title
+    FROM f_service_user su
+    LEFT JOIN f_service s ON s.s_idx = su.su_service AND su.su_user = ?
+    ORDER BY su_date ASC
+    `;
+    connection.query(sql , [user] , async (err , result) => {
+        if(err) {
+            return res.status(200).json({ result : false , msg : '리스트 가져오는 중 오류가 발생했습니다.'} )
+        }
+        return res.status(200).json({
+            result : true , 
+            list : result
+        })
+    })
+})
+
+// 봉사 모집 & 마감 변경 (관리자)
 router.post(`/status` , async(req , res) => {
     const {id , status} = req.body;
     const sql = `
@@ -435,7 +457,7 @@ router.post(`/status` , async(req , res) => {
     })
 })
 
-// 봉사 수정
+// 봉사 수정 (관리자)
 router.post(`/edit` , async (req, res) => {
     const {id, title , contents , applyDate , serviceDate , registrar , agency , location , appliPeople , recruitmentPeople,
         serviceTime , managerName , managerPhone , managerEmail
@@ -454,7 +476,7 @@ router.post(`/edit` , async (req, res) => {
     })
 })
 
-// 봉사 삭제
+// 봉사 삭제 (관리자)
 router.post('/delete', async (req , res) => {
     const {id} = req.body;
     const sql = `
