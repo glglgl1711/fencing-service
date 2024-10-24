@@ -22,7 +22,7 @@ const uploadDir = path.join(process.cwd() , 'public/image/editor');
 // multer 설정 (파일 저장 경로 및 파일명 생성 방식)
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, uploadDir); // 위에서 확인한 경로로 저장
+        cb(null, uploadDir); // 파일 저장 경로 지정
     },
     filename: (req, file, cb) => {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -30,19 +30,22 @@ const storage = multer.diskStorage({
     }
 });
 
-const upload = multer({storage : storage});
+const upload = multer({ storage: storage });
 
-// router.post('/set-image', upload.fields([{name : 'file' , maxCount : 50} , {name : 'editor'}]) , async(req , res) => {
-//     const editor = req.files.editor ? req.files.editor[0] : null;
-
-//     try {
-//        let editor = null;
-//        if(editor){
-//         editor = `/image/editor/${editor.filename}`;
-//        }
-
-
-//     }
-// })
+router.post('/set-image', upload.single('editor'), async (req, res) => {
+    try {
+        if (req.file) {
+            const filePath = `/image/editor/${req.file.filename}`;
+            
+            // 클라이언트에 이미지 URL을 반환
+            res.status(200).json({ message: '파일 업로드 성공', imgUrl: filePath });
+        } else {
+            res.status(400).json({ message: '파일이 없습니다.' });
+        }
+    } catch (error) {
+        console.error('파일 업로드 중 오류 발생:', error);
+        res.status(500).json({ message: '파일 업로드 실패', error: error.message });
+    }
+});
 
 module.exports = router;

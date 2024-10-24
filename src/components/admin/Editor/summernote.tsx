@@ -1,4 +1,5 @@
 'use client'
+import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect, useLayoutEffect, useRef, useState } from "react"
 
@@ -49,17 +50,17 @@ export default function Summernote ({
                 onImageUpload : async (files:any) => {
                     for (let file of files) {
                         const formData = new FormData()
-                        formData.append('file', file)
-                        $('#summernote').summernote('insertImage', '/img/logo.png')
-                        // const res = await axios.post('/admin/setToastFileUpload.php', formData)
-                        // if(res) {
-                        //     $('#summernote').summernote('insertImage', res.data.imageUrl)
-                        // }
+                        formData.append('editor', file)
+                        const res = await axios.post('/api/editor/set-image', formData)
+                        if(res) {
+                            $('#summernote').summernote('insertImage', res.data.imgUrl)
+                        }
                     }
                 },
                 onKeyup: (ev: KeyboardEvent) => {
                 },
-                onKeydown: (ev: KeyboardEvent) => {
+                onKeydown: (e: KeyboardEvent) => {
+                    
                 },
                 onPaste: (e: Event & { originalEvent: ClipboardEvent }) => {
                     const clipboardData = e.originalEvent.clipboardData?.getData("text");
