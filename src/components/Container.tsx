@@ -4,7 +4,9 @@ import { SessionProvider } from "next-auth/react"
 import { useEffect } from "react"
 import { useAuth } from "./context/AuthContext"
 import { ToastContainer } from "react-toastify"
+import { motion, AnimatePresence } from "framer-motion"
 import 'react-toastify/dist/ReactToastify.css';
+import { usePathname } from "next/navigation"
 interface AuthType {
     result : boolean,
     users : {
@@ -16,6 +18,7 @@ interface Props {
     auth : AuthType
 }
 export default function Container ({children, auth} : any) {
+    const pathname = usePathname()
     const {login} = useAuth()
     useEffect(() => {
         if(auth?.result === true) {
@@ -24,11 +27,13 @@ export default function Container ({children, auth} : any) {
     }, [auth])
     return(
         <>
-        <ToastContainer
-            stacked
-        />
         <SessionProvider>
-            {children}
+            
+                <ToastContainer
+                    stacked
+                />
+                    {children}
+            
         </SessionProvider>
         </>
     )

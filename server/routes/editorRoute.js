@@ -38,7 +38,7 @@ router.post('/set-image', upload.single('editor'), async (req, res) => {
             const filePath = `/image/editor/${req.file.filename}`;
             
             // 클라이언트에 이미지 URL을 반환
-            res.status(200).json({ message: '파일 업로드 성공', imgUrl: filePath });
+            res.status(200).json({ imgUrl: filePath });
         } else {
             res.status(400).json({ message: '파일이 없습니다.' });
         }
