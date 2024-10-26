@@ -16,7 +16,6 @@ export default async function Photo ({searchParams : {page, keyword}} : SearchPa
     const totalCount = 
     response?.data?.result === true ? response?.data?.totalCount : 0;
 
-    console.log(response?.data)
     return(
     <Fragment>
         

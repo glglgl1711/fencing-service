@@ -13,7 +13,6 @@ export default async function Service () {
     }
     const response = await axios.get(`http://localhost:3000/api/service/get-user-service?user=${userId || 0}&page=1&size=25&keyword=&column=s_date&order=DESC`)
     data = response?.data?.result === true ? response?.data?.service : [];
-    console.log(data)
     return(
         <>
         {/* <Header /> */}

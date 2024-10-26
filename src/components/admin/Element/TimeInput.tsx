@@ -21,7 +21,6 @@ export default function AdminTimeInputBox ({label, name1, name2, value1 , value2
             [name]: newValue,
         }));
     }
-    console.log(value1)
     return(
         <>
         <tr>

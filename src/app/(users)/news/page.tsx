@@ -12,7 +12,6 @@ interface SearchParamsType {
 export default async function News ({searchParams : {page , keyword}} :SearchParamsType) {
     const response = await axios.get(`http://localhost:3000/api/news/getNews?page=${page || 1}&size=10&keyword=${keyword || ''}&column=news_date&order=desc`)
     const data = response?.data?.result === true ? response?.data?.news : [];
-    console.log(response?.data)
     return(
         <>
         {/* <Header /> */}

@@ -14,7 +14,6 @@ export default function AdminMultiDateBox ({
         const {name , value} = e.target;
         setData((prev: any) => ({...prev , [name] : value}))
     }
-    console.log(value1)
     return(
         <>
         <tr>

@@ -17,7 +17,6 @@ export default async function ServiceView ({params: {id}} : ParamsIdType) {
         const response = await axios.get(`http://localhost:3000/api/service/detail-user-service?user=${userId}&id=${id}`)
         data = response?.data?.result === true ? response?.data?.service : null;
     }
-    console.log(data)
     return(
         <>
         <Fragment>

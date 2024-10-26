@@ -13,7 +13,6 @@ interface Props {
 export default function ApplyBtn ({service , isApply , status} : Props) {
     const {authData} = useAuth()
     const router = useRouter()
-    console.log(authData)
     async function handleApply () {
         if(!authData?.result) {alert('로그인을 해주시기 바랍니다.'); router.back()}
         if(!service) {alert('잘못된 접근입니다.'); router.back()}

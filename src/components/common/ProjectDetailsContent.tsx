@@ -17,9 +17,8 @@ export default function ProjectDetailsContent({
     <div className="row">
       <div className="col-lg-10 offset-lg-1">
         <h2 className={titleClass}>{title}</h2>
-
+        <span className="date">{'2024-09-06'}</span>
         <div className={contentRowClass}>
-
           
         </div>
       </div>

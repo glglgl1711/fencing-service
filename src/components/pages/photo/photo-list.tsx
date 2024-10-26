@@ -23,14 +23,15 @@ export default function PhotoListItem ({
                 className={`project item col-md-6 col-xl-4 workshop`}
             >
                 <figure className="lift rounded mb-6">
-                    <Image
+                    {/* <Image
                         alt={'fencing-image'}
                         src={list?.thumnail}
                         width={1300}
                         height={1300}
                         layout="fixed"
                         className="w-100 h-auto"
-                    />
+                    /> */}
+                    <img src={list?.thumnail} />
                 </figure>
                 <div className="project-details d-flex justify-content-center flex-column">
                     <div className="post-header">

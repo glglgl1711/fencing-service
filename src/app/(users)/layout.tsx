@@ -40,9 +40,7 @@ interface CookieType {
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const cookie = cookies()
   const cookieValue : CookieType = cookie.get('f_ssid') || {name : '', value : ''};
-  // console.log(cookieValue)
   const response = await axios.get(`http://localhost:3000/api/user/users?token=${cookieValue?.value}`)
-  // console.log(response.data)
   const currentAuth = response?.data;
   return (
     <html lang="en">
