@@ -64,7 +64,7 @@ router.get(`/getNews` , async (req, res) => {
         });
     })
 })
-// 공지사항 상세보기
+// 공지사항 상세보기 ( 사용자 ) - 조회수 올리는 기능 있음
 router.get('/detail' , async (req , res) => {
     const {id} = req.query;
     const sql = `
@@ -97,8 +97,26 @@ router.get('/detail' , async (req , res) => {
                 next: result[0].next || null
             })
         })
+    })
+})
 
+// 공지사항 상세보기 ( 관리자 )
+router.get('/admin-detail' , async (req , res) => {
+    const {id} = req.query;
+    const sql = `
+    SELECT news_title AS title , news_contents AS contents,
+    DATE_FORMAT(news_date, '%Y-%m-%d') AS date
+    FROM f_news WHERE news_idx = ?
+    `;
+    connection.query(sql , [id , id, id] , async (err , result) => {
+        if(err) {
+            return res.status(200).json({result : false , msg : '서버 오류가 발생했습니다. 관리자 요망'});
+        }
 
+        res.status(200).json({
+            result : true , 
+            news : result[0],
+        })
     })
 })
 

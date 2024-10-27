@@ -35,13 +35,15 @@ export default function MemberList ({
     return(
         <>
         {data?.map((list:DataType, index:number) => {
+            const lastIndex = totalCount - (page - 1) * size;
+            const indexNumber = lastIndex - index;
             return(
             <tr 
                 key={index}
                 style={{cursor : 'pointer'}}
             >
                 <td style={tdStyle} onClick={()=>handlePage(list?.id)}>
-                    <span className="readOnly">{1}</span>
+                    <span className="readOnly">{indexNumber}</span>
                 </td>
                 <td style={tdStyle} onClick={()=>handlePage(list?.id)}>
                     <span className="readOnly">{list?.name}</span>

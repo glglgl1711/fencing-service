@@ -33,6 +33,9 @@ app.prepare().then(() => {
 
     const ediotrRoutes = require('./routes/editorRoute')
     server.use('/api/editor' , ediotrRoutes)
+
+    const adminRoutes = require('./routes/adminRoute')
+    server.use('/api/admin' , adminRoutes)
     
     server.all('*', (req, res) => {
         return handle(req, res);

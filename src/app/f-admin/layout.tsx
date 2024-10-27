@@ -1,11 +1,20 @@
 import Script from "next/script";
 import './admin.css';
 import AdminContainer from "components/admin/admin-comtainer";
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+import { cookies } from "next/headers";
+import axios from "axios";
+export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const cookie = cookies()
+  const cookieValue : CookieType = cookie.get('token') || {name : '', value : ''};
+  // const response = await axios.get(`http://localhost:3000/api/admin/info?token=${cookieValue.value}`)
+  // console.log(response?.data)
+  // const isLogin = response?.data?.result;
   return (
     <html lang="en">
       <body>
-        <AdminContainer>
+        <AdminContainer
+          // isLogin={isLogin}
+        >
             {children}
         </AdminContainer>
         <Script

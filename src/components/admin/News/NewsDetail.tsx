@@ -46,7 +46,7 @@ export default function NewsDetail ({id} : Props) {
     useEffect(() => {
         async function Detail () {
             if(id !== 'regist') {
-                const response = await axios.get(`/api/news/detail?id=${id}`)
+                const response = await axios.get(`/api/news/admin-detail?id=${id}`)
                 if(response?.data?.result === true) {
                     setData({title : response?.data?.news?.title , contents : response?.data?.news?.contents})
                 }

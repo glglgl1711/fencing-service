@@ -190,9 +190,10 @@ router.get('/getUserDetail', async (req , res) => {
             })
         }
         if(result?.length > 0) {
+
             return res.status(200).json({
                 result : true ,
-                user : result[0]
+                user : result[0],
             })
         }else{
             return res.status(200).json({

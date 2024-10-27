@@ -127,7 +127,8 @@ router.post('/regist' , upload.fields([{ name: 'file', maxCount: 50 }, { name: '
         res.status(500).json({ result : false ,message: 'Server error.' });
     }
 })
-//사진첩 상세보기
+
+//사진첩 상세보기 
 router.get('/detail' , async (req, res) => {
     const {id} = req.query;
     const sql = `
@@ -169,6 +170,7 @@ router.get('/detail' , async (req, res) => {
         });
     })
 })
+
 // 사진첩 수정
 router.post('/edit' , upload.fields([{name : 'file' , maxCount : 50}, {name : 'thumnail'}]) , async (req , res) => {
     const {id , title} = req.body;

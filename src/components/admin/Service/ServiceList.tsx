@@ -50,10 +50,12 @@ export default function ServiceList ({
         <>
         <tbody>
             {data?.map((list:ServiceListDataType, index:number) => {
+                const lastIndex = totalCount - (page - 1) * size;
+                const indexNumber = lastIndex - index;
                 return(
                 <tr key={index} style={trStyle}>
                     <td width={'5%'} style={tdStyle} onClick={()=>router.push(`/f-admin/service/${list?.id}`)}>
-                        <span className="readOnly">{1}</span>
+                        <span className="readOnly">{indexNumber}</span>
                     </td>
                     <td style={tdStyle} onClick={()=>router.push(`/f-admin/service/${list?.id}`)}>
                         <span className="readOnly">{list?.title}</span>

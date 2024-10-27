@@ -41,10 +41,12 @@ export default function NewsList ({
         <>
         <tbody>
             {data?.map((list:DataType, index : number) => {
+                const lastIndex = totalCount - (page - 1) * size;
+                const indexNumber = lastIndex - index;
                 return(
                     <tr key={list?.id} style={trStyle}>
                         <td width={'5%'} style={tdStyle} onClick={()=>router.push(`/f-admin/news/${list?.id}`)}>
-                            <span className="readOnly">{1}</span>
+                            <span className="readOnly">{indexNumber}</span>
                         </td>
                         <td style={tdStyle} onClick={()=>router.push(`/f-admin/news/${list?.id}`)}>
                             <span className="readOnly">{list?.title}</span>

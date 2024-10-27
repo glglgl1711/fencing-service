@@ -36,7 +36,7 @@ export default function ApplyBtn ({service , isApply , status} : Props) {
                             confirmButtonText : '확인'
                         }).then((result) => {
                             if(result.isConfirmed) {
-                                location.href = '/search-service';
+                                location.href = '/my-service';
                             }
                         }); 
                     }else{ 

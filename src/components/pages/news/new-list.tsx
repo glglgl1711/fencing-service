@@ -29,7 +29,7 @@ export default function NewsListItem ({
     return(
         <>
         {list?.map((list:NewsListType , index : number) => {
-
+            
             return(
             <tr 
                 key={index} 

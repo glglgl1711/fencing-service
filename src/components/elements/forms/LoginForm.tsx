@@ -7,6 +7,7 @@ import axios from "axios";
 import Signup from "components/blocks/navbar/components/signup";
 import RegisterForm from "./RegisterForm";
 import Cookies from 'js-cookie'
+import Swal from "sweetalert2";
 
 export default function LoginForm() {
   const {data : session, status} : any = useSession()
@@ -28,9 +29,23 @@ export default function LoginForm() {
         // 쿠키에 토큰 값 저장 (쿠키에 저장된 토큰 값으로 회원 유지 구현 예정)
         Cookies.set('f_ssid', response?.data?.token, {expires : 7 , path : '/'});
       } else {
-        const confirm = window.confirm('회원가입을 진행하시겠습니까?')
-        if(confirm) {setIsRegist(true)}
-        else { return; }
+        // 회원이 조회되지 않았다면 회원가입 진행 유도
+        Swal.fire({
+          text : '회원가입을 진행하시겠습니까?',
+          icon : 'question',
+          confirmButtonText : '회원가입',
+          cancelButtonText : '다음에',
+          showCancelButton : true , 
+        }).then(async (result) => {
+          if(result.isConfirmed) {
+            setIsRegist(true)
+          }else{
+            return;
+          }
+        })
+        // const confirm = window.confirm('회원가입을 진행하시겠습니까?')
+        // if(confirm) {setIsRegist(true)}
+        // else { return; }
       }
     }
   }

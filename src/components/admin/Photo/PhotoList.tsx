@@ -41,10 +41,12 @@ export default function PhotoList ({
     return (
         <tbody>
             {data?.map((list:DataType , index : number) => {
+                const lastIndex = totalCount - (page - 1) * size;
+                const indexNumber = lastIndex - index;
                 return(
                 <tr key={index} style={trStyle}>
                     <td width={'5%'} style={tdStyle} onClick={()=>router.push(`/f-admin/photos/${list?.id}`)}>
-                        <span className="readOnly">{1}</span>
+                        <span className="readOnly">{indexNumber}</span>
                     </td>
                     <td width={'20%'} style={tdStyle} onClick={()=>router.push(`/f-admin/photos/${list?.id}`)}>
                         <div className="imgBox"  >

@@ -9,6 +9,7 @@ declare global {
 import { FormEvent, Fragment, useEffect, useState } from "react";
 import NextLink from "components/reuseable/links/NextLink";
 import axios from "axios";
+import Swal from "sweetalert2";
 interface Props {
   sessionId : string
   token : string
@@ -32,6 +33,7 @@ export default function RegisterForm({
     if(!data?.name) {alert('이름을 입력해 주시기 바랍니다.'); return;}
     if(!data?.phone) {alert('휴대전화를 입력해 주시기 바랍니다.'); return;}
     if(!data?.birth) {alert('생년월일을 입력해 주시기 바랍니다.'); return;}
+    
     const response = await axios.post(`/api/user/regist` , {
       key : sessionId,
       name : data?.name,
@@ -43,7 +45,13 @@ export default function RegisterForm({
       gender : ''
     })
     if(response?.data?.result === true) {
-      alert('회원가입이 완료되었습니다!'); window.location.reload()
+      Swal.fire({
+        text : '회원가입이 완료되었습니다!',
+        icon : 'success',
+        confirmButtonText : '확인'
+      }).then(async (result) =>{
+        window.location.reload()
+      })
     }
   }
 
@@ -71,7 +79,7 @@ export default function RegisterForm({
   return (
     <Fragment>
       <h2 className="mb-3 text-start">환영합니다.</h2>
-      <p className="lead mb-6 text-start">회원가입을 진행해 주세요.</p> 
+      <p className="lead mb-6 text-start">회원가입을 진행해 주세요.</p>
         <div className="form-floating mb-4">
           <input
             id="name"
@@ -82,7 +90,7 @@ export default function RegisterForm({
             className="form-control"
             onChange={handleChange}
           />
-          <label htmlFor="name">이름 *</label>
+          <label htmlFor="name">이름 * (회원가입 후 수정할 수 없습니다.) </label>
         </div>
 
         <div className="form-floating mb-4">
@@ -94,6 +102,15 @@ export default function RegisterForm({
             placeholder="휴대전화"
             className="form-control"
             onChange={handleChange}
+            onInput={(e) => {
+              const input = e.target as HTMLInputElement;
+              // 숫자 외 문자 제거 후 길이가 11자리를 초과하지 않도록 제한
+              input.value = input.value
+                .replace(/[^0-9]/g, "")
+                .slice(0, 11) // 최대 11자리까지 입력 허용
+                .replace(/^(\d{3})(\d{4})(\d{4})$/, "$1-$2-$3"); // 010-0000-0000 형식
+            }}
+            pattern="^010-\d{4}-\d{4}$"
           />
           <label htmlFor="phone">휴대전화 *</label>
         </div>
@@ -107,8 +124,17 @@ export default function RegisterForm({
             placeholder="생년월일"
             className="form-control"
             onChange={handleChange}
+            onInput={(e) => {
+              const input = e.target as HTMLInputElement;
+              // 숫자 외 문자 제거 후 길이가 11자리를 초과하지 않도록 제한
+              input.value = input.value
+                .replace(/[^0-9]/g, "")
+                .slice(0, 8) // 최대 11자리까지 입력 허용
+                .replace(/^(\d{4})(\d{2})(\d{2})$/, "$1-$2-$3"); // 1900-00-00 형식
+            }}
+            pattern="^010-\d{4}-\d{4}$"
           />
-          <label htmlFor="birth">생년월일 *</label>
+          <label htmlFor="birth">생년월일 (ex.19950906) * </label>
         </div>
 
         <div className="form-floating mb-4">
