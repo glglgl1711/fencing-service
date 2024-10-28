@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "nodemon server/server.js",
     "build": "next build",
-    "start": "next start",
+    "start": "cross-env NODE_ENV=production node server/server.js",
     "lint": "next lint",
     "sass": "sass --no-source-map src/assets/scss:public/css",
     "server": "nodemon server/server.js"
@@ -26,6 +26,7 @@
     "clsx": "^2.1.1",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
     "crypto": "^1.0.1",
     "dayjs": "^1.11.13",
     "express": "^4.21.0",

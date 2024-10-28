@@ -3,9 +3,6 @@
 import { SessionProvider } from "next-auth/react"
 import { useEffect } from "react"
 import { useAuth } from "./context/AuthContext"
-import { ToastContainer } from "react-toastify"
-import { motion, AnimatePresence } from "framer-motion"
-import 'react-toastify/dist/ReactToastify.css';
 import { usePathname } from "next/navigation"
 interface AuthType {
     result : boolean,
@@ -28,12 +25,7 @@ export default function Container ({children, auth} : any) {
     return(
         <>
         <SessionProvider>
-            
-                <ToastContainer
-                    stacked
-                />
-                    {children}
-            
+            {children}
         </SessionProvider>
         </>
     )

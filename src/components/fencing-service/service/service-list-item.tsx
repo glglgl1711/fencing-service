@@ -5,7 +5,6 @@ import NextLink from "components/reuseable/links/NextLink"
 import Link from "next/link"
 import { useRouter } from "next/navigation";
 import { ReactElement } from "react";
-import {toast} from 'react-toastify';
 import Swal from "sweetalert2";
 
 interface BlogCard2Props {

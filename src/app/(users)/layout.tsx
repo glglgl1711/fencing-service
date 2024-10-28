@@ -39,9 +39,10 @@ interface CookieType {
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const cookie = cookies()
-  const cookieValue : CookieType = cookie.get('f_ssid') || {name : '', value : ''};
+  const cookieValue : any = cookie.get('f_ssid') || '';
   const response = await axios.get(`http://localhost:3000/api/user/users?token=${cookieValue?.value}`)
   const currentAuth = response?.data;
+  console.log(currentAuth)
   return (
     <html lang="en">
       <body className={manrope.className}>
