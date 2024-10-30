@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "nodemon server/server.js",
     "build": "next build",
+    "postbuild" : "pm2 restart nextjs-app",
     "start": "cross-env NODE_ENV=production node server/server.js",
     "lint": "next lint",
     "sass": "sass --no-source-map src/assets/scss:public/css",
