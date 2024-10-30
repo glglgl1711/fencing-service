@@ -4,7 +4,7 @@ import { useAuth } from "components/context/AuthContext";
 import NextLink from "components/reuseable/links/NextLink"
 import Link from "next/link"
 import { useRouter } from "next/navigation";
-import { ReactElement } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
 interface BlogCard2Props {
@@ -18,6 +18,9 @@ interface BlogCard2Props {
 export default function ServiceListItem ({ cardTop, title, category, description, link , list }: BlogCard2Props) {
     const router = useRouter()
     const {authData} = useAuth()
+
+    const [isMobile, setIsMobile] = useState(false);
+
     function handlePage (e:React.MouseEvent , id : number) {
         if(authData?.result){
             e.preventDefault()
@@ -30,6 +33,13 @@ export default function ServiceListItem ({ cardTop, title, category, description
             })
         }
     }
+    
+    useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth <= 768);
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
     return(
         <>
         <article className="post">
@@ -78,7 +88,7 @@ export default function ServiceListItem ({ cardTop, title, category, description
 
                     </ul>
 
-                <div className="d-flex justify-content-between align-items-center">
+                <div className={`${!isMobile && 'd-flex' } justify-content-between align-items-center`}>
                     <ul className="post-meta d-flex mb-0">
                     <li className="post-date">
                         <i className="uil uil-calendar-alt" />

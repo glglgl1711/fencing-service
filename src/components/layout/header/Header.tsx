@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, ReactElement, useRef, useState } from "react";
+import { Fragment, ReactElement, useEffect, useRef, useState } from "react";
 // -------- CUSTOM HOOKS -------- //
 import useSticky from "hooks/useSticky";
 import useNestedDropdown from "hooks/useNestedDropdown";
@@ -18,6 +18,7 @@ import MiniCart from "components/blocks/navbar/components/mini-cart";
 import HeaderItem from "./Header-item";
 import LogoutForms from "components/elements/forms/LogoutForm";
 import ModifyForm from "components/elements/forms/ModifyForm";
+import FancyHeader from "components/blocks/navbar/components/fancy-header";
 
 // ===================================================================
 interface NavbarProps {
@@ -57,11 +58,18 @@ export default function NavbarOne({
   const [modify , setModify] = useState<boolean>(false)
   // dynamically render the logo
   const logo = sticky ? "logo-dark" : logoAlt ?? "logo-dark";
+  const [isMobile , setIsMobile] = useState<boolean>(false)
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // dynamically added navbar className
   const fixedClassName = "navbar navbar-expand-lg center-nav transparent navbar-light navbar-clone fixed";
-
-  // all main header contents
+  
   const headerContent = (
     <Fragment>
       <div className="navbar-brand w-100">
@@ -71,12 +79,12 @@ export default function NavbarOne({
       <div id="offcanvas-nav" data-bs-scroll="true" className="navbar-collapse offcanvas offcanvas-nav offcanvas-start">
         <div className="offcanvas-header d-lg-none">
           <h3 className="text-white fs-30 mb-0">Sandbox</h3>
-          <button type="button" aria-label="Close" data-bs-dismiss="offcanvas" className="btn-close btn-close-white" />
+          {/* <button type="button" aria-label="Close" data-bs-dismiss="offcanvas" className="btn-close btn-close-white" /> */}
         </div>
 
         <div className="offcanvas-body ms-lg-auto d-flex flex-column h-100">
           <ul className="navbar-nav">
-          {/* <button onClick={()=>signIn('kakao')}></button> */}
+
             <HeaderItem title={'공지사항'} url={'/news'}/>
 
             <HeaderItem title={'사진첩'} url={'/photo'}/>
@@ -86,82 +94,63 @@ export default function NavbarOne({
             <HeaderItem title={'봉사조회'} url={'/my-service'}/>
 
           </ul>
-
-          {/* ============= show contact info in the small device sidebar ============= */}
-
         </div>
       </div>
 
-      {/* ============= right side header content ============= */}
-      <HeaderRight
+       <HeaderRight
         cart={cart}
         info={info}
         button={
-        <>
-        {auth?.result ? 
-        <>
-          <li className="nav-item dropdown language-select text-uppercase">
-            <a
-              role="button"
-              aria-haspopup="true"
-              aria-expanded="false"
-              data-bs-toggle="dropdown"
-              className="nav-link dropdown-item dropdown-toggle">
-              {auth?.users?.name}님
-            </a>
-
-            <ul className="dropdown-menu">
-                <li className="nav-item">
-                  <button 
-                    className="dropdown-item"
-                    onClick={()=>setModify(!modify)}
-                    data-bs-toggle="modal" data-bs-target="#modal-modify"
+          <>
+            {auth?.result ? (
+              <>
+                <li className="nav-item dropdown language-select text-uppercase">
+                  <a
+                    role="button"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    data-bs-toggle="dropdown"
+                    className="nav-link dropdown-item dropdown-toggle"
                   >
-                    내정보보기
-                  </button>
+                    {auth?.users?.name}님
+                  </a>
+
+                  <ul className="dropdown-menu">
+                    <li className="nav-item">
+                      <button
+                        className="dropdown-item"
+                        onClick={() => setModify(!modify)}
+                        data-bs-toggle="modal"
+                        data-bs-target="#modal-modify"
+                      >
+                        내정보보기
+                      </button>
+                    </li>
+                    <li className="nav-item">
+                      <LogoutForms />
+                    </li>
+                  </ul>
                 </li>
-                <li className="nav-item">
-                  <LogoutForms
-
-                  />
-                </li>
-            </ul>
-          </li>
-        </>
-        :
-        <>
-          <li className="nav-item d-none d-md-block" onClick={()=>setOpen(true)}>
-            <div className="d-flex align-items-center gap-3">
-              <a className="nav-link" data-bs-toggle="modal" data-bs-target="#modal-signin">
-                로그인
-              </a>
-            </div>
-          </li>
-        </>
-        }
-
-        {/* <li className="nav-item dropdown language-select text-uppercase">
-          <a
-            role="button"
-            aria-haspopup="true"
-            aria-expanded="false"
-            data-bs-toggle="dropdown"
-            className="nav-link dropdown-item dropdown-toggle">
-            고건희님
-          </a>
-
-          <ul className="dropdown-menu">
-              <li className="nav-item" key={'1'}>
-                <button className="dropdown-item">
-                  내정보보기
-                </button>
+              </>
+            ) : (
+              <li
+                className="nav-item"
+                onClick={() => setOpen(true)}
+                style={{ display: isMobile || !auth?.result ? "block" : "none" }}
+              >
+                <div className="d-flex align-items-center gap-3">
+                  <a
+                    className="nav-link"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modal-signin"
+                  >
+                    로그인
+                  </a>
+                </div>
               </li>
-          </ul>
-        </li> */}
-        
-        </>
-        
-      }
+            )}
+          </>
+        }
         search={search}
         social={social}
         language={language}
@@ -175,13 +164,9 @@ export default function NavbarOne({
       {stickyBox ? <div style={{ paddingTop: sticky ? navbarRef.current?.clientHeight : 0 }} /> : null}
 
       <nav ref={navbarRef} className={sticky ? fixedClassName : navClassName}>
-        {fancy ? (
-          // <FancyHeader>{headerContent}</FancyHeader>
-          <>
-          </>
-        ) : (
-          <div className="container flex-lg-row flex-nowrap align-items-center">{headerContent}</div>
-        )}
+
+        <div className="container flex-lg-row flex-nowrap align-items-center">{headerContent}</div>
+        
       </nav>
 
       <Signin />
@@ -190,14 +175,6 @@ export default function NavbarOne({
       
       <ModifyForm auth={auth}/>
 
-      {/* ============= info sidebar ============= */}
-      {info ? <Info /> : null}
-
-      {/* ============= show search box ============= */}
-      {/* {search ? <Search /> : null} */}
-
-      {/* ============= cart sidebar ============= */}
-      {cart ? <MiniCart /> : null}
     </Fragment>
   );
 }

@@ -1,11 +1,28 @@
 'use client'
 
-import Link from "next/link"
+import { useState, useEffect } from 'react';
+import Link from "next/link";
 
 export default function MainPageSection() {
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth <= 768);
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    const wrapperStyle : any = {
+        display: 'flex',
+        justifyContent: 'space-between',
+        flexDirection: isMobile ? 'column' : 'row',
+        gap: '10px',
+    };
+
     return (
-        <section id="snippet-1" className="wrapper" style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <div className="card" style={{ flex: '1', marginRight: '10px' }}>
+        <section id="snippet-1" className="wrapper" style={wrapperStyle}>
+            <div className="card" style={{ flex: '1', marginRight: isMobile ? '0' : '10px', marginBottom: isMobile ? '10px' : '0' }}>
                 <div className="card-body">
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <ul className="nav nav-tabs nav-tabs-basic">
@@ -28,9 +45,9 @@ export default function MainPageSection() {
                             <table className={`table Hoverable`}>
                                 <thead>
                                     <tr>
-                                        <th scope="col" style={{width : '5%'}}>No.</th>
+                                        <th scope="col" style={{ width: '5%' }}>No.</th>
                                         <th scope="col">제 목</th>
-                                        <th scope="col" style={{width : '15%'}}>일 자</th>
+                                        <th scope="col" style={{ width: '15%' }}>일 자</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -54,13 +71,13 @@ export default function MainPageSection() {
                     </div>
                 </div>
             </div>
-            <div className="card" style={{ flex: '1', marginLeft: '10px' }}>
+            <div className="card" style={{ flex: '1', marginLeft: isMobile ? '0' : '10px' }}>
                 <div className="card-body">
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <ul className="nav nav-tabs nav-tabs-basic">
                             <li className="nav-item">
                                 <a className="nav-link active" data-bs-toggle="tab" href="#tab3-2">
-                                    사진첩
+                                    활동
                                 </a>
                             </li>
                         </ul>
@@ -100,5 +117,5 @@ export default function MainPageSection() {
                 </div>
             </div>
         </section>
-    )
+    );
 }
