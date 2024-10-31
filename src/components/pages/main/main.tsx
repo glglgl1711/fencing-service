@@ -22,7 +22,7 @@ export default function MainPageSection() {
 
     return (
         <section id="snippet-1" className="wrapper" style={wrapperStyle}>
-            <div className="card" style={{ flex: '1', marginRight: isMobile ? '0' : '10px', marginBottom: isMobile ? '10px' : '0' }}>
+            <div className="card mb-10" style={{ flex: '1', marginRight: isMobile ? '0' : '10px', marginBottom: isMobile ? '10px' : '0' }}>
                 <div className="card-body">
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <ul className="nav nav-tabs nav-tabs-basic">
@@ -71,7 +71,7 @@ export default function MainPageSection() {
                     </div>
                 </div>
             </div>
-            <div className="card" style={{ flex: '1', marginLeft: isMobile ? '0' : '10px' }}>
+            <div className="card mb-10" style={{ flex: '1', marginLeft: isMobile ? '0' : '10px' }}>
                 <div className="card-body">
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <ul className="nav nav-tabs nav-tabs-basic">
