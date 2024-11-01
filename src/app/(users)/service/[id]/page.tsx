@@ -11,10 +11,10 @@ export default async function ServiceView ({params: {id}} : ParamsIdType) {
     let data = null;
     const cookie = cookies()
     const cookieValue : CookieType = cookie.get('f_ssid') || {name : '', value : ''};
-    const userConfirm = await axios.get(`http://localhost:3000/api/user/users?token=${cookieValue?.value}`)
+    const userConfirm = await axios.get(`${process.env.HOST_URL}/api/user/users?token=${cookieValue?.value}`)
     if(userConfirm?.data?.result === true) {
         const userId = userConfirm?.data?.users?.u_idx;
-        const response = await axios.get(`http://localhost:3000/api/service/detail-user-service?user=${userId}&id=${id}`)
+        const response = await axios.get(`${process.env.HOST_URL}/api/service/detail-user-service?user=${userId}&id=${id}`)
         data = response?.data?.result === true ? response?.data?.service : null;
     }
     return(

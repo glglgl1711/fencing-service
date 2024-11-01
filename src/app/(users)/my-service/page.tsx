@@ -7,10 +7,10 @@ export default async function SearchService () {
     let data = [];
     const cookie = cookies()
     const cookieValue : CookieType = cookie.get('f_ssid') || {name : '', value : ''};
-    const userConfirm = await axios.get(`http://localhost:3000/api/user/users?token=${cookieValue?.value}`)
+    const userConfirm = await axios.get(`${process.env.HOST_URL}/api/user/users?token=${cookieValue?.value}`)
     if(userConfirm?.data?.result === true) {
         userId = userConfirm?.data?.users?.u_idx;
-        const response = await axios.get(`http://localhost:3000/api/service/get-my-service?user=${userId || 0}`)
+        const response = await axios.get(`${process.env.HOST_URL}/api/service/get-my-service?user=${userId || 0}`)
         if(response?.data?.result === true){
             data = response?.data?.list || [];
         }

@@ -3,7 +3,7 @@ import ProjectDetailsNavigation from "components/common/ProjectDetailsNavigation
 import axios from "axios";
 
 export default async function NewsView ( {params : {id}} : ParamsIdType ) {
-    const response = await axios.get(`http://localhost:3000/api/news/detail?id=${id}`)
+    const response = await axios.get(`${process.env.HOST_URL}/api/news/detail?id=${id}`)
     
     const data = response?.data?.result === true ? response?.data?.news : null;
     const prev = response?.data?.result === true ? response?.data?.prev : 0;

@@ -10,7 +10,7 @@ interface SearchParamsType {
     }
 }
 export default async function News ({searchParams : {page , keyword}} :SearchParamsType) {
-    const response = await axios.get(`http://localhost:3000/api/news/getNews?page=${page || 1}&size=10&keyword=${keyword || ''}&column=news_date&order=desc`)
+    const response = await axios.get(`${process.env.HOST_URL}/api/news/getNews?page=${page || 1}&size=10&keyword=${keyword || ''}&column=news_date&order=desc`)
     const data = response?.data?.result === true ? response?.data?.news : [];
     return(
         <>

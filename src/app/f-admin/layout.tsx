@@ -6,7 +6,7 @@ import axios from "axios";
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const cookie = cookies()
   const cookieValue : CookieType = cookie.get('token') || {name : '', value : ''};
-  // const response = await axios.get(`http://localhost:3000/api/admin/info?token=${cookieValue.value}`)
+  // const response = await axios.get(`${process.env.HOST_URL}/api/admin/info?token=${cookieValue.value}`)
   // console.log(response?.data)
   // const isLogin = response?.data?.result;
   return (

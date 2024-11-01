@@ -7,11 +7,11 @@ export default async function Service () {
     let userId = 0;
     const cookie = cookies()
     const cookieValue : CookieType = cookie.get('f_ssid') || {name : '', value : ''};
-    const userConfirm = await axios.get(`http://localhost:3000/api/user/users?token=${cookieValue?.value}`)
+    const userConfirm = await axios.get(`${process.env.HOST_URL}/api/user/users?token=${cookieValue?.value}`)
     if(userConfirm?.data?.result == true) {
         userId = userConfirm?.data?.users?.u_idx
     }
-    const response = await axios.get(`http://localhost:3000/api/service/get-user-service?user=${userId || 0}&page=1&size=25&keyword=&column=s_date&order=DESC`)
+    const response = await axios.get(`${process.env.HOST_URL}/api/service/get-user-service?user=${userId || 0}&page=1&size=25&keyword=&column=s_date&order=DESC`)
     data = response?.data?.result === true ? response?.data?.service : [];
     return(
         <>

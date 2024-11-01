@@ -40,7 +40,7 @@ interface CookieType {
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const cookie = cookies()
   const cookieValue : any = cookie.get('f_ssid') || '';
-  const response = await axios.get(`http://localhost:3000/api/user/users?token=${cookieValue?.value}`)
+  const response = await axios.get(`${process.env.HOST_URL}/api/user/users?token=${cookieValue?.value}`)
   const currentAuth = response?.data;
   console.log(currentAuth)
   return (
@@ -48,7 +48,6 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
       <body className={manrope.className}>
           <ThemeProvider>
             <AuthProvider>
-
               <Container
                 auth={currentAuth}
               >
@@ -58,7 +57,6 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
                   {children}
                 <Footer />
               </Container>
-
             </AuthProvider>
           </ThemeProvider>
           <PageProgress />

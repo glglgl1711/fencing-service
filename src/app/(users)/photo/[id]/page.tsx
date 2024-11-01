@@ -1,21 +1,13 @@
 import Image from "next/image";
 import { Fragment } from "react";
-// GLOBAL CUSTOM HOOKS
-import useLightBox from "hooks/useLightBox";
-// GLOBAL CUSTOM COMPONENTS
-import { Footer8 } from "components/blocks/footer";
-import Navbar from "components/blocks/navbar/navbar-1";
-import NextLink from "components/reuseable/links/NextLink";
 import ProjectDetailsContent from "components/common/ProjectDetailsContent";
 import ProjectDetailsNavigation from "components/common/ProjectDetailsNavigation";
-import { gallery1, gallery2 } from "./data";
-import Header from "components/layout/header/Header";
 import axios from "axios";
 interface ParamsType {
     params : {id : string}
 }
 export default async function PhotoView ({params : {id}} : ParamsType) {
-    const response = await axios.get(`http://localhost:3000/api/photo/detail?id=${id}`) 
+    const response = await axios.get(`${process.env.HOST_URL}/api/photo/detail?id=${id}`) 
     
     const data = 
     response?.data?.result === true ? response?.data : null;

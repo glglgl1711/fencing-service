@@ -8,7 +8,7 @@ interface SearchParamsType {
 }
 export default async function Photo ({searchParams : {page, keyword}} : SearchParamsType) {
 
-    const response = await axios.get(`http://localhost:3000/api/photo/getPhotos?page=${page || 1}&size=6&keyword=${keyword || ''}&column=gallery_date&order=desc`)
+    const response = await axios.get(`${process.env.HOST_URL}/api/photo/getPhotos?page=${page || 1}&size=6&keyword=${keyword || ''}&column=gallery_date&order=desc`)
     
     const data = 
     response?.data?.result === true ? response?.data?.photos : [];
