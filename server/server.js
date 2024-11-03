@@ -19,6 +19,9 @@ app.prepare().then(() => {
     const server = express()
     const httpServer = createServer(server);
 
+    const mainRoutes = require('./routes/mainRoute')
+    server.use('/api/main' , mainRoutes)
+    
     const userRoutes = require('./routes/userRoute')
     server.use(`/api/user`, userRoutes)
 
@@ -37,6 +40,7 @@ app.prepare().then(() => {
     const adminRoutes = require('./routes/adminRoute')
     server.use('/api/admin' , adminRoutes)
     
+
     server.all('*', (req, res) => {
         return handle(req, res);
     });

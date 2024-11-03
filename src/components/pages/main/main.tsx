@@ -2,8 +2,17 @@
 
 import { useState, useEffect } from 'react';
 import Link from "next/link";
-
-export default function MainPageSection() {
+interface Props {data : 
+    {
+        result : boolean
+        news : []
+        gallery : []
+    }
+}
+export default function MainPageSection({
+    data
+} : Props) {
+    const { news , gallery } = data;
     const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
@@ -51,20 +60,15 @@ export default function MainPageSection() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Mark</td>
-                                        <td>2024.09.06</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Jacob</td>
-                                        <td>2024.09.06</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td colSpan={2}>Larry the Bird</td>
-                                    </tr>
+                                    {news?.map((list: {id : number , title : string , date : string , count : number} , index:number) => {
+                                        return(
+                                        <tr>
+                                            <th scope="row" key={index}>1</th>
+                                            <td>{list?.title}</td>
+                                            <td>{list?.date}</td>
+                                        </tr>
+                                        )
+                                    })}
                                 </tbody>
                             </table>
                         </div>
@@ -92,21 +96,21 @@ export default function MainPageSection() {
                     <div className="tab-content mt-0 mt-md-5">
                         <div className="tab-pane fade show active" id="tab3-2">
                             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px' }}>
-                                {[...Array(2)].map((_, index) => (
+                                {gallery?.map((list:{id : number , title : string , thumnail : string , date : string} , index:number) => (
                                     <div className="item" key={index}>
                                         <figure className="overlay overlay-3 overlay-gradient-2 hover-scale rounded">
                                             <Link href="#">
                                                 <img
-                                                    src={`/img/photos/p${index + 1}.jpg`}
-                                                    srcSet={`/img/photos/p${index + 1}@2x.jpg 2x`}
+                                                    src={list?.thumnail}
+                                                    srcSet={list?.thumnail}
                                                     alt={`Photo ${index + 1}`}
                                                     style={{ width: '100%', borderRadius: '5px' }}
                                                 />
                                                 <span className="bg" />
                                             </Link>
                                             <figcaption>
-                                                <h5 className="from-left mb-1">Some Title {index + 1}</h5>
-                                                <p className="from-left mb-0">Some Description {index + 1}</p>
+                                                <h5 className="from-left mb-1">{list?.title}</h5>
+                                                <p className="from-left mb-0">{list?.date}</p>
                                             </figcaption>
                                         </figure>
                                     </div>

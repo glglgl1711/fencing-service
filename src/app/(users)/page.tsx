@@ -1,7 +1,12 @@
 import { Fragment } from "react";
 import { Hero15 } from "components/blocks/hero";
 import MainPageSection from "components/pages/main/main";
-export default function Home() {
+import axios from "axios";
+export default async function Home() {
+
+  const response = await axios.get(`${process.env.HOST_URL}/api/main/contents`)
+  const data = response?.data?.result === true ? response?.data : null;
+
   return (
     <>
     <Fragment>
@@ -16,7 +21,9 @@ export default function Home() {
           </div>
         </div>
 
-        <MainPageSection/>
+        <MainPageSection
+          data={data}
+        />
         
       </main>
 
