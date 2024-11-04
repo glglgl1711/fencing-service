@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from "next/link";
+import Image from 'next/image';
 interface Props {data : 
     {
         result : boolean
@@ -100,12 +101,18 @@ export default function MainPageSection({
                                     <div className="item" key={index}>
                                         <figure className="overlay overlay-3 overlay-gradient-2 hover-scale rounded">
                                             <Link href="#">
-                                                <img
+                                                <Image
+                                                    src={list?.thumnail}
+                                                    width={360}
+                                                    height={250}
+                                                    alt='image'
+                                                />
+                                                {/* <img
                                                     src={list?.thumnail}
                                                     srcSet={list?.thumnail}
                                                     alt={`Photo ${index + 1}`}
                                                     style={{ width: '100%', borderRadius: '5px' }}
-                                                />
+                                                /> */}
                                                 <span className="bg" />
                                             </Link>
                                             <figcaption>
