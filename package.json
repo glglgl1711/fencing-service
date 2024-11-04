@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "nodemon server/server.js",
     "build": "next build",
-    "postbuild" : "pm2 restart nextjs-app",
+    "postbuild": "pm2 restart nextjs-app",
     "start": "cross-env NODE_ENV=production node server/server.js",
     "lint": "next lint",
     "sass": "sass --no-source-map src/assets/scss:public/css",
@@ -54,6 +54,7 @@
     "react-time-picker": "^7.0.0",
     "react-toastify": "^10.0.6",
     "sass": "^1.79.3",
+    "sharp": "^0.33.5",
     "sweetalert2": "^11.14.4",
     "swiper": "^11.1.14",
     "typewriter-effect": "^2.21.0"

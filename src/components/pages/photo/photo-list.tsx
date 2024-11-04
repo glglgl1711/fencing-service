@@ -22,16 +22,8 @@ export default function PhotoListItem ({
                 key={index} 
                 className={`project item col-md-6 col-xl-4 workshop`}
             >
-                <figure className="lift rounded mb-6">
-                    {/* <Image
-                        alt={'fencing-image'}
-                        src={list?.thumnail}
-                        width={1300}
-                        height={1300}
-                        layout="fixed"
-                        className="w-100 h-auto"
-                    /> */}
-                    <img src={list?.thumnail} />
+                <figure className="lift rounded mb-6 img-container" style={{width : '360px' , height : '250px' , overflow : 'hidden'}}>
+                    <img src={list?.thumnail} className="fixed-size-img" style={{width : '100%' , height : '100%', objectFit : 'cover' , objectPosition : 'center'}}/>
                 </figure>
                 <div className="project-details d-flex justify-content-center flex-column">
                     <div className="post-header">
