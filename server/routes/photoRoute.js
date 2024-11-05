@@ -88,10 +88,23 @@ router.post('/regist' , upload.fields([{ name: 'file', maxCount: 50 }, { name: '
     const {title} = req.body;
     const files = req.files.file; // 여러 파일
     const thumnail = req.files.thumnail ? req.files.thumnail[0] : null; // 단일 썸네일 파일
+
     try {
+
         let thumnailUrl = null;
         if (thumnail) {
-            thumnailUrl = `/image/photos/${thumnail.filename}`;
+            // 썸네일 리사이징 및 저장
+            const thumnailPath = path.join(uploadDir, thumnail.filename);
+            const resizedThumnailPath = path.join(uploadDir, 'resized_' + thumnail.filename);
+            
+            await sharp(thumnailPath)
+                .resize(360, 250) // 리사이즈 (360x250)
+                .toFile(resizedThumnailPath); // 리사이즈된 썸네일을 저장
+            
+            // 원본 썸네일 삭제 (필요한 경우)
+            // fs.unlinkSync(thumnailPath);
+
+            thumnailUrl = `/image/photos/resized_${thumnail.filename}`;
         }
 
         const insertGalleryQuery = `INSERT INTO f_gallery (gallery_title , gallery_date , gallery_writer, view_count, gallery_thumnail) VALUES (? , NOW() , '관리자', 0 , ?)`;
