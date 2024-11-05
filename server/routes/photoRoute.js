@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs'); // 파일 시스템 모듈 추가
+const sharp = require('sharp'); // sharp 모듈 추가
 
 const connection = mysql.createConnection({
     host : 'gunhee0906.cafe24.com',
@@ -189,7 +190,18 @@ router.post('/edit' , upload.fields([{name : 'file' , maxCount : 50}, {name : 't
 
         // 썸네일 업데이트
         if (thumnail) {
-            const thumnailUrl = `/image/photos/${thumnail.filename}`;
+            // 썸네일 리사이징 및 저장
+            const thumnailPath = path.join(uploadDir, thumnail.filename);
+            const resizedThumnailPath = path.join(uploadDir, 'resized_' + thumnail.filename);
+
+            await sharp(thumnailPath)
+                .resize(360, 250) // 360x250으로 리사이즈
+                .toFile(resizedThumnailPath); // 리사이즈된 이미지를 저장
+
+            // 원본 썸네일 삭제 (필요한 경우 - 이거 사용하면 파일권한 이슈 문제가 생김)
+            // fs.unlinkSync(thumnailPath);
+
+            const thumnailUrl = `/image/photos/resized_${thumnail.filename}`;
             updateQueries.push(`gallery_thumnail = ?`);
             updateParams.push(thumnailUrl);
         }
@@ -213,6 +225,8 @@ router.post('/edit' , upload.fields([{name : 'file' , maxCount : 50}, {name : 't
 
             // 사진 삽입 완료 후 응답
             await Promise.all(photoInsertQueries);
+
+            console.log(updateQueries)
         }
 
         // 업데이트 쿼리 작성
@@ -230,7 +244,7 @@ router.post('/edit' , upload.fields([{name : 'file' , maxCount : 50}, {name : 't
             // 수정할 내용이 없는 경우
             return res.status(400).json({ result: false, msg: '수정할 내용이 없습니다.' });
         }
-    }catch{
+    }catch(error){
         console.error(error);
         res.status(500).json({ result: false, message: '서버 오류.' });
     }
