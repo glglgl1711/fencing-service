@@ -3,6 +3,8 @@
 import axios from "axios"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
+import ListFilterBox from "../ListFilterBox"
+import Paginate from "components/Pagination/pagination"
 interface DataType {
     id : number , name : string , birth : string,
     phone : string , status : string, gender : string
@@ -34,52 +36,69 @@ export default function MemberList ({
 
     return(
         <>
-        {data?.map((list:DataType, index:number) => {
-            const lastIndex = totalCount - (page - 1) * size;
-            const indexNumber = lastIndex - index;
-            return(
-            <tr 
-                key={index}
-                style={{cursor : 'pointer'}}
-            >
-                <td style={tdStyle} onClick={()=>handlePage(list?.id)}>
-                    <span className="readOnly">{indexNumber}</span>
-                </td>
-                <td style={tdStyle} onClick={()=>handlePage(list?.id)}>
-                    <span className="readOnly">{list?.name}</span>
-                </td>
-                <td style={tdStyle} onClick={()=>handlePage(list?.id)}>
-                    <span className="readOnly">{list?.gender ? list?.gender : '-'}</span>
-                </td>
-                <td style={tdStyle} onClick={()=>handlePage(list?.id)}>
-                    <span className="readOnly">{list?.birth}</span>
-                </td>
-                <td style={tdStyle} onClick={()=>handlePage(list?.id)}>
-                    <span className="readOnly">{list?.phone}</span>
-                </td>
-                <td style={{width : '10%'}}>
-                    <div className="toggleSwitchBox">
-                        <span className="toggleSwitch">
-                            <input 
-                            type="checkbox" 
-                            // id={`commoncode_${list?.codeId}`}
-                            className="toggleIpt"
-                            checked={list?.status === 'Y'}
-                            // onChange={()=>statusChange(list?.codeId, list?.activeStatus)}
-                            hidden
-                            />
-                            <label
-                            // htmlFor={`commoncode_${list?.codeId}`} 
-                            className="toggleSwitch"
-                            >
-                                <span className="toggleButton"></span>
-                            </label>
-                        </span>
-                    </div>
-                </td>
-            </tr>
-            )
-        })}
+         <div className="tableWrap">
+            <div className="tableType_a">
+                <table>
+                    <ListFilterBox
+
+                    />
+                    <tbody>
+                        
+                    {data?.map((list:DataType, index:number) => {
+                        const lastIndex = totalCount - (page - 1) * size;
+                        const indexNumber = lastIndex - index;
+                        return(
+                        <tr 
+                            key={index}
+                            style={{cursor : 'pointer'}}
+                        >
+                            <td style={tdStyle} onClick={()=>handlePage(list?.id)}>
+                                <span className="readOnly">{indexNumber}</span>
+                            </td>
+                            <td style={tdStyle} onClick={()=>handlePage(list?.id)}>
+                                <span className="readOnly">{list?.name}</span>
+                            </td>
+                            <td style={tdStyle} onClick={()=>handlePage(list?.id)}>
+                                <span className="readOnly">{list?.gender ? list?.gender : '-'}</span>
+                            </td>
+                            <td style={tdStyle} onClick={()=>handlePage(list?.id)}>
+                                <span className="readOnly">{list?.birth}</span>
+                            </td>
+                            <td style={tdStyle} onClick={()=>handlePage(list?.id)}>
+                                <span className="readOnly">{list?.phone}</span>
+                            </td>
+                            <td style={{width : '10%'}}>
+                                <div className="toggleSwitchBox">
+                                    <span className="toggleSwitch">
+                                        <input 
+                                        type="checkbox" 
+                                        // id={`commoncode_${list?.codeId}`}
+                                        className="toggleIpt"
+                                        checked={list?.status === 'Y'}
+                                        // onChange={()=>statusChange(list?.codeId, list?.activeStatus)}
+                                        hidden
+                                        />
+                                        <label
+                                        // htmlFor={`commoncode_${list?.codeId}`} 
+                                        className="toggleSwitch"
+                                        >
+                                            <span className="toggleButton"></span>
+                                        </label>
+                                    </span>
+                                </div>
+                            </td>
+                        </tr>
+                        )
+                    })}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div className="pagerBox">
+            <Paginate
+                page={page} size={size} totalCount={totalCount}
+            />
+        </div>
         </>
     )
 }

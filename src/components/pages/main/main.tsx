@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import Link from "next/link";
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import CalculateIndexNumber from 'components/calculateIndex';
 interface Props {data : 
     {
         result : boolean
@@ -13,6 +15,7 @@ interface Props {data :
 export default function MainPageSection({
     data
 } : Props) {
+    const router = useRouter()
     const { news , gallery } = data;
     const [isMobile, setIsMobile] = useState(false);
 
@@ -42,7 +45,9 @@ export default function MainPageSection({
                                 </a>
                             </li>
                         </ul>
-                        <Link href="#" style={{ color: 'gray', textDecoration: 'none', transition: 'border-bottom 0.3s' }}>
+                        <Link href="#" onClick={
+                            (e) => {e.preventDefault(); router.push('/news')}
+                        } style={{ color: 'gray', textDecoration: 'none', transition: 'border-bottom 0.3s' }}>
                             <span style={{ position: 'relative', padding: '0 5px', cursor: 'pointer' }} className="more">
                                 더보기
                                 <span style={{ position: 'absolute', left: '0', right: '0', bottom: '-2px', height: '2px', backgroundColor: 'gray', transform: 'scaleX(0)', transition: 'transform 0.3s' }} />
@@ -64,7 +69,9 @@ export default function MainPageSection({
                                     {news?.map((list: {id : number , title : string , date : string , count : number} , index:number) => {
                                         return(
                                         <tr>
-                                            <th scope="row" key={index}>1</th>
+                                            <th scope="row" key={index}>
+                                                {CalculateIndexNumber(1 , 4, 3, index)}
+                                            </th>
                                             <td>{list?.title}</td>
                                             <td>{list?.date}</td>
                                         </tr>
@@ -86,7 +93,9 @@ export default function MainPageSection({
                                 </a>
                             </li>
                         </ul>
-                        <Link href="#" style={{ color: 'gray', textDecoration: 'none', transition: 'border-bottom 0.3s' }}>
+                        <Link href="#" style={{ color: 'gray', textDecoration: 'none', transition: 'border-bottom 0.3s' }} onClick={
+                            (e) => {e.preventDefault(); router.push('/photo')}
+                        }>
                             <span style={{ position: 'relative', padding: '0 5px', cursor: 'pointer' }} className="more">
                                 더보기
                                 <span style={{ position: 'absolute', left: '0', right: '0', bottom: '-2px', height: '2px', backgroundColor: 'gray', transform: 'scaleX(0)', transition: 'transform 0.3s' }} />

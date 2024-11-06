@@ -1,5 +1,6 @@
 'use client'
 
+import CalculateIndexNumber from "components/calculateIndex"
 import { useRouter } from "next/navigation"
 
 interface Props { data : MyServiceListType[] }
@@ -23,7 +24,7 @@ export default function SearchMyService ({data} : Props) {
                 {data?.map((list:MyServiceListType, index:number) => {
                     return(
                     <tr key={index} style={{cursor : 'pointer'}} onClick={()=>router.push(`/service/${list?.service}`)}>
-                        <td>1</td>
+                        <td>-</td>
                         <td>{list?.title}</td>
                         <td>{list?.date}</td>
                         {list?.status === 'N' && <td style={{color : 'gray'}}>참여(전)</td>}

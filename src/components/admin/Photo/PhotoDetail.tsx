@@ -80,7 +80,7 @@ export default function PhotoDetail ({
 
     return(
         <>
-        <h3>공지사항관리</h3>
+        <h3>사진첩 관리</h3>
         <div className="flexBox">
             <div>
                 <h4>{id === 'regist'? '공지사항 신규등록' : '공지사항 상세정보'}</h4>

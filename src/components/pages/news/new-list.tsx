@@ -1,6 +1,7 @@
 'use client'
 
 import axios from "axios"
+import CalculateIndexNumber from "components/calculateIndex"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 
@@ -8,9 +9,10 @@ interface Props {
     data : NewsListType[]
     page : number
     keyword : string
+    totalCount : number
 }
 export default function NewsListItem ({
-    data , page , keyword
+    data , page , keyword , totalCount
 } : Props) {
     const router = useRouter()
 
@@ -36,7 +38,7 @@ export default function NewsListItem ({
                 style={{cursor : 'pointer'}} 
                 onClick={()=>location.href = `/news/${list?.id}`}
             >
-                <td>1</td>
+                <td>{CalculateIndexNumber(page , 10 , totalCount , index)}</td>
                 <td>{list?.title}</td>
                 <td>{list?.date}</td>
                 <td>{list?.count}</td>

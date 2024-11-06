@@ -17,21 +17,21 @@ export default async function Service () {
         <>
         {/* <Header /> */}
         <main className="content-wrapper">
-            <section className="wrapper bg-light">
+            <section className="wrapper image-wrapper bg-image bg-overlay bg-overlay-400 text-white" style={{height : '340px'}}>
                 <div className="container pt-10 pt-md-14">
                     <div className="row">
                         <div className="col-md-8 col-lg-7 col-xl-6 col-xxl-5">
-                        <h1 className="display-1 mb-3">봉사 할동신청</h1>
+                        <h1 className="display-1 mb-3 text-white">봉사 할동신청</h1>
                         <p className="lead fs-lg pe-lg-10 pe-xxl-1">
                             함께 나눔의 기쁨을 실천할 준비가 되셨나요?  <br/>
-                            지금 바로 봉사활동에 신청하여 따뜻한 손길을 전해 주세요!
+                            따뜻한 손길을 전해 주세요!
                         </p>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <section className="wrapper bg-light">
+            <section className="wrapper bg-light angled upper-end">
                 <div className="container pt-10 pt-md-12">
                     <div className="row">
                         <div className="col-lg-100">

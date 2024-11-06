@@ -4,6 +4,8 @@ import axios from "axios"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import DeleteBtn from "../Function/DeleteBtn"
+import Paginate from "components/Pagination/pagination"
+import ListFilterBox from "../ListFilterBox"
 
 interface Props {
     page : number
@@ -39,35 +41,49 @@ export default function NewsList ({
     }, [page, keyword, size])
     return(
         <>
-        <tbody>
-            {data?.map((list:DataType, index : number) => {
-                const lastIndex = totalCount - (page - 1) * size;
-                const indexNumber = lastIndex - index;
-                return(
-                    <tr key={list?.id} style={trStyle}>
-                        <td width={'5%'} style={tdStyle} onClick={()=>router.push(`/f-admin/news/${list?.id}`)}>
-                            <span className="readOnly">{indexNumber}</span>
-                        </td>
-                        <td style={tdStyle} onClick={()=>router.push(`/f-admin/news/${list?.id}`)}>
-                            <span className="readOnly">{list?.title}</span>
-                        </td>
-                        <td width={'15%'} style={tdStyle} onClick={()=>router.push(`/f-admin/news/${list?.id}`)}>
-                            <span className="readOnly">{list?.date}</span>
-                        </td>
-                        <td width={'10%'} style={tdStyle} onClick={()=>router.push(`/f-admin/news/${list?.id}`)}>
-                            <span className="readOnly">{list?.count}</span>
-                        </td>
-                        <td width={'5%'} style={tdStyle}>
-                            <DeleteBtn
-                                category={'news'}
-                                id={list?.id}
-                                refetch={getList}
-                            />
-                        </td>
-                    </tr>
-                )
-            })}
-        </tbody>
+        <div className="tableWrap">
+                <div className="tableType_a">
+                    <table>
+                    <ListFilterBox
+
+                    />
+                    <tbody>
+                        {data?.map((list:DataType, index : number) => {
+                            const lastIndex = totalCount - (page - 1) * size;
+                            const indexNumber = lastIndex - index;
+                            return(
+                                <tr key={list?.id} style={trStyle}>
+                                    <td width={'5%'} style={tdStyle} onClick={()=>router.push(`/f-admin/news/${list?.id}`)}>
+                                        <span className="readOnly">{indexNumber}</span>
+                                    </td>
+                                    <td style={tdStyle} onClick={()=>router.push(`/f-admin/news/${list?.id}`)}>
+                                        <span className="readOnly">{list?.title}</span>
+                                    </td>
+                                    <td width={'15%'} style={tdStyle} onClick={()=>router.push(`/f-admin/news/${list?.id}`)}>
+                                        <span className="readOnly">{list?.date}</span>
+                                    </td>
+                                    <td width={'10%'} style={tdStyle} onClick={()=>router.push(`/f-admin/news/${list?.id}`)}>
+                                        <span className="readOnly">{list?.count}</span>
+                                    </td>
+                                    <td width={'5%'} style={tdStyle}>
+                                        <DeleteBtn
+                                            category={'news'}
+                                            id={list?.id}
+                                            refetch={getList}
+                                        />
+                                    </td>
+                                </tr>
+                            )
+                        })}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div className="pagerBox">
+            <Paginate
+                page={page} size={size} totalCount={totalCount}
+            />
+        </div>
         </>
     )
 }
