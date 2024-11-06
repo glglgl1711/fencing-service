@@ -32,24 +32,15 @@ export default function AdminMember ({ searchParams : {
                 </div>
             </div>
 
-            <div className="tableWrap">
-                <div className="tableType_a">
-                    <table>
-                        <ListFilterBox
-
-                        />
-                        <tbody>
-                            <MemberList
-                                page={page || 1}
-                                size={size || 25}
-                                keyword={keyword || ''}
-                                column={column || 'u_date'}
-                                order={order || 'desc'}
-                            />
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            
+            <MemberList
+                page={page || 1}
+                size={size || 25}
+                keyword={keyword || ''}
+                column={column || 'u_date'}
+                order={order || 'desc'}
+            />
+                        
         </div>
         </>
     )
