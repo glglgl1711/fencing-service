@@ -67,13 +67,17 @@ export default function MainPageSection({
                                 </thead>
                                 <tbody>
                                     {news?.map((list: {id : number , title : string , date : string , count : number} , index:number) => {
+                                        const splitDate = list?.date?.split('-');
+                                        const fomatDate = `${splitDate[0]}.${splitDate[1]}.${splitDate[2]}`
                                         return(
                                         <tr>
                                             <th scope="row" key={index}>
                                                 {CalculateIndexNumber(1 , 4, 3, index)}
                                             </th>
-                                            <td>{list?.title}</td>
-                                            <td>{list?.date}</td>
+                                            <td style={{cursor:'pointer'}} onClick={()=>router.push(`/news/${list?.id}`)}>
+                                                {list?.title}
+                                            </td>
+                                            <td>{fomatDate}</td>
                                         </tr>
                                         )
                                     })}
@@ -109,7 +113,9 @@ export default function MainPageSection({
                                 {gallery?.map((list:{id : number , title : string , thumnail : string , date : string} , index:number) => (
                                     <div className="item" key={index}>
                                         <figure className="overlay overlay-3 overlay-gradient-2 hover-scale rounded">
-                                            <Link href="#">
+                                            <Link href="#" 
+                                                onClick={(e)=>{e.preventDefault(); router.push(`/photo/${list?.id}`)}}
+                                            >
                                                 <Image
                                                     src={list?.thumnail}
                                                     width={360}

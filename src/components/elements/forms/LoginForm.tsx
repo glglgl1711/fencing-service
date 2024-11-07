@@ -8,6 +8,7 @@ import Signup from "components/blocks/navbar/components/signup";
 import RegisterForm from "./RegisterForm";
 import Cookies from 'js-cookie'
 import Swal from "sweetalert2";
+import Image from "next/image";
 
 export default function LoginForm() {
   const {data : session, status} : any = useSession()
@@ -70,13 +71,14 @@ export default function LoginForm() {
       </Fragment>
       :
       <Fragment>
-      <h2 className="mb-3 text-start">환영합니다.</h2>
-      <p className="lead mb-6 text-start">카카오톡 계정으로 로그인 해주세요.</p>
+      <h2 className="mb-3 text-center fs-20">로그인 / 회원가입</h2>
+      <p className="lead mb-6 text-center fs-14">카카오 계정으로 간편하게 로그인 하세요.</p>
         <button 
-          className="btn btn-primary rounded-pill btn-login w-100 mb-2"
           onClick={handleLogin}
+          style={{background : `url('/img/kakao_login.png')` , 
+          width : '300px', borderRadius : '10px', border : '0px',
+          height : '45px'}}
         >
-          카카오톡 로그인
         </button>
         
       </Fragment>

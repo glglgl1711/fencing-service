@@ -85,6 +85,8 @@ export default function NavbarOne({
         <div className="offcanvas-body ms-lg-auto d-flex flex-column h-100">
           <ul className="navbar-nav">
 
+            <HeaderItem title={'소개'} url={'/about'}/>
+
             <HeaderItem title={'공지사항'} url={'/news'}/>
 
             <HeaderItem title={'사진첩'} url={'/photo'}/>
@@ -140,11 +142,11 @@ export default function NavbarOne({
               >
                 <div className="d-flex align-items-center gap-3">
                   <a
-                    className="nav-link"
+                    className="nav-link fs-14"
                     data-bs-toggle="modal"
                     data-bs-target="#modal-signin"
                   >
-                    로그인
+                    로그인 / 회원가입
                   </a>
                 </div>
               </li>
