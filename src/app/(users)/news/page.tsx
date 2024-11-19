@@ -4,11 +4,16 @@ import Header from "components/layout/header/Header";
 import { simpleDarkMarkup } from "markups/elements/tables";
 import NewsListItem from "components/pages/news/new-list";
 import axios from "axios";
+import { Metadata } from "next";
 interface SearchParamsType {
     searchParams : {
         page : number , keyword : string
     }
 }
+export const metadata: Metadata = {
+    title: "울타리 봉사단체 - 공지사항",
+    description: "울타리 봉사단체 - 공지사항",
+  };
 export default async function News ({searchParams : {page , keyword}} :SearchParamsType) {
     const response = await axios.get(`${process.env.HOST_URL}/api/news/getNews?page=${page || 1}&size=10&keyword=${keyword || ''}&column=news_date&order=desc`)
     const data = response?.data?.result === true ? response?.data?.news : [];
