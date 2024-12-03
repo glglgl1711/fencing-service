@@ -50,7 +50,27 @@ export default function LoginForm() {
 
   // 테스트 로그인 로직
   async function handleTestLogin () {
-    
+    const response = await axios.get(`/api/user/getUserCheck?key=123456&token=123456`);
+    if (response?.data?.result === true) {
+      window.location.reload();
+      // 쿠키에 토큰 값 저장 (쿠키에 저장된 토큰 값으로 회원 유지 구현 예정)
+      Cookies.set('f_ssid', response?.data?.token, {expires : 7 , path : '/'});
+    } else {
+      // 회원이 조회되지 않았다면 회원가입 진행 유도
+      Swal.fire({
+        text : '회원가입을 진행하시겠습니까?',
+        icon : 'question',
+        confirmButtonText : '회원가입',
+        cancelButtonText : '다음에',
+        showCancelButton : true , 
+      }).then(async (result) => {
+        if(result.isConfirmed) {
+          setIsRegist(true)
+        }else{
+          return;
+        }
+      })
+    }
   }
 
    // 팝업 창에서 로그인 후 세션이 업데이트되면 팝업을 닫는 로직
@@ -67,8 +87,8 @@ export default function LoginForm() {
       {isRegist ? 
       <Fragment>
         <RegisterForm
-          sessionId={session?.user?.sub}
-          token={session?.user?.refresh_token}
+          sessionId={session?.user?.sub || '123456'}
+          token={session?.user?.refresh_token || '123456'}
         />
       </Fragment>
       :
