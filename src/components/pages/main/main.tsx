@@ -70,9 +70,9 @@ export default function MainPageSection({
                                         const splitDate = list?.date?.split('-');
                                         const fomatDate = `${splitDate[0]}.${splitDate[1]}.${splitDate[2]}`
                                         return(
-                                        <tr>
-                                            <th scope="row" key={index}>
-                                                {CalculateIndexNumber(1 , 4, 3, index)}
+                                        <tr key={list?.id}>
+                                            <th scope="row">
+                                                {CalculateIndexNumber(1 , 4, news?.length, index)}
                                             </th>
                                             <td style={{cursor:'pointer'}} onClick={()=>router.push(`/news/${list?.id}`)}>
                                                 {list?.title}
@@ -88,7 +88,7 @@ export default function MainPageSection({
                 </div>
             </div>
             <div className="card mb-10" style={{ flex: '1', marginLeft: isMobile ? '0' : '10px' }}>
-                <div className="card-body">
+                <div className="card-body"> 
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <ul className="nav nav-tabs nav-tabs-basic">
                             <li className="nav-item">
@@ -111,7 +111,7 @@ export default function MainPageSection({
                         <div className="tab-pane fade show active" id="tab3-2">
                             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px' }}>
                                 {gallery?.map((list:{id : number , title : string , thumnail : string , date : string} , index:number) => (
-                                    <div className="item" key={index}>
+                                    <div className="item" key={list?.id}>
                                         <figure className="overlay overlay-3 overlay-gradient-2 hover-scale rounded">
                                             <Link href="#" 
                                                 onClick={(e)=>{e.preventDefault(); router.push(`/photo/${list?.id}`)}}

@@ -5,38 +5,45 @@ import Carousel from "components/reuseable/Carousel";
 import useLightBox from "hooks/useLightBox";
 // GLOBAL CUSTOM COMPONENTS
 import NextLink from "components/reuseable/links/NextLink";
+import { useRouter } from "next/navigation";
 
 export default function Hero15() {
+
+  const router = useRouter()
   // use video popup
   useLightBox();
 
+  function handlePage (e : any, url : string)  {
+    e.preventDefault()
+    router.push(url)
+  }
   return (
     <div className="wrapper bg-dark">
       <div className="swiper-container swiper-hero dots-over">
         <Carousel slidesPerView={1} autoplay={{ delay: 7000, disableOnInteraction: false }}>
           <div
             className="swiper-slide bg-overlay bg-overlay-400 bg-dark bg-image"
-            style={{ backgroundImage: 'url("/img/photos/bg7.jpg")' }}>
+            style={{ backgroundImage: 'url("/img/photos/about5.jpg")' }}>
             <div className="container h-100">
               <div className="row h-100">
                 <div className="col-md-10 offset-md-1 col-lg-7 offset-lg-0 col-xl-6 col-xxl-5 text-center text-lg-start justify-content-center align-self-center align-items-start">
                   <h2 className="display-1 fs-56 mb-4 text-white animate__animated animate__slideInDown animate__delay-1s">
-                    We bring solutions to make life easier.
+                    공지사항
                   </h2>
 
                   <p className="lead fs-23 lh-sm mb-7 text-white animate__animated animate__slideInRight animate__delay-2s">
-                    We are a creative company that focuses on long term relationships with customers.
+                    우리 봉사단체의 중요한 소식과 활동 안내를 확인하세요.
                   </p>
 
                   <div className="animate__animated animate__slideInUp animate__delay-3s">
-                    <NextLink title="Read More" href="#" className="btn btn-lg btn-outline-white rounded-pill" />
+                    <NextLink title="Read More" onClick={(e)=>handlePage(e , '/news')} href="#" className="btn btn-lg btn-outline-white rounded-pill" />
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div
+          {/* <div
             className="swiper-slide bg-overlay bg-overlay-400 bg-dark bg-image"
             style={{ backgroundImage: 'url("/img/photos/bg8.jpg")' }}>
             <div className="container h-100">
@@ -61,24 +68,24 @@ export default function Hero15() {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
 
           <div
             className="swiper-slide bg-overlay bg-overlay-400 bg-dark bg-image"
-            style={{ backgroundImage: 'url("/img/photos/bg9.jpg")' }}>
+            style={{ backgroundImage: 'url("/img/photos/bg11.jpg")' }}>
             <div className="container h-100">
               <div className="row h-100">
                 <div className="col-md-10 offset-md-1 col-lg-7 offset-lg-5 col-xl-6 offset-xl-6 col-xxl-5 offset-xxl-6 text-center text-lg-start justify-content-center align-self-center align-items-start">
                   <h2 className="display-1 fs-56 mb-4 text-white animate__animated animate__slideInDown animate__delay-1s">
-                    Just sit and relax.
+                    봉사활동 사진첩
                   </h2>
 
                   <p className="lead fs-23 lh-sm mb-7 text-white animate__animated animate__slideInRight animate__delay-2s">
-                    We make sure your spending is stress free so that you can have the perfect control.
+                    함께 나눈 따뜻한 마음과 나눔의 기쁨을 살펴보세요.
                   </p>
 
                   <div className="animate__animated animate__slideInUp animate__delay-3s">
-                    <NextLink title="Contact Us" href="#" className="btn btn-lg btn-outline-white rounded-pill" />
+                    <NextLink title="Contact Us" onClick={(e)=>handlePage(e , '/photo')} href="#" className="btn btn-lg btn-outline-white rounded-pill" />
                   </div>
                 </div>
               </div>

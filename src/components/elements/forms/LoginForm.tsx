@@ -44,11 +44,13 @@ export default function LoginForm() {
             return;
           }
         })
-        // const confirm = window.confirm('회원가입을 진행하시겠습니까?')
-        // if(confirm) {setIsRegist(true)}
-        // else { return; }
       }
     }
+  }
+
+  // 테스트 로그인 로직
+  async function handleTestLogin () {
+    
   }
 
    // 팝업 창에서 로그인 후 세션이 업데이트되면 팝업을 닫는 로직
@@ -79,6 +81,14 @@ export default function LoginForm() {
           width : '300px', borderRadius : '10px', border : '0px',
           height : '45px'}}
         >
+        </button>
+
+        <button 
+          onClick={handleTestLogin}
+          className="fs-14"
+          style={{ width : '300px', borderRadius : '10px', border : '0px',
+          height : '45px'}}
+        > 테스트 로그인 / 회원가입
         </button>
         
       </Fragment>
