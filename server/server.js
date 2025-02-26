@@ -40,6 +40,13 @@ app.prepare().then(() => {
     const adminRoutes = require('./routes/adminRoute')
     server.use('/api/admin' , adminRoutes)
     
+    // Toy Project -------------------------------------------
+
+    // 회원관련 API
+    const toyUserRoutes = require('./routes/toy/toy-userRoute')
+    server.use('/api/toy/user' , toyUserRoutes)
+    
+    // -------------------------------------------------------
 
     server.all('*', (req, res) => {
         return handle(req, res);

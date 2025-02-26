@@ -12,7 +12,7 @@ import { useState } from 'react'
 
 import TimePicker from 'react-time-picker';
 import 'react-time-picker/dist/TimePicker.css'; // 필수 CSS
-import 'react-clock/dist/Clock.css';  
+import 'react-clock/dist/Clock.css';
 export default function AdminTimeInputBox ({label, name1, name2, value1 , value2, setData, disable
 } : Props) {
     function handleChange(newValue: string, name: string) {
@@ -29,7 +29,7 @@ export default function AdminTimeInputBox ({label, name1, name2, value1 , value2
             <TimePicker
                 onChange={(value) => handleChange(value as string, name1)}
                 value={value1}
-                disableClock={true} 
+                disableClock={true}
                 format="HH:mm"
                 name={name1}
             /> ~ <TimePicker
