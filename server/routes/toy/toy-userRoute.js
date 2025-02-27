@@ -53,13 +53,13 @@ router.post('/login', async (req, res) => {
     try {
         const [rows] = await pool.query(sql, [email]);
         if (rows.length === 0) {
-            return res.status(401).json({ msg: '이메일 또는 비밀번호가 일치하지 않습니다.' });
+            return res.status(200).json({ result : false , msg: '이메일 또는 비밀번호가 일치하지 않습니다.' });
         }
 
         const user = rows[0];
         const isMatch = await bcrypt.compare(password, user.user_password);
         if (!isMatch) {
-            return res.status(401).json({ msg: '이메일 또는 비밀번호가 일치하지 않습니다.' });
+            return res.status(200).json({ result : false , msg: '이메일 또는 비밀번호가 일치하지 않습니다.' });
         }
 
         const accessToken = generateAccessToken(user);
