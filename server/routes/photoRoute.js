@@ -19,7 +19,7 @@ router.use(cors())
 router.use(express.json())
 
 // 저장할 디렉토리 경로
-const uploadDir = path.join(process.cwd(), 'public/image/photos');
+const uploadDir = '/var/www/uploads/photos';
 
 // 디렉토리가 존재하지 않으면 생성
 if (!fs.existsSync(uploadDir)) {
@@ -104,7 +104,7 @@ router.post('/regist' , upload.fields([{ name: 'file', maxCount: 50 }, { name: '
             // 원본 썸네일 삭제 (필요한 경우)
             // fs.unlinkSync(thumnailPath);
 
-            thumnailUrl = `/image/photos/resized_${thumnail.filename}`;
+            thumnailUrl = `/uploads/photos/resized_${thumnail.filename}`;
         }
 
         const insertGalleryQuery = `INSERT INTO f_gallery (gallery_title , gallery_date , gallery_writer, view_count, gallery_thumnail) VALUES (? , NOW() , '관리자', 0 , ?)`;
@@ -115,7 +115,7 @@ router.post('/regist' , upload.fields([{ name: 'file', maxCount: 50 }, { name: '
             const galleryIdx = galleryResult.insertId;
 
             const photoInsertQueries = files.map(file => {
-                const photoUrl = `/image/photos/${file.filename}`;
+                const photoUrl = `/uploads/photos/${file.filename}`;
                 const photoName = file.originalname;
                 return new Promise((resolve , reject) => {
                     const insertPhotoQuery = `INSERT INTO f_gallery_photos (photo_gallery , photo_url , photo_name) VALUES (? , ? , ?)`;
@@ -214,7 +214,7 @@ router.post('/edit' , upload.fields([{name : 'file' , maxCount : 50}, {name : 't
             // 원본 썸네일 삭제 (필요한 경우 - 이거 사용하면 파일권한 이슈 문제가 생김)
             // fs.unlinkSync(thumnailPath);
 
-            const thumnailUrl = `/image/photos/resized_${thumnail.filename}`;
+            const thumnailUrl = `/uploads/photos/resized_${thumnail.filename}`;
             updateQueries.push(`gallery_thumnail = ?`);
             updateParams.push(thumnailUrl);
         }
@@ -222,7 +222,7 @@ router.post('/edit' , upload.fields([{name : 'file' , maxCount : 50}, {name : 't
         // 파일 업데이트가 있는 경우 처리
         if (files && files.length > 0) {
             const photoInsertQueries = files.map(file => {
-                const photoUrl = `/image/photos/${file.filename}`;
+                const photoUrl = `/uploads/photos/${file.filename}`;
                 const photoName = file.originalname;
                 return new Promise((resolve, reject) => {
                     const insertPhotoQuery = `INSERT INTO f_gallery_photos (photo_gallery, photo_url, photo_name) VALUES (?, ?, ?)`;

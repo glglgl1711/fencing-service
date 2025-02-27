@@ -14,10 +14,16 @@ const connection = mysql.createConnection({
     database : 'fencing'
 });
 
-router.use(cors())
-router.use(express.json())
+router.use(cors());
+router.use(express.json());
 
-const uploadDir = path.join(process.cwd() , 'public/image/editor');
+// 파일 저장 디렉토리
+const uploadDir = '/var/www/uploads/editor';
+
+// 디렉토리가 존재하지 않으면 생성
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+}
 
 // multer 설정 (파일 저장 경로 및 파일명 생성 방식)
 const storage = multer.diskStorage({
@@ -32,10 +38,13 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+// 이미지 업로드 엔드포인트
 router.post('/set-image', upload.single('editor'), async (req, res) => {
     try {
         if (req.file) {
-            const filePath = `/image/editor/${req.file.filename}`;
+            // 클라이언트에 반환할 파일 경로
+            console.log('업로드된 파일 경로:', req.file.path);
+            const filePath = `/uploads/editor/${req.file.filename}`;
             
             // 클라이언트에 이미지 URL을 반환
             res.status(200).json({ imgUrl: filePath });
