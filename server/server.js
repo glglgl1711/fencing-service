@@ -3,7 +3,6 @@ const {parse} = require('url')
 const express = require('express')
 const next = require('next');
 const mysql = require('mysql2');
-require('dotenv').config(); // .env 파일 로드
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
@@ -11,35 +10,35 @@ const handle = app.getRequestHandler();
 
 const connection = mysql.createConnection({
     host : 'gunhee0906.cafe24.com',
-    user : process.env.DB_USER,
-    password : process.env.DB_PASSWORD,
-    database : process.env.DB_NAME
+    user : 'gunhee0906',
+    password : 'rjsgml!!4589',
+    database : 'fencing'
 });
 
 app.prepare().then(() => {
     const server = express()
     const httpServer = createServer(server);
 
-    const mainRoutes = require('./routes/mainRoute')
-    server.use('/api/main' , mainRoutes)
+    // const mainRoutes = require('./routes/mainRoute')
+    // server.use('/api/main' , mainRoutes)
     
-    const userRoutes = require('./routes/userRoute')
-    server.use(`/api/user`, userRoutes)
+    // const userRoutes = require('./routes/userRoute')
+    // server.use(`/api/user`, userRoutes)
 
-    const newsRoutees = require('./routes/newsRoute')
-    server.use('/api/news', newsRoutees)
+    // const newsRoutees = require('./routes/newsRoute')
+    // server.use('/api/news', newsRoutees)
     
-    const photoRoutes = require('./routes/photoRoute')
-    server.use('/api/photo', photoRoutes)
+    // const photoRoutes = require('./routes/photoRoute')
+    // server.use('/api/photo', photoRoutes)
 
-    const serviceRoutes = require('./routes/serviceRoute')
-    server.use('/api/service' , serviceRoutes)
+    // const serviceRoutes = require('./routes/serviceRoute')
+    // server.use('/api/service' , serviceRoutes)
 
-    const ediotrRoutes = require('./routes/editorRoute')
-    server.use('/api/editor' , ediotrRoutes)
+    // const ediotrRoutes = require('./routes/editorRoute')
+    // server.use('/api/editor' , ediotrRoutes)
 
-    const adminRoutes = require('./routes/adminRoute')
-    server.use('/api/admin' , adminRoutes)
+    // const adminRoutes = require('./routes/adminRoute')
+    // server.use('/api/admin' , adminRoutes)
     
     // Toy Project -------------------------------------------
 
