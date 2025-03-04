@@ -115,9 +115,9 @@ router.get('/me', async (req, res) => {
         return res.status(200).json({ result : false })
     }
 
-    if (!accessToken) {
-        return res.status(401).json({ msg: '토큰이 없습니다. 로그인해주세요.' });
-    }
+    // if (!accessToken) {
+    //     return res.status(401).json({ msg: '토큰이 없습니다. 로그인해주세요.' });
+    // }
 
     jwt.verify(accessToken, ACCESS_SECRET, async (err, decoded) => {
         if (!err) {

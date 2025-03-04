@@ -46,6 +46,9 @@ app.prepare().then(() => {
     const toyUserRoutes = require('./routes/toy/toy-userRoute')
     server.use('/api/toy/user' , toyUserRoutes)
     
+    // 캘린더 API
+    const toyCalendarRoutes = require('./routes/toy/toy-calendarRoute')
+    server.use('/api/toy/calendar' , toyCalendarRoutes)
     // -------------------------------------------------------
 
     server.all('*', (req, res) => {
