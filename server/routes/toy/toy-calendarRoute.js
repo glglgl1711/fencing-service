@@ -117,4 +117,52 @@ router.get(`/detail-schedule` , async(req , res) => {
     }
 })
 
+// 캘린더 일정 수정 ( 전체 수정 )
+router.post('/edit-schedule' , async(req ,res) => {
+    const {id ,email , name , startDate , endDate , title , description , location , color , major} = req.body;
+    const sql = `
+    UPDATE t_calendar
+    SET c_start = ? , c_end = ? , c_title = ? , c_description = ? , c_location = ? , c_color = ? , c_major = ?
+    WHERE c_idx = ?
+    `;
+
+    try {
+        await pool.query(sql , [startDate , endDate , title , description , location , color , major , id]);
+        res.status(200).json({result : true});
+    }catch(err) {
+        console.log(err)
+    }
+})
+
+// 캘린더 일정 수정 (날짜 수정)
+router.post('/edit-schedule-date' , async (req , res) => {
+    const {startDate , endDate , id} = req.body;
+    const sql = `
+    UPDATE t_calendar
+    SET c_start = ? , c_end = ?
+    WHERE c_idx = ?
+    `;
+    try {
+        await pool.query(sql , [startDate , endDate , id]);
+        res.status(200).json({result : true})
+    }catch(err) {
+        console.error(err)
+    }
+})
+
+// 캘린더 일정 삭제
+router.post('/delete-schedule' , async (req ,res) => {
+    const { id } = req.body;
+    const sql = `
+    DELETE FROM t_calendar WHERE c_idx = ?
+    `;
+
+    try {
+        await pool.query(sql , [id]);
+        res.status(200).json({result : true})
+    }catch (err){
+        console.err(err)
+    }
+})
+
 module.exports = router;
