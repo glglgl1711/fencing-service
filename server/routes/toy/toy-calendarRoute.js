@@ -161,7 +161,78 @@ router.post('/delete-schedule' , async (req ,res) => {
         await pool.query(sql , [id]);
         res.status(200).json({result : true})
     }catch (err){
-        console.err(err)
+        console.error(err)
+    }
+})
+
+// 캘린더 아이템 조회
+router.get('/get-schedule-item' , async (req ,res) => {
+    try {
+        const refreshToken = req.cookies.refreshToken;
+
+        if(!refreshToken) {
+            return res.status(200).json({result : false});
+        }
+
+        const decoded = jwt.verify(refreshToken , REFRESH_SECRET);
+
+        if(!decoded || !decoded.email) {
+            return res.status(403).json({msg : '유효하지 않은 토큰입니다.'});
+        }
+
+        const userEmail = decoded.email;
+
+        const connection = await pool.getConnection();
+        const [rows] = await connection.execute(
+            `SELECT
+            ci_idx AS id ,
+            ci_title AS title ,
+            ci_color AS color
+            FROM t_calendar_item WHERE ci_user_email = ?
+            `,
+            [userEmail]
+        );
+        connection.release();
+
+        return res.status(200).json({
+            result : true ,
+            item : rows
+        })
+    }catch(err){
+        console.error(err);
+        res.status(500).json({msg : 'SERVER error'})
+    }
+})
+
+// 캘린더 아이템 저장
+router.post('/set-schedule-item' , async(req, res) => {
+    const { email , title , color } = req.body;
+    const sql = `
+    INSERT INTO t_calendar_item (ci_user_email , ci_title , ci_color)
+    VALUES (? , ? , ?)
+    `;
+    
+    try {
+        await pool.query(sql , [email , title , color]);
+        return res.status(200).json({ result : true });
+    }catch(err){
+        console.error(err);
+        res.status(500).json({ msg : 'SERVER error' })
+    }
+})
+
+// 캘린더 아이템 삭제
+router.post('/delete-schedule-item' , async(req ,res) => {
+    const {id} = req.body;
+    const sql = `
+    DELETE FROM t_calendar_item WHERE ci_idx = ?
+    `;
+
+    try { 
+        await pool.query(sql , [id]);
+        res.status(200).json({result : true})
+    }catch(err){
+        console.error(err)
     }
 })
 
