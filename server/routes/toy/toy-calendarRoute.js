@@ -187,7 +187,8 @@ router.get('/get-schedule-item' , async (req ,res) => {
             `SELECT
             ci_idx AS id ,
             ci_title AS title ,
-            ci_color AS color
+            ci_color AS color ,
+            ci_order AS ci_order
             FROM t_calendar_item WHERE ci_user_email = ?
             `,
             [userEmail]
@@ -207,17 +208,27 @@ router.get('/get-schedule-item' , async (req ,res) => {
 // 캘린더 아이템 저장
 router.post('/set-schedule-item' , async(req, res) => {
     const { email , title , color } = req.body;
-    const sql = `
-    INSERT INTO t_calendar_item (ci_user_email , ci_title , ci_color)
-    VALUES (? , ? , ?)
+
+    const getMaxOrderSql = `
+        SELECT MAX(ci_order) AS max_order
+        FROM t_calendar_item
+        WHERE ci_user_email = ?
     `;
-    
+
     try {
-        await pool.query(sql , [email , title , color]);
+        const [result] = await pool.query(getMaxOrderSql , [email]);
+
+        const newOrder = result[0].max_order ? result[0].max_order + 1 : 1;
+
+        const sql = `
+            INSERT INTO t_calendar_item (ci_user_email , ci_title , ci_color , ci_order)
+            VALUES (? , ? , ? , ?)
+        `;
+
+        await pool.query(sql , [email , title , color , newOrder]);
         return res.status(200).json({ result : true });
-    }catch(err){
-        console.error(err);
-        res.status(500).json({ msg : 'SERVER error' })
+    }catch(error){
+        console.error(error);
     }
 })
 
@@ -234,6 +245,47 @@ router.post('/delete-schedule-item' , async(req ,res) => {
     }catch(err){
         console.error(err)
     }
+})
+
+// 캘린더 아이템 순서 변경
+router.post('/edit-schedule-item' , async (req , res) => {
+    const { items } = req.body;
+    const refreshToken = req.cookies.refreshToken;
+    console.log(items)
+    if(!refreshToken) {
+        return res.status(200).json({result :  false , msg : '사용자를 찾을 수 없습니다.'});
+    }
+try {
+
+    const decoded = jwt.verify(refreshToken , REFRESH_SECRET);
+
+    const userEmail = decoded.email;
+
+    const connection = await pool.getConnection();
+
+    await connection.beginTransaction(); // 트랜잭션 시작
+
+    for(let i = 0; i < items.length; i++) {
+        const {id , ci_order} = items[i];
+
+        const query = `
+        UPDATE t_calendar_item
+        SET ci_order = ?
+        WHERE ci_idx = ? AND ci_user_email = ?
+        `;
+
+        await connection.query(query , [ci_order , id , userEmail]);
+    }
+
+    await connection.commit(); // 트랜잭션 커밋
+    connection.release(); // 연결 반환
+
+    return res.status(200).json({result : true});
+
+}catch (err) {
+    console.error(err);
+    res.status(500).json({msg : 'SERVER Error'})
+}
 })
 
 module.exports = router;
