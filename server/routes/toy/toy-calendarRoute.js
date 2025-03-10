@@ -190,6 +190,7 @@ router.get('/get-schedule-item' , async (req ,res) => {
             ci_color AS color ,
             ci_order AS ci_order
             FROM t_calendar_item WHERE ci_user_email = ?
+            ORDER BY ci_order ASC
             `,
             [userEmail]
         );
