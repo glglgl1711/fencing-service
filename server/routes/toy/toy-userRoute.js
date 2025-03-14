@@ -19,7 +19,10 @@ const pool = mysql.createPool({
 
 router.use(express.json());
 router.use(cookieParser());
-router.use(cors({ origin: 'http://localhost:3333', credentials: true }));
+router.use(cors({ 
+    origin: ['http://localhost:3333' , 'http://localhost:5173'],
+    credentials: true 
+}));
 
 // JWT Secret Key
 const ACCESS_SECRET = 'access_key';
@@ -72,7 +75,8 @@ router.post('/login', async (req, res) => {
         // Refresh token -> HttpOnly , Secure 쿠키로 저장
         res.cookie('accessToken' , accessToken , {
             httpOnly : true ,
-            secure : process.env.NODE_ENV === 'production',
+            // secure : process.env.NODE_ENV === 'production',
+            secure : false,
             sameSite : 'strict',
             maxAge: 15 * 60 * 1000
         })
@@ -289,3 +293,9 @@ module.exports = router;
 
 // 모바일
 // Access Token & Refresh Token → 보안 저장소 (Secure Storage, Keychain)
+
+// JWT 토큰
+// head(헤더) + payload(페이로드) + sinature(서명) 로 구성
+// head : 어떠한 암호화 알고리즘을 사용할지 정의
+// payload : 토큰에 담을 정보 (이름, 전화번호 , 성별 등)
+// signature : 헤더 + 페이로드를 조합한 후 , 비밀키로 서명한 값

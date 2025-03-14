@@ -19,7 +19,10 @@ const pool = mysql.createPool({
 
 router.use(express.json());
 router.use(cookieParser());
-router.use(cors({ origin: 'http://localhost:3333', credentials: true }));
+router.use(cors({ 
+    origin: ['http://localhost:3333' , 'http://localhost:5173'], 
+    credentials: true 
+}));
 
 // JWT Secret Key
 const ACCESS_SECRET = 'access_key';
@@ -47,6 +50,11 @@ router.get('/get-schedule' , async (req ,res) => {
         }
     
         const userEmail = decoded.email;
+        const { startDate , endDate } = req.query;
+        
+        if(!startDate || !endDate) {
+            return res.status(400).json({msg : '요청 값을 확인해 주시기 바랍니다.'});
+        }
     
         // t_calendar 테이블에서 해당 이메일의 일정 조회DATE_FORMAT(s.s_date, '%Y-%m-%d')
         const connection = await pool.getConnection();
@@ -58,8 +66,11 @@ router.get('/get-schedule' , async (req ,res) => {
             DATE_FORMAT(c_end , '%Y-%m-%d') AS end,
             c_color AS color,
             c_user_name AS name
-            FROM t_calendar WHERE c_user_email = ?`,
-            [userEmail]
+            FROM t_calendar 
+            WHERE c_user_email = ?
+            AND c_start BETWEEN ? AND ?
+            `,
+            [userEmail, startDate , endDate]
         );
         connection.release();
     
@@ -168,12 +179,13 @@ router.post('/delete-schedule' , async (req ,res) => {
 // 캘린더 아이템 조회
 router.get('/get-schedule-item' , async (req ,res) => {
     try {
+        // 클라이언트가 보낸 HTTP 요청의 쿠키에서 refreshToken 값을 읽음
         const refreshToken = req.cookies.refreshToken;
-
+        // 존재하지 않다면 에러 생성
         if(!refreshToken) {
             return res.status(200).json({result : false});
         }
-
+        // verify 를 사용해 refreshToken 을 해독(검증)
         const decoded = jwt.verify(refreshToken , REFRESH_SECRET);
 
         if(!decoded || !decoded.email) {
@@ -194,11 +206,24 @@ router.get('/get-schedule-item' , async (req ,res) => {
             `,
             [userEmail]
         );
+        const [majorRows] = await connection.execute(
+            `SELECT
+            c_idx AS id ,
+            c_title AS title ,
+            c_start AS start ,
+            c_end AS end ,
+            c_color AS color
+            FROM t_calendar WHERE c_user_email = ?
+            AND c_major = 'Y'
+            `,
+            [userEmail]
+        )
         connection.release();
 
         return res.status(200).json({
             result : true ,
-            item : rows
+            item : rows ,
+            major : majorRows
         })
     }catch(err){
         console.error(err);
